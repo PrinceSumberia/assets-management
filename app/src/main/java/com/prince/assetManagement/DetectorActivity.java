@@ -1,6 +1,5 @@
-package com.prince.assestManagement;
+package com.prince.assetManagement;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -11,19 +10,14 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Size;
 import android.util.TypedValue;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.prince.assestManagement.env.BorderedText;
-import com.prince.assestManagement.env.ImageUtils;
-import com.prince.assestManagement.env.Logger;
-import com.prince.assestManagement.tracking.MultiBoxTracker;
+import com.prince.assetManagement.env.BorderedText;
+import com.prince.assetManagement.env.ImageUtils;
+import com.prince.assetManagement.env.Logger;
+import com.prince.assetManagement.tracking.MultiBoxTracker;
 
 import java.io.IOException;
 import java.util.LinkedList;

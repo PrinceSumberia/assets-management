@@ -1,4 +1,4 @@
-package com.prince.assestManagement;
+package com.prince.assetManagement;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

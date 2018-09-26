@@ -1,4 +1,4 @@
-package com.prince.assestManagement;
+package com.prince.assetManagement;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -37,7 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.prince.assestManagement.env.Logger;
+import com.prince.assetManagement.env.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;

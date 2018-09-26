@@ -1,4 +1,4 @@
-package com.prince.assestManagement.env;
+package com.prince.assetManagement.env;
 
 import android.util.Log;
 

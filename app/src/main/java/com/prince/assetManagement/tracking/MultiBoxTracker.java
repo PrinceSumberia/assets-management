@@ -1,4 +1,4 @@
-package com.prince.assestManagement.tracking;
+package com.prince.assetManagement.tracking;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,10 +13,10 @@ import android.text.TextUtils;
 import android.util.Pair;
 import android.util.TypedValue;
 
-import com.prince.assestManagement.Classifier;
-import com.prince.assestManagement.env.BorderedText;
-import com.prince.assestManagement.env.ImageUtils;
-import com.prince.assestManagement.env.Logger;
+import com.prince.assetManagement.Classifier;
+import com.prince.assetManagement.env.BorderedText;
+import com.prince.assetManagement.env.ImageUtils;
+import com.prince.assetManagement.env.Logger;
 
 import java.util.LinkedList;
 import java.util.List;

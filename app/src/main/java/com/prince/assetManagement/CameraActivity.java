@@ -1,4 +1,4 @@
-package com.prince.assestManagement;
+package com.prince.assetManagement;
 
 import android.Manifest;
 import android.app.Activity;
@@ -19,24 +19,19 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Trace;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.prince.assestManagement.env.ImageUtils;
-import com.prince.assestManagement.env.Logger;
+import com.prince.assetManagement.env.ImageUtils;
+import com.prince.assetManagement.env.Logger;
 
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class CameraActivity extends Activity
         implements OnImageAvailableListener {

@@ -1,11 +1,11 @@
-package com.prince.assestManagement;
+package com.prince.assetManagement;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.os.Trace;
 
-import com.prince.assestManagement.env.Logger;
+import com.prince.assetManagement.env.Logger;
 
 import org.tensorflow.Graph;
 import org.tensorflow.Operation;
