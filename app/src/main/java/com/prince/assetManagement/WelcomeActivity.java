@@ -73,6 +73,11 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         resultTextView.setText(speech);
         textToSpeech.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
 
+        if (result.getAction().equals("input.welcome")){
+            final String welcomeText = "Add an Asset or Scan an Asset";
+            resultTextView.setText(welcomeText);
+        }
+
 
 
         if (result.getResolvedQuery().contains("add")) {

@@ -1,15 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.prince.assetManagement.ScanActivity">
 
+    <com.dlazaro66.qrcodereaderview.QRCodeReaderView
+        android:id="@+id/qrdecoderview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        />
+
+
+
     <TextView
+        android:background="#55000000"
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:padding="16dp"
+        android:textSize="14sp"
+        android:textColor="#ffffff"
+        />
+
+    <CheckBox
+        android:background="#99000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:id="@+id/scan"/>
+        android:text="On/Off flashlight"
+        android:layout_alignParentBottom="true"
+        android:textSize="14sp"
+        android:padding="16dp"
+        android:textColor="#ffffff"
+        android:id="@+id/flashlight_checkbox"
+        android:checked="false"
+        />
 
-</android.support.constraint.ConstraintLayout>
+    <CheckBox
+        android:background="#99000000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="On/Off QR decoding"
+        android:layout_above="@+id/flashlight_checkbox"
+        android:textSize="14sp"
+        android:padding="16dp"
+        android:textColor="#ffffff"
+        android:id="@+id/enable_decoding_checkbox"
+        android:checked="true"
+        />
+
+
+
+
+</RelativeLayout>

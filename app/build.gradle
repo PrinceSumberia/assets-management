@@ -42,11 +42,13 @@ dependencies {
 
     // Tensorflow
     implementation 'org.tensorflow:tensorflow-android:+'
-
+    implementation 'com.google.android.gms:play-services-vision:15.0.2'
+    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
     // Voice Recognition
     implementation 'com.github.zagum:SpeechRecognitionView:1.2.2'
     implementation 'ai.api:sdk:2.0.7@aar'
     implementation 'ai.api:libai:1.6.12'
+    compile 'com.android.support:design:26.1.0'
     // Test Dependencies
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {

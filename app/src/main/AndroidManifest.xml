@@ -24,6 +24,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".DetectorActivity" />
         <activity android:name=".ScanActivity"></activity>
+        <!--<activity android:name=".DecoderActivity" />-->
     </application>
 
 </manifest>
