@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">andorid-tensorflow-detection</string>
+    <string name="app_name">Asset Management</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="title_activity_welcome">Welcome</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +23,9 @@ import ai.api.model.Result;
 
 
 public class WelcomeActivity extends AppCompatActivity implements AIListener {
-    Button listenButton;
+    FloatingActionButton listenButton;
     TextView resultTextView;
+    Button addAsset, scanAsset;
     AIService aiService;
     private TextToSpeech textToSpeech;
     final Handler handler = new Handler();
@@ -32,9 +34,30 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        listenButton = (Button) findViewById(R.id.listen);
-        resultTextView = (TextView) findViewById(R.id.resultTextView);
 
+        // Getting Ids of the elements
+        listenButton = (FloatingActionButton) findViewById(R.id.listen);
+        resultTextView = (TextView) findViewById(R.id.resultTextView);
+        addAsset = (Button) findViewById(R.id.add_asset);
+        scanAsset = (Button) findViewById(R.id.scan_asset);
+
+        // Adding click listener on Scan and Add Button
+        scanAsset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ScanActivity.class);
+                startActivity(intent);
+            }
+        });
+        addAsset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Setting up DialogFlow API
         final AIConfiguration config = new AIConfiguration("2ec31874df2141fdaae5db34bd43c1fb",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
@@ -56,7 +79,6 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
     public void onResult(AIResponse response) {
         Result result = response.getResult();
 
-
         // Get parameters
         String parameterString = "";
         if (result.getParameters() != null && !result.getParameters().isEmpty()) {
@@ -73,11 +95,10 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         resultTextView.setText(speech);
         textToSpeech.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
 
-        if (result.getAction().equals("input.welcome")){
-            final String welcomeText = "Add an Asset or Scan an Asset";
+        if (result.getAction().equals("input.welcome")) {
+            final String welcomeText = "Do You Want to Add an Asset or Scan an Asset";
             resultTextView.setText(welcomeText);
         }
-
 
 
         if (result.getResolvedQuery().contains("add")) {

@@ -6,7 +6,7 @@ apply from: "download-models.gradle"
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "com.prince.assestManagement"
         minSdkVersion 24
@@ -48,7 +48,8 @@ dependencies {
     implementation 'com.github.zagum:SpeechRecognitionView:1.2.2'
     implementation 'ai.api:sdk:2.0.7@aar'
     implementation 'ai.api:libai:1.6.12'
-    compile 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.github.zagum:SpeechRecognitionView:1.2.2'
     // Test Dependencies
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
