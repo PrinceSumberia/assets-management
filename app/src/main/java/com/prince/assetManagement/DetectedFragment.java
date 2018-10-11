@@ -1,5 +1,7 @@
 package com.prince.assetManagement;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,7 +24,7 @@ public class DetectedFragment extends Fragment {
     private static final Logger LOGGER = new Logger();
     TextView textView;
     private TextToSpeech textToSpeech;
-    Button test;
+    Button next;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,7 +32,7 @@ public class DetectedFragment extends Fragment {
         // Inflate the layout for this fragment
         View view  = inflater.inflate(R.layout.fragment_detected, container, false);
         textView = view.findViewById(R.id.objectName);
-        test = view.findViewById(R.id.testing);
+        next = view.findViewById(R.id.next);
         final String detectedObject;
         detectedObject = getArguments().getString("detectedObject");
 
@@ -52,12 +54,17 @@ public class DetectedFragment extends Fragment {
                 }
             }
         });
-        test.setOnClickListener(new View.OnClickListener() {
+        next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(getContext(), WelcomeActivity.class);
-                startActivity(myIntent);
-                Toast.makeText(getContext(),"Switching Activities",Toast.LENGTH_LONG).show();
+                Fragment fragment = new Date();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.fragment_area,fragment);
+                ft.commit();
+//                Intent myIntent = new Intent(getContext(), WelcomeActivity.class);
+//                startActivity(myIntent);
+                Toast.makeText(getContext(),"Switching Fragments",Toast.LENGTH_LONG).show();
             }
         });
         return view;

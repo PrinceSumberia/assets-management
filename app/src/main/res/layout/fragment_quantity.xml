@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.prince.assetManagement.Quantity"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Quantity"
+        android:layout_marginBottom="100dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAllCaps="true"/>
+
+    <EditText
+        android:id="@+id/quantity"
+        android:layout_width="228dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="Next" />
+   
+
+</LinearLayout>

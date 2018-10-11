@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.prince.assetManagement.Seller"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seller Information"
+        android:layout_marginBottom="100dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAllCaps="true"/>
+
+    <EditText
+        android:id="@+id/seller"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:padding="45dp"
+        android:ems="15"
+        android:hint="Enter Seller Information"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="Next"
+        android:id="@+id/next"/>
+
+</LinearLayout>
