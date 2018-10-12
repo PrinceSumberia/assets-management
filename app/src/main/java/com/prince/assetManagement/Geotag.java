@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -28,10 +26,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
 import static android.content.ContentValues.TAG;
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -53,20 +47,23 @@ public class Geotag extends Fragment {
         b = (Button) view.findViewById(R.id.geotag);
 
 
-
         locationManager = (LocationManager) getActivity().getApplicationContext().getSystemService(LOCATION_SERVICE);
 
 
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                t.append("\n " + location.getLongitude() + " " + location.getLatitude());
-//                Geocoder geocoder;
+////                t.append("\n " + location.getLongitude() + " " + location.getLatitude());
+//                Geocoder geocoder = new Geocoder(getContext());
+//                double lat = location.getLatitude();
+//                double lng = location.getLongitude();
 //
 //                try {
-//                    geocoder = new Geocoder(getContext(), Locale.getDefault());
-//                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-//                    Log.e(TAG, "onLocationChanged: " + addresses );
+//                    Log.e(TAG, "onLocationChanged: geocoder " + geocoder );
+//                    List<Address> addresses = geocoder.getFromLocation(lat,lng,1);
+//                    Log.e(TAG, "onLocationChanged: isPresent " + isPresent() );
+////                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+//                    Log.e(TAG, "onLocationChanged: addresses" + addresses );
 //                    String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 //                    String city = addresses.get(0).getLocality();
 //                    String state = addresses.get(0).getAdminArea();
@@ -80,25 +77,25 @@ public class Geotag extends Fragment {
 //                }
 
 
-//                final JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + location.getLatitude() + "," + location.getLongitude() + "&key=AIzaSyAZYCpkfcmNkSNoa4hfmOOeI8-cqTHhwVo", null, new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//                            String address = response.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-//                            Log.e(TAG, "onResponse: " + address);
-//                            t.setText(address);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//
-//                    }
-//                });
-//                Log.e(TAG, "onResponse: " + request);
-//                requestQueue.add(request);
+                final JsonObjectRequest request = new JsonObjectRequest("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + location.getLatitude() + "," + location.getLongitude() + "&key=AIzaSyAZYCpkfcmNkSNoa4hfmOOeI8-cqTHhwVo", null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String address = response.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+                            Log.e(TAG, "onResponse: " + address);
+                            t.setText(address);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                Log.e(TAG, "onResponse: " + request);
+                requestQueue.add(request);
 //                t.append("\n " + location.getLongitude() + " " + location.getLatitude());
             }
 
