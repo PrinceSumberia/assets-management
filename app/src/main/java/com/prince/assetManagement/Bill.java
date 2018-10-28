@@ -127,7 +127,7 @@ public class Bill extends Fragment {
             final ProgressDialog progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-            final StorageReference ref = storageReference.child("/images/" + UUID.randomUUID().toString());
+            final StorageReference ref = storageReference.child("/bill/" + UUID.randomUUID().toString());
 
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

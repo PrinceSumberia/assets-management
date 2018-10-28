@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonElement;
 
 import java.util.Map;
@@ -52,8 +54,16 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         addAsset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
-                startActivity(intent);
+                if (FirebaseAuth.getInstance().getCurrentUser() == null){
+                    Toast.makeText(WelcomeActivity.this, "You are not logged in", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

@@ -7,10 +7,10 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/objectName"
-        android:layout_width="match_parent"
-        android:layout_height="88dp"
-        android:textAlignment="center"/>
+    android:id="@+id/objectName"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    android:textAlignment="center"/>
 
     <Button
         android:id="@+id/next"
@@ -18,5 +18,11 @@
         android:layout_width="142dp"
         android:layout_height="wrap_content"
         android:text="Next" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:id="@+id/logout"/>
 
 </LinearLayout>

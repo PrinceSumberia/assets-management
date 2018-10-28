@@ -36,15 +36,4 @@
         tools:layout_editor_absoluteX="120dp"
         tools:layout_editor_absoluteY="240dp" />
 
-    <TextView
-        android:id="@+id/resultTextView"
-        android:layout_width="match_parent"
-        android:layout_height="195dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        tools:layout_editor_absoluteX="74dp"
-        tools:layout_editor_absoluteY="121dp" />
-
-
-
 </LinearLayout>
