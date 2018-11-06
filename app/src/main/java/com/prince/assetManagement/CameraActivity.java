@@ -381,7 +381,7 @@ public abstract class CameraActivity extends Activity
 
         Classifier.Recognition recognition = currentRecognitions.get(0);
         String detectedObject = recognition.getTitle();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), Details.class);
         intent.putExtra("Detected Object", detectedObject);
         startActivity(intent);
     }

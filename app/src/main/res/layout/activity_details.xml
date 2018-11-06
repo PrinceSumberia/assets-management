@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Details"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="105dp"
+            android:layout_height="33dp"
+            android:text="Category" />
+        <EditText
+            android:id="@+id/category"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:hint="Add Category"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="106dp"
+            android:layout_height="33dp"
+            android:text="Number of Such Assets" />
+        <EditText
+            android:id="@+id/number_of_assets"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Enter Number of Such Assets"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="125dp"
+            android:layout_height="33dp"
+            android:text="Date of Purchase" />
+        <EditText
+            android:id="@+id/date_of_purchase"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:hint="Select Date"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Date"
+            android:id="@+id/select_date"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="125dp"
+            android:layout_height="33dp"
+            android:text="Warranty" />
+        <EditText
+            android:id="@+id/date_of_warranty"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:hint="Select Date"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Date"
+            android:id="@+id/warranty_date"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bill"/>
+        <Button
+            android:layout_width="125dp"
+            android:layout_height="33dp"
+            android:text="Choose Bill"
+            android:id="@+id/btnChoose"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:id="@+id/btnUpload"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="105dp"
+            android:layout_height="33dp"
+            android:text="Seller" />
+
+        <EditText
+            android:id="@+id/seller"
+            android:layout_width="242dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Seller Details"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:maxLines="10" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click Here To GeoTag"
+        android:id="@+id/geotag"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Issuing Information"
+        android:id="@+id/next"/>
+
+
+</LinearLayout>

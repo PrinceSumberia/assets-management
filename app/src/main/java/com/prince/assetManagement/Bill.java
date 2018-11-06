@@ -70,6 +70,9 @@ public class Bill extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+        String quantity = getArguments().getString("number");
+        Toast.makeText(getContext(), "Hello" + quantity, Toast.LENGTH_SHORT).show();
+
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +105,8 @@ public class Bill extends Fragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

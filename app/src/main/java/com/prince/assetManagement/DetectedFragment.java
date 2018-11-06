@@ -67,7 +67,7 @@ public class DetectedFragment extends Fragment {
         final Map<String, Object> asset = new HashMap<>();
         String userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         asset.put("category", detectedObject);
-        db.collection("users").document(userid).collection("assets").add(asset)
+        db.collection("users").document(userid).collection("assets").document().collection(detectedObject).add(asset)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -80,6 +80,29 @@ public class DetectedFragment extends Fragment {
                         Log.w(TAG, "Error adding document", e);
                      }
                 });
+        String a[] = new String[100];
+
+
+//        String id = db.collection("users").document(userid).collection("assets").document().getId();
+//        db.collection("users").document(userid).collection("assets").document(id).collection(detectedObject).add(asset)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error adding document", e);
+//                    }
+//                });
+//        Log.e(TAG, "Id verification" + db.collection("users").document(userid).collection("assets").document(id).collection(detectedObject).document().getId());
+
+//        for (int i=0;i<50;i++){
+//            a[i] = db.collection("users").document(userid).collection("assets").document(id).collection(detectedObject).document(detectedObject);
+//            Log.e(TAG, "onCreateView: " + a[i] );
+//        }
         this.textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {

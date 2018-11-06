@@ -33,7 +33,15 @@
         <activity android:name=".DetectorActivity" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".LoginActivity" />
+
+        <service
+            android:name=".FetchAddressIntentService"
+            android:exported="false" />
         <!-- <activity android:name=".DecoderActivity" /> -->
+        <activity android:name=".GeoLocation" />
+        <activity android:name=".Details" />
+        <activity android:name=".IssuingAssets" />
+        <activity android:name=".GenerateQR"></activity>
     </application>
 
 </manifest>

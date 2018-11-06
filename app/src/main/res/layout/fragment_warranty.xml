@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Warranty"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Warranty Information"
+        android:layout_marginBottom="100dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAllCaps="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Warranty Valid Upto"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="219dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/select_date"
+            android:layout_width="127dp"
+            android:layout_height="wrap_content"
+            android:text="Select Date" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="Next" />
+
+</LinearLayout>

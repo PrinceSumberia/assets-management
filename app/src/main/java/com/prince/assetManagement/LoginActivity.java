@@ -1,36 +1,19 @@
 package com.prince.assetManagement;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-
 import android.app.Activity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.auth.api.credentials.CredentialsApi;
-import com.google.android.gms.auth.api.credentials.CredentialsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -48,7 +31,7 @@ import static ai.api.android.AIDataService.TAG;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends Activity {
-    private int RC_SIGN_IN =  0 ;
+    private int RC_SIGN_IN = 0;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -69,6 +52,7 @@ public class LoginActivity extends Activity {
                         .build(),
                 RC_SIGN_IN);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -80,7 +64,7 @@ public class LoginActivity extends Activity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 final String fullName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-                Log.d(TAG, "onActivityResult: UserName "+ fullName);
+                Log.d(TAG, "onActivityResult: UserName " + fullName);
                 db.collection("users")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

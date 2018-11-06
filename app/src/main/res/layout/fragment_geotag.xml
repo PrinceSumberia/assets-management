@@ -6,44 +6,31 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <TextView
-        android:layout_marginTop="40dp"
+    <Button
+        android:id="@+id/fetch_address_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GeoTagging"
-        android:layout_marginBottom="100dp"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textAllCaps="true"/>
+        android:text="@string/fetch_address"
+        android:onClick="fetchAddressButtonHandler" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
     <TextView
-        android:id="@+id/geolocation"
-        android:layout_width="match_parent"
-        android:layout_height="131dp"
-        android:textAlignment="center"
-        android:textSize="20sp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/location_address_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/geotag"
-            android:text="Click To GeoTag" />
-
-        <Button
-            android:id="@+id/next"
-            android:layout_width="146dp"
-            android:layout_height="wrap_content"
-            android:text="Next" />
-
-    </LinearLayout>
-
-
-
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:id="@+id/next"/>
 
 </LinearLayout>
