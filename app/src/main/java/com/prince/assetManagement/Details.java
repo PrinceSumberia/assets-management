@@ -23,22 +23,26 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -148,30 +152,64 @@ public class Details extends AppCompatActivity {
                 String uploaded_bill = bill_url;
                 String seller_information = seller.getText().toString();
                 String location = geo_tag_location;
+                int total_quantity = Integer.parseInt(total_assets);
                 Log.e(TAG, "Asset Information" + user_id + " " + total_assets + " " + date_of_purchase + " "
-                + warranty_date + " " + uploaded_bill + " " + seller_information + " " + location);
+                        + warranty_date + " " + uploaded_bill + " " + seller_information + " " + location);
                 asset.put("category", detectedObject);
-                db.collection("users").document(user_id).collection("assets").document().collection(detectedObject).add(asset)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                asset.put("user_id", user_id);
+                asset.put("total_quantity", total_quantity);
+                asset.put("date_of_purchase", date_of_purchase);
+                asset.put("warranty", warranty_date);
+                asset.put("bill", uploaded_bill);
+                asset.put("seller", seller_information);
+                asset.put("location", location);
+                asset.put("department", "None");
+                asset.put("room","None");
+                asset.put("quantity_issued", 0);
+                asset.put("remaining_quantity", total_quantity);
+                String id = db.collection("users").document(user_id).collection("assets").document().getId();
+                for (int i = 0; i < total_quantity; i++) {
+                    db.collection("users").document(user_id).collection("assets").document(id).collection(detectedObject).add(asset)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
+                }
+                db.collection("users").document(user_id).collection("assets").document(id).collection(detectedObject).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            List<String> list = new ArrayList<>();
+                            for (QueryDocumentSnapshot document: task.getResult()){
+                                list.add(document.getId());
                             }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
+
+                            Log.d(TAG, "onComplete: List is " + list.toString());
+                            Log.d(TAG, "onComplete: List is " + list);
+                        } else {
+                            Log.d(TAG, "onComplete: Error getting documents ", task.getException());
+                        }
+                    }
+                });
+
                 Intent intent1 = new Intent(Details.this, IssuingAssets.class);
+                intent1.putExtra("totalQuantity", total_quantity);
                 startActivity(intent1);
             }
         });
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                geo_tag_location = "Latitude: " + location.getLatitude() +", Longitude: " + location.getLongitude();
+                geo_tag_location = "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude();
+                Toast.makeText(Details.this, "Successfully GeoTagged!", Toast.LENGTH_SHORT).show();
                 Toast.makeText(Details.this, "Location is " + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
             }
 
