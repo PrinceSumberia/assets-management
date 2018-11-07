@@ -1,7 +1,10 @@
 package com.prince.assetManagement;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -15,6 +18,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,6 +43,7 @@ public class GetPDF extends AppCompatActivity {
         textView = findViewById(R.id.list);
         new MyAsyncTask().execute();
         Toast.makeText(GetPDF.this, "Document is ready!", Toast.LENGTH_SHORT).show();
+
     }
 
     private class MyAsyncTask extends AsyncTask {
@@ -78,6 +83,20 @@ public class GetPDF extends AppCompatActivity {
                 e.printStackTrace();
             }
             document.close();
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("text/plain");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"email@example.com"});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "subject here");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "body text");
+            File root = Environment.getExternalStorageDirectory();
+            String pathToMyAttachedFile = "qrcode.pdf";
+            File file = new File(root, pathToMyAttachedFile);
+            if (!file.exists() || !file.canRead()) {
+                return null;
+            }
+            Uri uri = Uri.fromFile(file);
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
             return null;
         }
     }
