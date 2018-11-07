@@ -168,6 +168,7 @@ public class Details extends AppCompatActivity {
                 asset.put("quantity_issued", 0);
                 asset.put("remaining_quantity", total_quantity);
                 String id = db.collection("users").document(user_id).collection("assets").document().getId();
+                Log.e(TAG, "Parent id" + id );
                 for (int i = 0; i < total_quantity; i++) {
                     db.collection("users").document(user_id).collection("assets").document(id).collection(detectedObject).add(asset)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -183,25 +184,11 @@ public class Details extends AppCompatActivity {
                                 }
                             });
                 }
-                db.collection("users").document(user_id).collection("assets").document(id).collection(detectedObject).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            List<String> list = new ArrayList<>();
-                            for (QueryDocumentSnapshot document: task.getResult()){
-                                list.add(document.getId());
-                            }
-
-                            Log.d(TAG, "onComplete: List is " + list.toString());
-                            Log.d(TAG, "onComplete: List is " + list);
-                        } else {
-                            Log.d(TAG, "onComplete: Error getting documents ", task.getException());
-                        }
-                    }
-                });
 
                 Intent intent1 = new Intent(Details.this, IssuingAssets.class);
                 intent1.putExtra("totalQuantity", total_quantity);
+                intent1.putExtra("detectedObject", detectedObject);
+                intent1.putExtra("id",id);
                 startActivity(intent1);
             }
         });

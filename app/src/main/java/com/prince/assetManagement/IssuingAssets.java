@@ -33,14 +33,19 @@ public class IssuingAssets extends AppCompatActivity {
 
         FirebaseApp.initializeApp(getApplicationContext());
         String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String id = getIntent().getStringExtra("id");
 
         int total_quantity = getIntent().getIntExtra("totalQuantity",0);
         Toast.makeText(this, "Total Quantity is" + total_quantity, Toast.LENGTH_SHORT).show();
+
+        final String detectedObject = getIntent().getStringExtra("detectedObject");
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(IssuingAssets.this, GenerateQR.class);
+                intent.putExtra("detectedObject", detectedObject);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
         });
