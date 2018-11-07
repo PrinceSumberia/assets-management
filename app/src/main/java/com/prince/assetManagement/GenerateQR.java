@@ -68,7 +68,6 @@ public class GenerateQR extends AppCompatActivity {
 
         Log.e(TAG, "The parent document id is" + id);
         Log.e(TAG, "current user in generate" + user_id);
-        final Intent intent = new Intent(getApplicationContext(), GetPDF.class);
 
         db.collection("users").document(user_id).collection("assets").document(id).collection(detectedObject).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -128,7 +127,6 @@ public class GenerateQR extends AppCompatActivity {
                                         welcome = qrcode_urls.toString();
                                         Log.d(TAG, "inside on complete " + welcome);
                                         Log.d(TAG, "this is inside the oncomplete" + qrcode_urls.toString());
-                                        Toast.makeText(GenerateQR.this, "Complete You Can Now Proceed!", Toast.LENGTH_SHORT).show();
                                         next.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -143,6 +141,7 @@ public class GenerateQR extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                Toast.makeText(GenerateQR.this, "Complete You Can Now Proceed!", Toast.LENGTH_SHORT).show();
             }
         });
     }

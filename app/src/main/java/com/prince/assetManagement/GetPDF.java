@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -37,7 +38,7 @@ public class GetPDF extends AppCompatActivity {
         setContentView(R.layout.activity_get_pdf);
         textView = findViewById(R.id.list);
         new MyAsyncTask().execute();
-
+        Toast.makeText(GetPDF.this, "Document is ready!", Toast.LENGTH_SHORT).show();
     }
 
     private class MyAsyncTask extends AsyncTask {
@@ -52,7 +53,7 @@ public class GetPDF extends AppCompatActivity {
             String directoryPath = android.os.Environment.getExternalStorageDirectory().toString();
             Document document = new Document();
             try {
-                PdfWriter.getInstance(document, new FileOutputStream(directoryPath + "/example.pdf"));
+                PdfWriter.getInstance(document, new FileOutputStream(directoryPath + "/qrcode.pdf"));
             } catch (DocumentException e) {
                 e.printStackTrace();
             } catch (FileNotFoundException e) {
@@ -60,7 +61,7 @@ public class GetPDF extends AppCompatActivity {
             }
             document.open();
             Paragraph p = new Paragraph();
-            PdfPTable table = new PdfPTable(1);
+            PdfPTable table = new PdfPTable(3);
             for (int i = 0; i < size; i++) {
                 table.setWidthPercentage(100);
                 try {
@@ -80,4 +81,5 @@ public class GetPDF extends AppCompatActivity {
             return null;
         }
     }
+
 }
