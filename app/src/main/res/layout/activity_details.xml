@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Details"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginStart="5dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp">
+
         <TextView
-            android:layout_width="105dp"
+            android:layout_width="134dp"
             android:layout_height="33dp"
             android:text="Category" />
         <EditText
@@ -25,9 +28,11 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
         <TextView
-            android:layout_width="106dp"
+            android:layout_width="134dp"
             android:layout_height="33dp"
             android:text="Number of Such Assets" />
         <EditText
@@ -41,16 +46,19 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
         <TextView
-            android:layout_width="125dp"
+            android:layout_width="134dp"
             android:layout_height="33dp"
             android:text="Date of Purchase" />
+
         <EditText
             android:id="@+id/date_of_purchase"
-            android:layout_width="182dp"
+            android:layout_width="128dp"
             android:layout_height="wrap_content"
-            android:hint="Select Date"/>
+            android:hint="Select Date" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,16 +68,19 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
         <TextView
-            android:layout_width="125dp"
+            android:layout_width="134dp"
             android:layout_height="33dp"
             android:text="Warranty" />
+
         <EditText
             android:id="@+id/date_of_warranty"
-            android:layout_width="182dp"
+            android:layout_width="128dp"
             android:layout_height="wrap_content"
-            android:hint="Select Date"/>
+            android:hint="Select Date" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,16 +91,19 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
         <TextView
+            android:layout_width="134dp"
+            android:layout_height="wrap_content"
+            android:text="Bill" />
+
+        <Button
+            android:id="@+id/btnChoose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bill"/>
-        <Button
-            android:layout_width="125dp"
-            android:layout_height="33dp"
-            android:text="Choose Bill"
-            android:id="@+id/btnChoose"/>
+            android:text="Choose Bill" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,9 +114,11 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
         <TextView
-            android:layout_width="105dp"
+            android:layout_width="133dp"
             android:layout_height="33dp"
             android:text="Seller" />
 
@@ -117,15 +133,20 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/geotag"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
         android:text="Click Here To GeoTag"
-        android:id="@+id/geotag"/>
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center" />
+
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/next"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:text="Issuing Information"
-        android:id="@+id/next"/>
+        android:layout_gravity="center" />
 
 
 </LinearLayout>
