@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 public class GetPDF extends AppCompatActivity {
     private static final String TAG = GetPDF.class.getName();
     ArrayList<String> qr_urls = new ArrayList<>();
-    TextView textView;
+    TextView textView, editText;
 
     public static PdfPCell createImageCell(String path)
             throws DocumentException, IOException {
@@ -40,9 +41,10 @@ public class GetPDF extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_pdf);
-        textView = findViewById(R.id.list);
+//        textView = findViewById(R.id.list);
+        editText = findViewById(R.id.email);
+        Toast.makeText(this, "Please Wait While Your QRCode PDF is Getting Generating", Toast.LENGTH_SHORT).show();
         new MyAsyncTask().execute();
-        Toast.makeText(GetPDF.this, "Document is ready!", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -53,7 +55,7 @@ public class GetPDF extends AppCompatActivity {
             ////Execute the network related option here
             qr_urls = getIntent().getStringArrayListExtra("qrcode_links");
             Log.e(TAG, "onCreate: " + qr_urls.get(0));
-            textView.setText(qr_urls.toString());
+//            textView.setText(qr_urls.toString());
             int size = qr_urls.size();
             String directoryPath = android.os.Environment.getExternalStorageDirectory().toString();
             Document document = new Document();
@@ -83,18 +85,22 @@ public class GetPDF extends AppCompatActivity {
                 e.printStackTrace();
             }
             document.close();
+//            Toast.makeText(GetPDF.this, "Document is ready!", Toast.LENGTH_SHORT).show();
+            String emailAddress = editText.getText().toString();
+            Log.e(TAG, "Document is now closed and expecting email intent." );
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
             emailIntent.setType("text/plain");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"email@example.com"});
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "subject here");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "body text");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Generated QRCode PDF");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Please find the attached QRCode PDF Document for your Assets.");
             File root = Environment.getExternalStorageDirectory();
             String pathToMyAttachedFile = "qrcode.pdf";
             File file = new File(root, pathToMyAttachedFile);
             if (!file.exists() || !file.canRead()) {
                 return null;
             }
-            Uri uri = Uri.fromFile(file);
+            Uri uri = FileProvider.getUriForFile(GetPDF.this, BuildConfig.APPLICATION_ID + ".provider",file);
+//            Uri uri = Uri.fromFile(file);
             emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
             return null;

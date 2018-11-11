@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GetPDF">
+    tools:context=".GetPDF"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <!--<TextView-->
+        <!--android:id="@+id/list"-->
+        <!--android:layout_width="211dp"-->
+        <!--android:layout_height="189dp"-->
+        <!--android:text="TextView"-->
+        <!--tools:layout_editor_absoluteX="82dp"-->
+        <!--tools:layout_editor_absoluteY="140dp" />-->
 
     <TextView
-        android:id="@+id/list"
-        android:layout_width="211dp"
-        android:layout_height="189dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="82dp"
-        tools:layout_editor_absoluteY="140dp" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_width="300dp"
+        android:layout_height="83dp"
+        android:layout_gravity="center"
+        android:text="Enter Email ID To Get QRCode Document"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textAllCaps="true"/>
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="198dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Email"
+        android:textSize="15sp"
+        android:textAlignment="center"/>
+
+
+</LinearLayout>
