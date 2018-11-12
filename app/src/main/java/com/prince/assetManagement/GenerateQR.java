@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -31,7 +30,6 @@ import net.glxn.qrgen.android.QRCode;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static ai.api.android.AIDataService.TAG;
@@ -45,7 +43,8 @@ public class GenerateQR extends AppCompatActivity {
     ArrayList<String> qrcode_urls = new ArrayList<String>();
     String image_url;
     //    int listSize;
-    List<String> list = new ArrayList<>();
+//    List<String> list = new ArrayList<>();
+    ArrayList<String> document_id = new ArrayList<>();
 
     int listSize;
     String welcome;
@@ -68,25 +67,21 @@ public class GenerateQR extends AppCompatActivity {
 
         Log.e(TAG, "The parent document id is" + id);
         Log.e(TAG, "current user in generate" + user_id);
-
-        db.collection("users").document(user_id).collection("assets").document(id).collection(detectedObject).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        document_id = getIntent().getStringArrayListExtra("Document IDs");
+        Log.e(TAG, "onCreate: Final Document ID " + document_id.toString());
+        listSize = document_id.size();
+        Log.e(TAG, "onCreate: Outer List Size" + listSize);
+        db.collection("users").document(user_id).collection(detectedObject).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.e(TAG, "Document.getId" + document.getId());
-                        list.add(document.getId());
-                    }
-                    listSize = list.size();
-                }
                 Log.d(TAG, "Checking is going on: " + listSize);
-                Log.d(TAG, "onCreate: " + list.toString());
-                for (int i = 0; i < listSize; i++) {
-                    String text = list.get(i);
+                Log.d(TAG, "onCreate: " + document_id.toString());
+                for (int i = 0; i < listSize - 1; i++) {
+                    String text = document_id.get(i);
                     final Paragraph p = new Paragraph();
                     p.add("Hello World");
                     try {
-                        Bitmap bitmap = QRCode.from(list.get(i)).bitmap();
+                        Bitmap bitmap = QRCode.from(detectedObject + "-" + user_id + "/" + document_id.get(i + 1)).bitmap();
                         final StorageReference ref = storageReference.child("/qrcode/" + UUID.randomUUID().toString());
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);

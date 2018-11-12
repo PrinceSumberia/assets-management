@@ -142,11 +142,23 @@
         android:layout_gravity="center" />
 
     <Button
-        android:id="@+id/next"
+        android:id="@+id/save_info"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:text="Issuing Information"
+        android:text="Save Information"
         android:layout_gravity="center" />
+
+    <Button
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:text="Issuing Informatipn"
+        android:id="@+id/next_ac"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/doc"/>
 
 
 </LinearLayout>

@@ -38,7 +38,7 @@ public class GetInformation extends AppCompatActivity {
         final String detectedObject = complete_string[1];
         String id = complete_string[2];
 
-        DocumentReference documentReference = db.collection("users").document(user_id).collection("assets").document(id).collection(detectedObject).document(asset_id);
+        DocumentReference documentReference = db.collection("users").document(user_id).collection("assets").document(asset_id);
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

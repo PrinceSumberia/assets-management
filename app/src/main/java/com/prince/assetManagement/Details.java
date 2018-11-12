@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,8 +32,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -42,7 +41,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -53,7 +51,7 @@ public class Details extends AppCompatActivity {
     Button btnChoose, btnUpload, warrantyDate, purchaseDate;
     FirebaseStorage storage;
     StorageReference storageReference;
-    Button next, geotag;
+    Button save_info, geotag, next_ac;
     EditText datePurchase, dateWarranty, detectedCategory, total_quantity, seller;
     private LocationManager locationManager;
     private LocationListener listener;
@@ -64,6 +62,9 @@ public class Details extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String bill_url;
     String geo_tag_location;
+    ArrayList<String> list = new ArrayList<>();
+    TextView textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +78,11 @@ public class Details extends AppCompatActivity {
         dateWarranty = findViewById(R.id.date_of_warranty);
         detectedCategory = findViewById(R.id.category);
         geotag = findViewById(R.id.geotag);
-        next = findViewById(R.id.next);
+        save_info = findViewById(R.id.save_info);
         total_quantity = findViewById(R.id.number_of_assets);
         seller = findViewById(R.id.seller);
+        textView = findViewById(R.id.doc);
+        next_ac = findViewById(R.id.next_ac);
 
         FirebaseApp.initializeApp(getApplicationContext());
         storage = FirebaseStorage.getInstance();
@@ -141,7 +144,7 @@ public class Details extends AppCompatActivity {
             }
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
+        save_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Map<String, Object> asset = new HashMap<>();
@@ -164,17 +167,24 @@ public class Details extends AppCompatActivity {
                 asset.put("seller", seller_information);
                 asset.put("location", location);
                 asset.put("department", "None");
-                asset.put("room","None");
+                asset.put("room", "None");
                 asset.put("quantity_issued", 0);
                 asset.put("remaining_quantity", total_quantity);
-                String id = db.collection("users").document(user_id).collection("assets").document().getId();
-                Log.e(TAG, "Parent id" + id );
+//                String id = db.collection("users").document(user_id).collection("assets").document().getId();
+//                Log.e(TAG, "Parent id" + id );
                 for (int i = 0; i < total_quantity; i++) {
-                    db.collection("users").document(user_id).collection("assets").document(id).collection(detectedObject).add(asset)
+                    db.collection("users").document(user_id).collection(detectedObject).add(asset)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+//                                    String ids = documentReference.getId();
+//                                    list.add(documentReference.getId());
+                                    textView.setAlpha(0.0f);
+                                    textView.setText(textView.getText() +","+ documentReference.getId());
+//                                    list.add(ids);
+//                                    Toast.makeText(Details.this, "Document with varibale" + ids, Toast.LENGTH_SHORT).show();
+//                                    list.add(documentReference.getId());
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -183,15 +193,30 @@ public class Details extends AppCompatActivity {
                                     Log.w(TAG, "Error adding document", e);
                                 }
                             });
+                    Log.e(TAG, "onClick: Inside The loop" + list.toString());
+//                    String str_list = textView.getText().toString();
+                    Toast.makeText(Details.this, "Asset information Successfully Saved!", Toast.LENGTH_SHORT).show();
                 }
-
+                Log.e(TAG, "onClick: Document list in Details.java" + list.toString());
+            }
+        });
+        next_ac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = textView.getText().toString();
+                Toast.makeText(Details.this, "Text is " + text, Toast.LENGTH_SHORT).show();
+                String total_assets = total_quantity.getText().toString();
+                int total_quantity = Integer.parseInt(total_assets);
+                String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 Intent intent1 = new Intent(Details.this, IssuingAssets.class);
                 intent1.putExtra("totalQuantity", total_quantity);
                 intent1.putExtra("detectedObject", detectedObject);
-                intent1.putExtra("id",id);
+                intent1.putExtra("id", user_id);
+                intent1.putExtra("document_id", text);
                 startActivity(intent1);
             }
         });
+
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {

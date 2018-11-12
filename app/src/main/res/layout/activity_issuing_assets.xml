@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IssuingAssets"
-    android:orientation="vertical">
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="15dp"
+    android:orientation="vertical"
+    tools:context=".IssuingAssets">
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,84 +21,97 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
+
         <TextView
-            android:layout_width="105dp"
+            android:layout_width="160dp"
             android:layout_height="33dp"
             android:text="Total Quantity Available" />
+
         <TextView
-            android:layout_width="182dp"
-            android:layout_height="wrap_content"
             android:id="@+id/total_quantity_available"
-            android:text="0"/>
+            android:layout_width="182dp"
+            android:layout_height="match_parent"
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
+
         <TextView
-            android:layout_width="105dp"
+            android:layout_width="161dp"
             android:layout_height="33dp"
             android:text="Department" />
-        <EditText
-            android:layout_width="182dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/department"
-            android:text="0"/>
-    </LinearLayout>
 
-     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="105dp"
-            android:layout_height="33dp"
-            android:text="Room Number" />
         <EditText
+            android:id="@+id/department"
             android:layout_width="182dp"
             android:layout_height="wrap_content"
-            android:id="@+id/room_number"
-            android:text="0"/>
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="121dp"
+            android:layout_width="160dp"
+            android:layout_height="33dp"
+            android:text="Room Number/Name" />
+
+        <EditText
+            android:id="@+id/room_number"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:text="" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="161dp"
             android:layout_height="49dp"
             android:text="Quantity To Be Issued" />
+
         <EditText
+            android:id="@+id/issue_quantity"
             android:layout_width="182dp"
             android:layout_height="wrap_content"
-            android:id="@+id/issue_quantity"
-            android:text="0"/>
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="121dp"
+            android:layout_width="161dp"
             android:layout_height="49dp"
             android:text="Remaining Quantity" />
+
         <TextView
+            android:id="@+id/remaining_quantity"
             android:layout_width="182dp"
             android:layout_height="wrap_content"
-            android:id="@+id/remaining_quantity"
-            android:text="0"/>
+            android:text="" />
     </LinearLayout>
 
     <Button
+        android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Generate QR Code"
-        android:id="@+id/next" />
-
+        android:layout_gravity="center"/>
 </LinearLayout>
