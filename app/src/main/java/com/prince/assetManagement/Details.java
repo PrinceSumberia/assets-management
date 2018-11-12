@@ -181,9 +181,9 @@ public class Details extends AppCompatActivity {
 //                                    String ids = documentReference.getId();
 //                                    list.add(documentReference.getId());
                                     textView.setAlpha(0.0f);
-                                    textView.setText(textView.getText() +","+ documentReference.getId());
+                                    textView.setText(textView.getText() + "," + documentReference.getId());
 //                                    list.add(ids);
-//                                    Toast.makeText(Details.this, "Document with varibale" + ids, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(Details.this, "Document with variable" + ids, Toast.LENGTH_SHORT).show();
 //                                    list.add(documentReference.getId());
                                 }
                             })
