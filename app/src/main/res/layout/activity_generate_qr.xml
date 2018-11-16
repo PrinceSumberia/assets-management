@@ -12,9 +12,14 @@
         android:id="@+id/image"/>
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/generate_qr"/>
+    <Button
         android:id="@+id/next_ac"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next" />
+
 
 </LinearLayout>

@@ -24,10 +24,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -63,7 +61,8 @@ public class Details extends AppCompatActivity {
     String bill_url;
     String geo_tag_location;
     ArrayList<String> list = new ArrayList<>();
-    TextView textView;
+    TextView textView, numView;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -83,6 +82,7 @@ public class Details extends AppCompatActivity {
         seller = findViewById(R.id.seller);
         textView = findViewById(R.id.doc);
         next_ac = findViewById(R.id.next_ac);
+        numView = findViewById(R.id.num);
 
         FirebaseApp.initializeApp(getApplicationContext());
         storage = FirebaseStorage.getInstance();
@@ -147,6 +147,9 @@ public class Details extends AppCompatActivity {
         save_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog = new ProgressDialog(Details.this);
+                progressDialog.setTitle("Saving Information");
+                progressDialog.show();
                 final Map<String, Object> asset = new HashMap<>();
                 String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 String total_assets = total_quantity.getText().toString();
@@ -155,7 +158,7 @@ public class Details extends AppCompatActivity {
                 String uploaded_bill = bill_url;
                 String seller_information = seller.getText().toString();
                 String location = geo_tag_location;
-                int total_quantity = Integer.parseInt(total_assets);
+                final int total_quantity = Integer.parseInt(total_assets);
                 Log.e(TAG, "Asset Information" + user_id + " " + total_assets + " " + date_of_purchase + " "
                         + warranty_date + " " + uploaded_bill + " " + seller_information + " " + location);
                 asset.put("category", detectedObject);
@@ -170,21 +173,30 @@ public class Details extends AppCompatActivity {
                 asset.put("room", "None");
                 asset.put("quantity_issued", 0);
                 asset.put("remaining_quantity", total_quantity);
-//                String id = db.collection("users").document(user_id).collection("assets").document().getId();
-//                Log.e(TAG, "Parent id" + id );
+//                int total_quantity_testing = Integer.parseInt(total_assets);
                 for (int i = 0; i < total_quantity; i++) {
+//                    numView.setText(String.valueOf(i));
+                    final int finalI = i;
                     db.collection("users").document(user_id).collection(detectedObject).add(asset)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-//                                    String ids = documentReference.getId();
-//                                    list.add(documentReference.getId());
                                     textView.setAlpha(0.0f);
+                                    numView.setAlpha(0.0f);
+                                    numView.setText(String.valueOf(finalI));
+
                                     textView.setText(textView.getText() + "," + documentReference.getId());
-//                                    list.add(ids);
-//                                    Toast.makeText(Details.this, "Document with variable" + ids, Toast.LENGTH_SHORT).show();
-//                                    list.add(documentReference.getId());
+                                    if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
+//                                        progressDialog.dismiss();
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progressDialog.dismiss();
+                                            }
+                                        });
+                                    }
+
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -193,13 +205,11 @@ public class Details extends AppCompatActivity {
                                     Log.w(TAG, "Error adding document", e);
                                 }
                             });
-                    Log.e(TAG, "onClick: Inside The loop" + list.toString());
-//                    String str_list = textView.getText().toString();
-                    Toast.makeText(Details.this, "Asset information Successfully Saved!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Details.this, "Asset information Successfully Saved!", Toast.LENGTH_SHORT).show();
                 }
-                Log.e(TAG, "onClick: Document list in Details.java" + list.toString());
             }
         });
+//        textView.setAlpha(0.0f);
         next_ac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
