@@ -26,7 +26,7 @@ import ai.api.model.Result;
 
 public class WelcomeActivity extends AppCompatActivity implements AIListener {
     FloatingActionButton listenButton;
-    TextView resultTextView;
+    TextView resultTextView, logout;
     Button addAsset, scanAsset;
     AIService aiService;
     private TextToSpeech textToSpeech;
@@ -38,10 +38,11 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         setContentView(R.layout.activity_welcome);
 
         // Getting Ids of the elements
-        listenButton = (FloatingActionButton) findViewById(R.id.listen);
-        resultTextView = (TextView) findViewById(R.id.resultTextView);
-        addAsset = (Button) findViewById(R.id.add_asset);
-        scanAsset = (Button) findViewById(R.id.scan_asset);
+        listenButton = findViewById(R.id.listen);
+        resultTextView = findViewById(R.id.resultTextView);
+        addAsset = findViewById(R.id.add_asset);
+        scanAsset = findViewById(R.id.scan_asset);
+        logout = findViewById(R.id.logout);
 
         // Adding click listener on Scan and Add Button
         scanAsset.setOnClickListener(new View.OnClickListener() {
@@ -54,18 +55,31 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         addAsset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (FirebaseAuth.getInstance().getCurrentUser() == null){
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                     Toast.makeText(WelcomeActivity.this, "You are not logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
-                }
-                else {
+                } else {
                     Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
                     startActivity(intent);
                 }
             }
         });
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseAuth.getInstance().signOut();
+                    logout.setAlpha(0.0f);
+                    Toast.makeText(WelcomeActivity.this, "Successfully Logged You Out", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        } else {
+            logout.setAlpha(0.0f);
+        }
 
         // Setting up DialogFlow API
         final AIConfiguration config = new AIConfiguration("2ec31874df2141fdaae5db34bd43c1fb",

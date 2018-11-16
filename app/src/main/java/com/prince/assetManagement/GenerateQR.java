@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,8 +50,8 @@ public class GenerateQR extends AppCompatActivity {
     ArrayList<String> document_id = new ArrayList<>();
 
     int listSize;
-    String welcome;
     Button next, gen_qr;
+    TextView textView;
 
 
     @Override
@@ -66,12 +67,14 @@ public class GenerateQR extends AppCompatActivity {
         imageView = findViewById(R.id.image);
         next = findViewById(R.id.next_ac);
         gen_qr = findViewById(R.id.generate_qr);
+        textView = findViewById(R.id.numList);
 
         gen_qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog = new ProgressDialog(GenerateQR.this);
-                progressDialog.setTitle("Saving Information");
+                progressDialog.setTitle("Generating QRCodes");
+                progressDialog.setMessage("Please Wait While QRCodes are Getting Generated!");
                 progressDialog.show();
                 Log.e(TAG, "The parent document id is" + id);
                 Log.e(TAG, "current user in generate" + user_id);
@@ -95,6 +98,8 @@ public class GenerateQR extends AppCompatActivity {
                                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                                 byte[] data = baos.toByteArray();
                                 final int finalI = i;
+                                textView.setAlpha(0.0f);
+                                textView.setText(String.valueOf(finalI));
                                 ref.putBytes(data)
                                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                             @Override
@@ -102,11 +107,27 @@ public class GenerateQR extends AppCompatActivity {
                                                 ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                     @Override
                                                     public void onSuccess(Uri uri) {
-                                                        Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+//                                                        Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_SHORT).show();
                                                         image_url = uri.toString();
                                                         qrcode_urls.add(image_url);
                                                         Log.d(TAG, "onSuccess: url = " + uri.toString());
-                                                        Toast.makeText(GenerateQR.this, "Images are stored here: " + image_url, Toast.LENGTH_SHORT).show();
+
+//                                                        Toast.makeText(GenerateQR.this, "Images are stored here: " + image_url, Toast.LENGTH_SHORT).show();
+                                                        if (Integer.parseInt(textView.getText().toString()) == listSize - 2) {
+                                                            Log.e(TAG, "Final value is " + finalI);
+                                                            Log.e(TAG, "final value of list size" + listSize);
+                                                            Log.e(TAG, "this is new this is getting executed");
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(GenerateQR.this, "Successfully Generated IDs & QRCodes You Can Now Proceed!", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                        next.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+                                                                Intent intent1 = new Intent(getApplicationContext(), GetPDF.class);
+                                                                intent1.putStringArrayListExtra("qrcode_links", qrcode_urls);
+                                                                startActivity(intent1);
+                                                            }
+                                                        });
                                                     }
                                                 });
                                                 Log.e(TAG, "qrcode url is" + qrcode_urls.toString());
@@ -124,38 +145,11 @@ public class GenerateQR extends AppCompatActivity {
                                                 double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
                                                         .getTotalByteCount());
                                             }
-                                        })
-                                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                                welcome = qrcode_urls.toString();
-                                                Log.d(TAG, "inside on complete " + welcome);
-                                                Log.d(TAG, "this is inside the oncomplete" + qrcode_urls.toString());
-                                                Log.e(TAG, "List size" + qrcode_urls.size());
-                                                Log.e(TAG, "list size second" + listSize);
-                                                if (finalI == listSize){
-                                                    runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            progressDialog.dismiss();
-                                                        }
-                                                    });
-                                                }
-                                                next.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View view) {
-                                                        Intent intent1 = new Intent(getApplicationContext(), GetPDF.class);
-                                                        intent1.putStringArrayListExtra("qrcode_links", qrcode_urls);
-                                                        startActivity(intent1);
-                                                    }
-                                                });
-                                            }
                                         });
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
-                        Toast.makeText(GenerateQR.this, "Complete You Can Now Proceed!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

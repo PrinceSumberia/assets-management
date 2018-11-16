@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GenerateQR"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -12,14 +13,20 @@
         android:id="@+id/image"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/generate_qr"
+        android:layout_width="163dp"
         android:layout_height="wrap_content"
-        android:id="@+id/generate_qr"/>
+        android:text="Generate QR" />
+
     <Button
         android:id="@+id/next_ac"
-        android:layout_width="wrap_content"
+        android:layout_width="167dp"
         android:layout_height="wrap_content"
         android:text="Next" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numList"/>
 
 
 </LinearLayout>
