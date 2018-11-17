@@ -61,10 +61,11 @@ public class GetPDF extends AppCompatActivity {
 
     private class MyAsyncTask extends AsyncTask {
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             super.onPreExecute();
             showProgressDialog("Please wait...", "Your PDF is with QRCodes is Getting Generated.");
         }
+
         @Override
         protected String doInBackground(Object... arg0) {
 
@@ -106,11 +107,11 @@ public class GetPDF extends AppCompatActivity {
 
             return null;
         }
+
         @Override
-        protected void onPostExecute(Object args){
+        protected void onPostExecute(Object args) {
             super.onPostExecute(args);
-            if(progressDialog != null && progressDialog.isShowing())
-            {
+            if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
             String emailAddress = editText.getText().toString();
@@ -124,7 +125,7 @@ public class GetPDF extends AppCompatActivity {
             String pathToMyAttachedFile = "qrcode.pdf";
             File file = new File(root, pathToMyAttachedFile);
             if (!file.exists() || !file.canRead()) {
-                Log.e(TAG, "onPostExecute:" );
+                Log.e(TAG, "onPostExecute:");
 //                return ;
             }
             Uri uri = FileProvider.getUriForFile(GetPDF.this, BuildConfig.APPLICATION_ID + ".provider", file);
@@ -135,8 +136,7 @@ public class GetPDF extends AppCompatActivity {
         }
     }
 
-    private void showProgressDialog(String title, String message)
-    {
+    private void showProgressDialog(String title, String message) {
         progressDialog = new ProgressDialog(this);
 
         progressDialog.setTitle(title); //title
