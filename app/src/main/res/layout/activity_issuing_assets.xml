@@ -106,7 +106,7 @@
             android:layout_width="182dp"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:text="0"/>
+            android:text="0" />
     </LinearLayout>
 
     <LinearLayout
@@ -128,9 +128,17 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Update Information" />
+
+    <Button
         android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Generate QR Code"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:text="Generate QR Code" />
+
 </LinearLayout>
