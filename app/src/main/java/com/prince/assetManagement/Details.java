@@ -232,7 +232,7 @@ public class Details extends AppCompatActivity {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                geo_tag_location = "Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude();
+                geo_tag_location = location.getLatitude() + "," + location.getLongitude();
                 Toast.makeText(Details.this, "Successfully GeoTagged!", Toast.LENGTH_SHORT).show();
                 Toast.makeText(Details.this, "Location is " + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
             }

@@ -2,6 +2,7 @@ package com.prince.assetManagement;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.widget.CheckBox;
@@ -75,6 +76,9 @@ public class ScanActivity extends Activity implements OnQRCodeReadListener {
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
         resultTextView.setText(text);
+        Intent intent = new Intent(ScanActivity.this, GetInformation.class);
+        intent.putExtra("qrcode_id", text);
+        startActivity(intent);
     }
 
     @Override

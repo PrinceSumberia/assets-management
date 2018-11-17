@@ -3,21 +3,149 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GetInformation"
+    android:gravity="center"
     android:orientation="vertical"
-    android:gravity="center">
+    tools:context=".GetInformation">
 
     <TextView
-        android:layout_width="170dp"
-        android:layout_height="73dp"
-        android:text="Information Here: "
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:text="Asset Information"
         android:textAlignment="center"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="280dp"
-        android:layout_height="77dp"
-        android:textSize="20sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="153dp"
+            android:layout_height="33dp"
+            android:text="Asset: " />
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="157dp"
+            android:layout_height="33dp"
+            android:text="Number of Such Assets" />
+
+        <TextView
+            android:id="@+id/number_of_assets"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="148dp"
+            android:layout_height="33dp"
+            android:text="Date of Purchase" />
+
+        <TextView
+            android:id="@+id/date_of_purchase"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="154dp"
+            android:layout_height="33dp"
+            android:text="Warranty Upto: " />
+
+        <TextView
+            android:id="@+id/date_of_warranty"
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="33dp"
+            android:text="Seller Info: " />
+
+        <TextView
+            android:id="@+id/seller"
+            android:layout_width="186dp"
+            android:layout_height="45dp"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="154dp"
+            android:layout_height="33dp"
+            android:text="Issued To: " />
+
+        <TextView
+            android:id="@+id/issued_to"
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/get_geolocation"
+            android:layout_width="164dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Get Geolocation" />
+
+        <Button
+            android:id="@+id/view_bill"
+            android:layout_width="161dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="View Bill" />
+    </LinearLayout>
+
 
 </LinearLayout>
