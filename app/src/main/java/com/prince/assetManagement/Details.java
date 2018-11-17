@@ -193,6 +193,7 @@ public class Details extends AppCompatActivity {
                                             @Override
                                             public void run() {
                                                 progressDialog.dismiss();
+                                                Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
                                             }
                                         });
                                     }
