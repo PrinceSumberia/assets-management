@@ -116,11 +116,13 @@ public class IssuingAssets extends AppCompatActivity {
                 int remaining_quantity = Integer.parseInt(str_remaining_quantity);
 
 
-                for (int i = 0; i < quantity_issued_update; i++) {
+                for (int i = 0; i < total_quantity; i++) {
 //                    Log.e(TAG, "Document.list id " + i + " " + document_list.get(i) );
-                    db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("issued_to", issued_to_name);
-                    db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("department", department);
-                    db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("room", room_number);
+                    if (i < quantity_issued_update) {
+                        db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("issued_to", issued_to_name);
+                        db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("department", department);
+                        db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("room", room_number);
+                    }
                     db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("quantity_issued", quantity_issued_update);
                     db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("remaining_quantity", remaining_quantity);
                     if (i == quantity_issued_update - 1) {
