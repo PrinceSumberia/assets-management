@@ -97,6 +97,7 @@ public class GetPDF extends AppCompatActivity {
                 }
             }
             try {
+                table.completeRow();
                 document.add(table);
             } catch (DocumentException e) {
                 e.printStackTrace();
