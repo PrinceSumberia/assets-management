@@ -18,15 +18,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Locale;
 
 public class GetInformation extends AppCompatActivity {
     TextView result_id;
     FirebaseAuth mAuth;
     private static final String TAG = GetInformation.class.getName();
-    TextView asset_category_field, seller_field, total_quantity_field, purchase_date_field, warranty_date_field, issued_to_field;
+    TextView asset_category_field, seller_field, total_quantity_field, purchase_date_field, warranty_date_field, issued_to_field, issued_date_field, textView_issued_date, textView_issued_to;
     Button view_bill, get_geolocation;
 
     @Override
@@ -44,6 +42,9 @@ public class GetInformation extends AppCompatActivity {
         issued_to_field = findViewById(R.id.issued_to);
         view_bill = findViewById(R.id.view_bill);
         get_geolocation = findViewById(R.id.get_geolocation);
+        issued_date_field = findViewById(R.id.issued_date);
+        textView_issued_date = findViewById(R.id.issued_date_textview);
+        textView_issued_to = findViewById(R.id.issued_to_textview);
 
 
 //        String user_id = mAuth.getCurrentUser().getUid();
@@ -81,14 +82,20 @@ public class GetInformation extends AppCompatActivity {
                         String department = document.get("department").toString();
                         String room_number = document.get("room").toString();
                         String issued_to_detail = issued_to + "\n" + "Department: " + department + "\nRoom: " + room_number;
+                        String issued_date = document.get("issued_date").toString();
 
                         if (issued_to == null) {
-                            issued_to_field.setText("Not Issued To Anyone");
+                            issued_to_field.setAlpha(0.0f);
+                            issued_date_field.setAlpha(0.0f);
+                            textView_issued_date.setAlpha(0.0f);
+                            textView_issued_to.setAlpha(0.0f);
                         } else {
                             issued_to_field.setText(issued_to_detail);
+                            issued_date_field.setText(issued_date);
+
                         }
                         final String bill_url = document.get("bill").toString();
-                        Log.e(TAG,  " string url " + bill_url);
+                        Log.e(TAG, " string url " + bill_url);
                         String[] str_geolocation = document.get("location").toString().split(",");
                         String str_latitude = str_geolocation[0];
                         String str_longitude = str_geolocation[1];
@@ -114,7 +121,6 @@ public class GetInformation extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
-
 
 
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());

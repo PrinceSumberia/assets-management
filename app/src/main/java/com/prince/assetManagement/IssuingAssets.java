@@ -17,8 +17,10 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 public class IssuingAssets extends AppCompatActivity {
     TextView available_quantity_field, remaining_quantity_field;
@@ -115,6 +117,11 @@ public class IssuingAssets extends AppCompatActivity {
                 String str_remaining_quantity = remaining_quantity_field.getText().toString();
                 int remaining_quantity = Integer.parseInt(str_remaining_quantity);
 
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat mdformat = new SimpleDateFormat("dd/MM/yyyy");
+                String strDate = mdformat.format(calendar.getTime());
+                Log.e(TAG, "Current Date: " + strDate );
+
 
                 for (int i = 0; i < total_quantity; i++) {
 //                    Log.e(TAG, "Document.list id " + i + " " + document_list.get(i) );
@@ -122,6 +129,7 @@ public class IssuingAssets extends AppCompatActivity {
                         db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("issued_to", issued_to_name);
                         db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("department", department);
                         db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("room", room_number);
+                        db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("issued_date",strDate);
                     }
                     db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("quantity_issued", quantity_issued_update);
                     db.collection("users").document(user_id).collection(detectedObject).document(document_list.get(i + 1)).update("remaining_quantity", remaining_quantity);

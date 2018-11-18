@@ -174,6 +174,7 @@ public class Details extends AppCompatActivity {
                 asset.put("quantity_issued", 0);
                 asset.put("remaining_quantity", total_quantity);
                 asset.put("issued_to", "None");
+                asset.put("issued_date", "");
 //                int total_quantity_testing = Integer.parseInt(total_assets);
                 for (int i = 0; i < total_quantity; i++) {
 //                    numView.setText(String.valueOf(i));
