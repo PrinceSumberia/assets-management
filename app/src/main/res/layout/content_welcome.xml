@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/abs"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".WelcomeActivity"
@@ -24,6 +25,8 @@
         android:layout_width="143dp"
         android:layout_height="48dp"
         android:text="Add an Asset"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorw"
         android:layout_marginBottom="20dp"
         tools:layout_editor_absoluteX="119dp"
         tools:layout_editor_absoluteY="159dp" />
@@ -33,6 +36,8 @@
         android:layout_width="143dp"
         android:layout_height="44dp"
         android:text="Scan an Asset"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorw"
         tools:layout_editor_absoluteX="120dp"
         tools:layout_editor_absoluteY="240dp" />
 
