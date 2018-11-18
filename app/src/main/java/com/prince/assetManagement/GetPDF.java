@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class GetPDF extends AppCompatActivity {
     private static final String TAG = GetPDF.class.getName();
     ArrayList<String> qr_urls = new ArrayList<>();
-    TextView textView, editText;
+    TextView textView, editText, back_home;
     ProgressDialog progressDialog;
     Button getPDF;
 
@@ -49,6 +49,14 @@ public class GetPDF extends AppCompatActivity {
 //        textView = findViewById(R.id.list);
         editText = findViewById(R.id.email);
         getPDF = findViewById(R.id.get_pdf);
+        back_home = findViewById(R.id.back_to_home);
+        back_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GetPDF.this, WelcomeActivity.class);
+                startActivity(intent);
+            }
+        });
         Toast.makeText(this, "Please Wait While Your QRCode PDF is Getting Generating", Toast.LENGTH_SHORT).show();
         getPDF.setOnClickListener(new View.OnClickListener() {
             @Override
