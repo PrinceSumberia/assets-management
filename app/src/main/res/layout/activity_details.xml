@@ -7,10 +7,19 @@
     android:orientation="vertical"
     tools:context=".Details">
 
+    <TextView
+        android:layout_marginTop="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Asset Details"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
@@ -159,7 +168,7 @@
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Issuing Informatipn" />
+        android:text="Issuing Information" />
 
     <TextView
         android:id="@+id/num"
