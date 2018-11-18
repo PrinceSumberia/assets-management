@@ -63,7 +63,7 @@ public class GetPDF extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgressDialog("Please wait...", "Your PDF is with QRCodes is Getting Generated.");
+            showProgressDialog("Please wait...", "Your PDF with QRCodes is Getting Generated.");
         }
 
         @Override
