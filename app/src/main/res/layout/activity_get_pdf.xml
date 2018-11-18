@@ -14,6 +14,15 @@
         <!--android:text="TextView"-->
         <!--tools:layout_editor_absoluteX="82dp"-->
         <!--tools:layout_editor_absoluteY="140dp" />-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="-60dp"
+        android:layout_marginBottom="150dp"
+        android:text="Generate PDF"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="300dp"
@@ -22,8 +31,7 @@
         android:text="Enter Email ID To Get QRCode Document"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textAlignment="center"
-        android:textAllCaps="true"/>
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/email"
@@ -36,6 +44,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Get PDF"
         android:id="@+id/get_pdf"/>
 
