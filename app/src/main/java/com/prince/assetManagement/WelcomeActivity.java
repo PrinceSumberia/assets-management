@@ -33,7 +33,7 @@ import ai.api.model.Result;
 public class WelcomeActivity extends AppCompatActivity implements AIListener {
     FloatingActionButton listenButton;
     TextView resultTextView, logout;
-    Button addAsset, scanAsset;
+    Button addAsset, scanAsset, serachAsset;
     AIService aiService;
     private TextToSpeech textToSpeech;
     final Handler handler = new Handler();
@@ -52,6 +52,7 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         addAsset = findViewById(R.id.add_asset);
         scanAsset = findViewById(R.id.scan_asset);
         logout = findViewById(R.id.logout);
+        serachAsset = findViewById(R.id.search_asset);
 
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -83,6 +84,20 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
                 } else {
                     Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        serachAsset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                    Toast.makeText(WelcomeActivity.this, "You are not logged in", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), GetAssetInfo.class);
                     startActivity(intent);
                 }
             }

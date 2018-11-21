@@ -35,6 +35,7 @@
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,7 +47,9 @@
         <activity android:name=".IssuingAssets" />
         <activity android:name=".GenerateQR" />
         <activity android:name=".GetPDF" />
-        <activity android:name=".GetInformation"></activity>
+        <activity android:name=".GetInformation" />
+        <activity android:name=".GetAssetInfo" />
+        <activity android:name=".Display_Info"></activity>
     </application>
 
 </manifest>
