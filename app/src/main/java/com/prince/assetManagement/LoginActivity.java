@@ -5,16 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,70 +35,102 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.PhoneBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
-
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+            startActivity(intent);
+        } else {
+            // Choose authentication providers
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.EmailBuilder().build(),
+                    new AuthUI.IdpConfig.PhoneBuilder().build(),
+                    new AuthUI.IdpConfig.GoogleBuilder().build());
 // Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build(),
+                    RC_SIGN_IN);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
-
-
             if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                final String fullName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-                Log.d(TAG, "onActivityResult: UserName " + fullName);
-                db.collection("users")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        String username = document.getString("name");
-                                        if (username.equals(fullName) || username.isEmpty()) {
-                                            Toast.makeText(LoginActivity.this, "Welcome Back", Toast.LENGTH_SHORT).show();
-                                        } else {
+                db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        Log.e(TAG, "onComplete: this query is starting");
+                        if (task.isSuccessful()) {
+                            int counter = 0;
+                            Log.e(TAG, "onComplete: this is size" + task.getResult());
+                            Log.e(TAG, "onComplete: this is size documents" + task.getResult().getDocuments());
+                            Log.e(TAG, "onComplete: this is size documents" + task.getResult().getDocuments().size());
+                            Log.e(TAG, "onComplete: this is size documents" + task.getResult().isEmpty());
+                            if (!task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    counter += 1;
+                                    Log.d(TAG, "onComplete: " + document.getId() + "Data" + document.getData());
+                                    Log.d(TAG, "onComplete: current user id " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                    if (document.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                        Log.d(TAG, "onComplete: user already exits");
+                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        if (counter == task.getResult().size()) {
+                                            Log.d(TAG, "onComplete: new user");
                                             final Map<String, Object> user = new HashMap<>();
-                                            user.put("name", fullName);
-                                            db.collection("users")
-                                                    .add(user)
-                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            user.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                                            user.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                                            Log.e(TAG, "onComplete: isEmpty is not empty and new user");
+                                            db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                    .set(user)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
-                                                        public void onSuccess(DocumentReference documentReference) {
-                                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                        }
-                                                    })
-                                                    .addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            Log.w(TAG, "Error adding document", e);
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.e(TAG, "onSuccess: Data added successfully");
+                                                            Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+                                                            startActivity(intent);
                                                         }
                                                     });
+//                                            Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+//                                            startActivity(intent);
                                         }
-                                        Log.d(TAG, document.getId() + " => " + document.getData());
                                     }
-                                } else {
-                                    Log.w(TAG, "Error getting documents.", task.getException());
                                 }
+                            } else {
+                                final Map<String, Object> user = new HashMap<>();
+                                user.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                                user.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                                Log.e(TAG, "onComplete: isEmpty is true");
+                                db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .set(user)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.e(TAG, "onSuccess: Data added successfully");
+                                                Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+                                                startActivity(intent);
+                                            }
+                                        });
+
                             }
-                        });
-                Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
-                startActivity(intent);
+//                            Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+//                            startActivity(intent);
+                        } else {
+                            Log.d(TAG, "onComplete: this is the error" + task.getException());
+                        }
+                    }
+                });
+                // Successfully signed in
+//                final String fullName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+//                Log.d(TAG, "onActivityResult: UserName " + fullName);
+
+//                Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+//                startActivity(intent);
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
