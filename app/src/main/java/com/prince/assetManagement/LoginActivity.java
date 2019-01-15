@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -76,15 +77,25 @@ public class LoginActivity extends Activity {
                                     Log.d(TAG, "onComplete: " + document.getId() + "Data" + document.getData());
                                     Log.d(TAG, "onComplete: current user id " + FirebaseAuth.getInstance().getCurrentUser().getUid());
                                     if (document.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                        Log.d(TAG, "onComplete: user already exits");
-                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                        startActivity(intent);
+                                        if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                            Log.d(TAG, "onComplete: user already exits");
+                                            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "You need to verify your Email. Please Check your inbox", Toast.LENGTH_SHORT).show();
+                                            FirebaseAuth.getInstance().signOut();
+                                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                            startActivity(intent);
+                                        }
                                     } else {
-                                        if (counter == task.getResult().size()) {
+                                        if (counter == task.getResult().size() + 1) {
                                             Log.d(TAG, "onComplete: new user");
                                             final Map<String, Object> user = new HashMap<>();
                                             user.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                                             user.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                                            user.put("role", "admin");
+                                            user.put("normal_users", Arrays.asList());
+                                            user.put("approver", Arrays.asList());
                                             Log.e(TAG, "onComplete: isEmpty is not empty and new user");
                                             db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                     .set(user)
@@ -105,6 +116,9 @@ public class LoginActivity extends Activity {
                                 final Map<String, Object> user = new HashMap<>();
                                 user.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                                 user.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                                user.put("role", "admin");
+                                user.put("normal_users", Arrays.asList());
+                                user.put("approver", Arrays.asList());
                                 Log.e(TAG, "onComplete: isEmpty is true");
                                 db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                         .set(user)
