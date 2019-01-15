@@ -50,7 +50,8 @@
         <activity android:name=".GetInformation" />
         <activity android:name=".GetAssetInfo" />
         <activity android:name=".Display_Info" />
-        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".AddUsers"></activity>
     </application>
 
 </manifest>

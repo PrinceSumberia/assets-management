@@ -33,7 +33,7 @@ import ai.api.model.Result;
 public class WelcomeActivity extends AppCompatActivity implements AIListener {
     FloatingActionButton listenButton;
     TextView resultTextView, logout;
-    Button addAsset, scanAsset, serachAsset;
+    Button addAsset, scanAsset, serachAsset, addUsers;
     AIService aiService;
     private TextToSpeech textToSpeech;
     final Handler handler = new Handler();
@@ -53,6 +53,7 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         scanAsset = findViewById(R.id.scan_asset);
         logout = findViewById(R.id.logout);
         serachAsset = findViewById(R.id.search_asset);
+        addUsers = findViewById(R.id.add_users);
 
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -100,6 +101,15 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
                     Intent intent = new Intent(getApplicationContext(), GetAssetInfo.class);
                     startActivity(intent);
                 }
+            }
+        });
+
+        addUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddUsers.class);
+                intent.putExtra("admin_user", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                startActivity(intent);
             }
         });
 
