@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".AddUsers">
+
+    <LinearLayout
+        android:layout_width="253dp"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="78dp"
+            android:layout_height="wrap_content"
+            android:text="User Type" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="184dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/spinner_title" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/user_email"
+        android:layout_width="252dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Email" />
+
+    <EditText
+        android:id="@+id/user_name"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Name" />
+
+    <Button
+        android:id="@+id/create_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create User" />
+
+
+</LinearLayout>
