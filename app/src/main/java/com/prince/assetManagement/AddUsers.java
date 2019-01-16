@@ -74,7 +74,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
 //        final String user_email = userEmail.getText().toString();
-        final String userPassword = "PASSWODPRINCE";
+        final String userPassword = "PASSWORD";
         createUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

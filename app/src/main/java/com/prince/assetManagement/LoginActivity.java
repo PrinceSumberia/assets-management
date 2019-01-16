@@ -12,6 +12,7 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -88,7 +89,7 @@ public class LoginActivity extends Activity {
                                             startActivity(intent);
                                         }
                                     } else {
-                                        if (counter == task.getResult().size() + 1) {
+                                        if (counter == task.getResult().size()+1) {
                                             Log.d(TAG, "onComplete: new user");
                                             final Map<String, Object> user = new HashMap<>();
                                             user.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
