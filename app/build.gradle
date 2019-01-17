@@ -34,12 +34,10 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Support libraries
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-
     // Tensorflow
     implementation 'org.tensorflow:tensorflow-android:+'
     implementation 'com.google.android.gms:play-services-vision:16.2.0'
@@ -64,11 +62,11 @@ dependencies {
     implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.android.support:support-v4:27.0.2'
-
-
-
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    implementation files('src/main/libs/activation.jar')
+    implementation files('src/main/libs/additionnal.jar')
+    implementation files('src/main/libs/mail.jar')
 }
 apply plugin: 'com.google.gms.google-services'

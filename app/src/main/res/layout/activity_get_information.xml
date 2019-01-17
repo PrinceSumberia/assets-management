@@ -164,7 +164,7 @@
             android:id="@+id/change_status"
             android:layout_width="122dp"
             android:layout_height="33dp"
-            android:clickable="false"/>
+            android:clickable="false" />
 
     </LinearLayout>
 
@@ -188,5 +188,12 @@
             android:text="View Bill" />
     </LinearLayout>
 
+
+    <Button
+        android:id="@+id/report_status"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Report Asset Status" />
 
 </LinearLayout>

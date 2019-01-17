@@ -89,7 +89,11 @@ public class LoginActivity extends Activity {
                                             startActivity(intent);
                                         }
                                     } else {
-                                        if (counter == task.getResult().size()+1) {
+                                        Log.e(TAG, "onComplete: counter size outside loop" + counter );
+                                        Log.e(TAG, "onComplete: task.size outside loop" + task.getResult().size() );
+                                        if (counter == task.getResult().size()) {
+                                            Log.e(TAG, "onComplete: counter size" + counter );
+                                            Log.e(TAG, "onComplete: task.size inside loop" + task.getResult().size() );
                                             Log.d(TAG, "onComplete: new user");
                                             final Map<String, Object> user = new HashMap<>();
                                             user.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());

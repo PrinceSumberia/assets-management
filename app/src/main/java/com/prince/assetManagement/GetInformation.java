@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,8 +28,9 @@ public class GetInformation extends AppCompatActivity {
     FirebaseAuth mAuth;
     private static final String TAG = GetInformation.class.getName();
     TextView asset_category_field, seller_field, total_quantity_field, purchase_date_field, warranty_date_field, issued_to_field, issued_date_field, textView_issued_date, textView_issued_to;
-    Button view_bill, get_geolocation;
+    Button view_bill, get_geolocation, report_status;
     Switch working_status;
+    boolean before_switch_status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,9 @@ public class GetInformation extends AppCompatActivity {
         textView_issued_date = findViewById(R.id.issued_date_textview);
         textView_issued_to = findViewById(R.id.issued_to_textview);
         working_status = findViewById(R.id.change_status);
+        report_status = findViewById(R.id.report_status);
+
+//        report_status.setAlpha(0.0f);
 
 
 //        String user_id = mAuth.getCurrentUser().getUid();
@@ -88,15 +93,18 @@ public class GetInformation extends AppCompatActivity {
                         String issued_to_detail = issued_to + "\n" + "Department: " + department + "\nRoom: " + room_number;
                         String issued_date = document.get("issued_date").toString();
                         String isWorking = document.get("is_working").toString();
+                        final String admin_email = document.get("admin_email").toString();
 
                         if (isWorking.equals("true")) {
                             working_status.setChecked(true);
+                            before_switch_status = true;
                             if (user_id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                 working_status.setClickable(true);
                             }
                             Log.e(TAG, "isWorking is true");
                         } else {
                             working_status.setChecked(false);
+                            before_switch_status = false;
                         }
 
 
@@ -106,6 +114,7 @@ public class GetInformation extends AppCompatActivity {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     Log.e(TAG, "onComplete: Task is successful");
+                                    Log.e(TAG, "onComplete: email status outside" + admin_email );
                                     DocumentSnapshot documentSnapshot = task.getResult();
                                     if (documentSnapshot.exists()) {
                                         Log.e(TAG, "onComplete: Field exists");
@@ -123,6 +132,25 @@ public class GetInformation extends AppCompatActivity {
                                                                 Log.d("TAG", uid);
                                                                 if (uid.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                                                     working_status.setClickable(true);
+                                                                    report_status.setOnClickListener(new View.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(View view) {
+                                                                                Log.e(TAG, "onClick: email is" + admin_email );
+                                                                                ReportAsset(admin_email);
+                                                                            }
+                                                                        });
+//                                                                    if (before_switch_status != working_status.isChecked()) {
+//                                                                        Log.e(TAG, "onComplete: status check" + before_switch_status);
+//                                                                        Log.e(TAG, "onComplete: status check" + working_status.isChecked());
+////                                                                        report_status.setAlpha(1.0f);
+//                                                                        report_status.setOnClickListener(new View.OnClickListener() {
+//                                                                            @Override
+//                                                                            public void onClick(View view) {
+//                                                                                Log.e(TAG, "onClick: email is" + admin_email );
+//                                                                                ReportAsset(admin_email);
+//                                                                            }
+//                                                                        });
+//                                                                    }
                                                                 }
                                                             }
 
@@ -138,9 +166,9 @@ public class GetInformation extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                     if (task.isSuccessful()) {
                                                         DocumentSnapshot document = task.getResult();
-                                                        Log.e(TAG, "onComplete: Result" + task.getResult() );
-                                                        Log.e(TAG, "onComplete: Result" + task.getResult().getData().toString() );
-                                                        Log.e(TAG, "onComplete: Result" + task.getResult().getData().toString() );
+                                                        Log.e(TAG, "onComplete: Result" + task.getResult());
+                                                        Log.e(TAG, "onComplete: Result" + task.getResult().getData().toString());
+                                                        Log.e(TAG, "onComplete: Result" + task.getResult().getData().toString());
                                                         if (document.exists()) {
                                                             Log.e(TAG, "onComplete: Field exists");
                                                             List<String> list = (List<String>) document.get("normal_users");
@@ -148,6 +176,25 @@ public class GetInformation extends AppCompatActivity {
                                                                 Log.d("TAG", uid);
                                                                 if (uid.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                                                     working_status.setClickable(true);
+                                                                    report_status.setOnClickListener(new View.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(View view) {
+                                                                                Log.e(TAG, "onClick: email is" + admin_email );
+                                                                                ReportAsset(admin_email);
+                                                                            }
+                                                                        });
+//                                                                    if (before_switch_status != working_status.isChecked()) {
+//                                                                        Log.e(TAG, "onComplete: status check" + before_switch_status);
+//                                                                        Log.e(TAG, "onComplete: status check" + working_status.isChecked());
+////                                                                        report_status.setAlpha(1.0f);
+//                                                                        report_status.setOnClickListener(new View.OnClickListener() {
+//                                                                            @Override
+//                                                                            public void onClick(View view) {
+//                                                                                Log.e(TAG, "onClick: email is" + admin_email );
+//                                                                                ReportAsset(admin_email);
+//                                                                            }
+//                                                                        });
+//                                                                    }
                                                                 }
                                                             }
 
@@ -159,7 +206,6 @@ public class GetInformation extends AppCompatActivity {
                                             });
                                         }
                                     }
-
                                 }
                             }
                         });
@@ -214,5 +260,60 @@ public class GetInformation extends AppCompatActivity {
                 }
             }
         });
+//        report_status.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final String email = "broughtmeup@gmail.com";
+//                new Thread(new Runnable() {
+//
+//                    public void run() {
+//
+//                        try {
+//
+//                            GMailSender sender = new GMailSender(
+//                                    "noreply.assetmanagement@gmail.com",
+//                                    "PASSWORDPRINCE");
+////                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/image.jpg");
+//
+//                            sender.sendMail("Asset Reported", "An asset has been reported by the user. It may not be damaged or not working properly. Please open your admin dashboard",
+//
+//                                    "noreply.assetmanagement@gmail.com", email);
+//                            Log.e(TAG, "run: " +email );
+//                            Log.e(TAG, "run: email status sent");
+//
+//
+//                        } catch (Exception e) {
+//                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                }).start();
+//            }
+//        });
+    }
+
+    public void ReportAsset(final String adminEmail) {
+        new Thread(new Runnable() {
+
+            public void run() {
+
+                try {
+
+                    GMailSender sender = new GMailSender(
+                            "noreply.assetmanagement@gmail.com",
+                            "PASSWORDPRINCE");
+//                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/image.jpg");
+
+                    sender.sendMail("Asset Reported", "An asset has been reported by the user. It may not be damaged or not working properly. Please open your admin dashboard",
+
+                            "noreply.assetmanagement@gmail.com", adminEmail);
+                    Log.e(TAG, "run: email status sent");
+                    Toast.makeText(GetInformation.this, "Email Sent", Toast.LENGTH_SHORT).show();
+
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).start();
     }
 }

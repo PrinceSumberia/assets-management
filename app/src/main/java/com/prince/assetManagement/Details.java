@@ -176,6 +176,7 @@ public class Details extends AppCompatActivity {
                 asset.put("issued_to", "None");
                 asset.put("issued_date", "");
                 asset.put("is_working", "true");
+                asset.put("admin_email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
 //                int total_quantity_testing = Integer.parseInt(total_assets);
                 for (int i = 0; i < total_quantity; i++) {
 //                    numView.setText(String.valueOf(i));
