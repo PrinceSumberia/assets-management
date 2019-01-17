@@ -78,16 +78,9 @@ public class LoginActivity extends Activity {
                                     Log.d(TAG, "onComplete: " + document.getId() + "Data" + document.getData());
                                     Log.d(TAG, "onComplete: current user id " + FirebaseAuth.getInstance().getCurrentUser().getUid());
                                     if (document.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                        if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
-                                            Log.d(TAG, "onComplete: user already exits");
-                                            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                            startActivity(intent);
-                                        } else {
-                                            Toast.makeText(LoginActivity.this, "You need to verify your Email. Please Check your inbox", Toast.LENGTH_SHORT).show();
-                                            FirebaseAuth.getInstance().signOut();
-                                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                            startActivity(intent);
-                                        }
+                                        Log.d(TAG, "onComplete: user already exits");
+                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                        startActivity(intent);
                                     } else {
                                         Log.e(TAG, "onComplete: counter size outside loop" + counter );
                                         Log.e(TAG, "onComplete: task.size outside loop" + task.getResult().size() );
