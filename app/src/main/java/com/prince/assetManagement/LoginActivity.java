@@ -12,8 +12,8 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,8 +38,39 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-            startActivity(intent);
+            db.collection("users").document(FirebaseAuth.getInstance()
+                    .getCurrentUser()
+                    .getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()){
+                        Log.e(TAG, "onComplete: First Task is successful");
+                        DocumentSnapshot documentSnapshot =  task.getResult();
+                        String role = documentSnapshot.get("role").toString();
+                        if (role.equals("admin")){
+                            Log.e(TAG, "onComplete: User is admin first loop");
+                            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                            startActivity(intent);
+                        } else if (role.equals("approver")){
+                            Log.e(TAG, "onComplete: User  is approver first loop");
+                            Intent intent = new Intent(getApplicationContext(), Approver.class);
+                            startActivity(intent);
+                        } else if (role.equals("normal user")){
+                            Log.e(TAG, "onComplete: User is normal user first loop");
+                            Intent intent = new Intent(getApplicationContext(), NormalUser.class);
+                            startActivity(intent);
+                        } else {
+                            Log.e(TAG, "onComplete: User is neither");
+                            Toast.makeText(LoginActivity.this, "Who are you?", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), NormalUser.class);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            });
+//            Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+//            startActivity(intent);
         } else {
             // Choose authentication providers
             List<AuthUI.IdpConfig> providers = Arrays.asList(
@@ -78,15 +109,45 @@ public class LoginActivity extends Activity {
                                     Log.d(TAG, "onComplete: " + document.getId() + "Data" + document.getData());
                                     Log.d(TAG, "onComplete: current user id " + FirebaseAuth.getInstance().getCurrentUser().getUid());
                                     if (document.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                        Log.d(TAG, "onComplete: user already exits");
-                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                        startActivity(intent);
+                                        switch (document.get("role").toString()) {
+                                            case "admin": {
+                                                counter += task.getResult().size();
+                                                Log.d(TAG, "onComplete: user already exits and role is admin " + document.get("role").toString());
+                                                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                                startActivity(intent);
+                                                break;
+                                            }
+                                            case "normal user": {
+                                                counter += task.getResult().size();
+                                                Log.e(TAG, "onComplete: user is normal user" + document.get("role").toString());
+                                                Toast.makeText(LoginActivity.this, "User is normal user", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getApplicationContext(), NormalUser.class);
+                                                startActivity(intent);
+                                                break;
+                                            }
+                                            case "approver": {
+                                                counter += task.getResult().size();
+                                                Log.e(TAG, "onComplete: user is a approver" + document.get("role").toString());
+                                                Toast.makeText(LoginActivity.this, "User is approver", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getApplicationContext(), Approver.class);
+                                                startActivity(intent);
+                                                break;
+                                            }
+                                            default: {
+                                                counter += task.getResult().size();
+                                                Log.e(TAG, "onComplete: User is neither approver, admin or normal user" + document.get("role").toString());
+                                                Toast.makeText(LoginActivity.this, "Role is not defined", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                                startActivity(intent);
+                                                break;
+                                            }
+                                        }
                                     } else {
-                                        Log.e(TAG, "onComplete: counter size outside loop" + counter );
-                                        Log.e(TAG, "onComplete: task.size outside loop" + task.getResult().size() );
+                                        Log.e(TAG, "onComplete: counter size outside loop" + counter);
+                                        Log.e(TAG, "onComplete: task.size outside loop" + task.getResult().size());
                                         if (counter == task.getResult().size()) {
-                                            Log.e(TAG, "onComplete: counter size" + counter );
-                                            Log.e(TAG, "onComplete: task.size inside loop" + task.getResult().size() );
+                                            Log.e(TAG, "onComplete: counter size" + counter);
+                                            Log.e(TAG, "onComplete: task.size inside loop" + task.getResult().size());
                                             Log.d(TAG, "onComplete: new user");
                                             final Map<String, Object> user = new HashMap<>();
                                             user.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());

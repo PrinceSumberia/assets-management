@@ -120,6 +120,12 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
                     FirebaseAuth.getInstance().signOut();
                     logout.setAlpha(0.0f);
                     Toast.makeText(WelcomeActivity.this, "Successfully Logged You Out", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
 
                 }
             });
