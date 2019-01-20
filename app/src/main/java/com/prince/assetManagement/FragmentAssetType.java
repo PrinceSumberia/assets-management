@@ -70,12 +70,12 @@ public class FragmentAssetType extends Fragment {
                                         list.add(querySnapshot.getData().get("department").toString());
                                     }
                                     Set<String> unique = new HashSet<>(list);
-                                    for (String key : unique) {
+//                                    for (String key : unique) {
+////                                        String unique_result = (key + ": " + Collections.frequency(list, key));
 //                                        String unique_result = (key + ": " + Collections.frequency(list, key));
-                                        String unique_result = (key + ": " + Collections.frequency(list, key));
-                                        new_list.add(unique_result);
-                                    }
-                                    for (final String dep : new_list) {
+//                                        new_list.add(unique_result);
+//                                    }
+                                    for (final String dep : unique) {
                                         Log.e(TAG, "onComplete: dep is" + dep);
                                         Log.e(TAG, "onComplete: Inner loop is getting executed");
                                         db.collection("users").document(user_id)
@@ -84,7 +84,8 @@ public class FragmentAssetType extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()){
-                                                    textView.append("\n" + " Department " + dep.toUpperCase());
+                                                    textView.append("\n" + dep.toUpperCase() + " Department: " + task.getResult().size() );
+                                                    Log.e(TAG, "onComplete: asset in department " + dep +" is " + task.getResult().size());
                                                     Log.e(TAG, "onComplete: asset in department " + dep +" is " + task.getResult().toString());
                                                 }
                                             }
