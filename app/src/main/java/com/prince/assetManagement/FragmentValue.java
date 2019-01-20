@@ -66,7 +66,7 @@ public class FragmentValue extends Fragment {
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
                                                     String text = "Assets with higher asset Value\n";
-                                                    textView.setText(assets.toString() + ": " + task.getResult().size() + "\n");
+                                                    textView.append(assets.toString() + ": " + task.getResult().size() + "\n");
                                                 }
                                             }
                                         });

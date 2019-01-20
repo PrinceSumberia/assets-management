@@ -19,7 +19,7 @@ public class GetAssetInfo extends AppCompatActivity {
     EditText textView_room_number, textView_department, textView_issued_to, textView_seller;
     EditText category_name;
     Button get_info;
-    String items[] = {"By Department", "By Asset Type", "By Value", "By Date", "By User", "By Vendor"};
+    String items[] = {"By Department", "By Asset Type", "By Value", "By Year", "By User", "By Vendor"};
     String TAG = "My Name";
 
     @Override
