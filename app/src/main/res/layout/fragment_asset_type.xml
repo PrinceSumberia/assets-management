@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".FragmentAssetType">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
