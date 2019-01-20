@@ -1,10 +1,10 @@
 package com.prince.assetManagement;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,7 +27,36 @@ public class Display_Info extends FragmentActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             Fragment fragment = new FragmentDepartment();
-
+            fragmentTransaction.replace(R.id.fragment_area, fragment);
+            fragmentTransaction.commit();
+        } else if (selected_item.equals("By User")) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            Fragment fragment = new FragmentUser();
+            fragmentTransaction.replace(R.id.fragment_area, fragment);
+            fragmentTransaction.commit();
+        }else if (selected_item.equals("By Vendor")) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            Fragment fragment = new FragmentVendor();
+            fragmentTransaction.replace(R.id.fragment_area, fragment);
+            fragmentTransaction.commit();
+        }else if (selected_item.equals("By Date")) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            Fragment fragment = new FragmentDate();
+            fragmentTransaction.replace(R.id.fragment_area, fragment);
+            fragmentTransaction.commit();
+        } else if (selected_item.equals("By Asset Type")) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            Fragment fragment = new FragmentAssetType();
+            fragmentTransaction.replace(R.id.fragment_area, fragment);
+            fragmentTransaction.commit();
+        } else if (selected_item.equals("By Value")) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            Fragment fragment = new FragmentValue();
             fragmentTransaction.replace(R.id.fragment_area, fragment);
             fragmentTransaction.commit();
         }
