@@ -50,7 +50,7 @@ public class Details extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     Button save_info, geotag, next_ac;
-    EditText datePurchase, dateWarranty, detectedCategory, total_quantity, seller;
+    EditText datePurchase, dateWarranty, detectedCategory, total_quantity, seller, assetValue;
     private LocationManager locationManager;
     private LocationListener listener;
     private Uri filePath;
@@ -83,6 +83,7 @@ public class Details extends AppCompatActivity {
         textView = findViewById(R.id.doc);
         next_ac = findViewById(R.id.next_ac);
         numView = findViewById(R.id.num);
+        assetValue = findViewById(R.id.asset_value);
 
         FirebaseApp.initializeApp(getApplicationContext());
         storage = FirebaseStorage.getInstance();
@@ -158,6 +159,7 @@ public class Details extends AppCompatActivity {
                 String uploaded_bill = bill_url;
                 String seller_information = seller.getText().toString();
                 String location = geo_tag_location;
+                int asset_value = Integer.parseInt(assetValue.getText().toString());
                 final int total_quantity = Integer.parseInt(total_assets);
                 Log.e(TAG, "Asset Information" + user_id + " " + total_assets + " " + date_of_purchase + " "
                         + warranty_date + " " + uploaded_bill + " " + seller_information + " " + location);
@@ -177,6 +179,7 @@ public class Details extends AppCompatActivity {
                 asset.put("issued_date", "");
                 asset.put("is_working", "true");
                 asset.put("admin_email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                asset.put("asset_value", asset_value);
 //                int total_quantity_testing = Integer.parseInt(total_assets);
                 for (int i = 0; i < total_quantity; i++) {
 //                    numView.setText(String.valueOf(i));

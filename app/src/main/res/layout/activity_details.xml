@@ -148,6 +148,26 @@
             android:maxLines="10" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="133dp"
+            android:layout_height="33dp"
+            android:text="Asset Value"
+            android:inputType="numberDecimal"/>
+
+        <EditText
+            android:id="@+id/asset_value"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Asset Value" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/geotag"
         android:layout_width="191dp"
