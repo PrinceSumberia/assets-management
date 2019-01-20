@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.constraint.Constraints;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -36,6 +37,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -159,6 +161,8 @@ public class Details extends AppCompatActivity {
                 String uploaded_bill = bill_url;
                 String seller_information = seller.getText().toString();
                 String location = geo_tag_location;
+                Log.e(Constraints.TAG, "onClick: split test this time" + date_of_purchase.split("-")[2]);
+                int year = Integer.valueOf(date_of_purchase.split("-")[2]);
                 int asset_value = Integer.parseInt(assetValue.getText().toString());
                 final int total_quantity = Integer.parseInt(total_assets);
                 Log.e(TAG, "Asset Information" + user_id + " " + total_assets + " " + date_of_purchase + " "
@@ -180,6 +184,7 @@ public class Details extends AppCompatActivity {
                 asset.put("is_working", "true");
                 asset.put("admin_email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
                 asset.put("asset_value", asset_value);
+                asset.put("year", year);
 //                int total_quantity_testing = Integer.parseInt(total_assets);
                 for (int i = 0; i < total_quantity; i++) {
 //                    numView.setText(String.valueOf(i));
