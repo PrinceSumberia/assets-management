@@ -17,16 +17,16 @@
             android:layout_marginTop="30dp">
 
             <TextView
-                android:layout_width="105dp"
+                android:layout_width="94dp"
                 android:layout_height="match_parent"
                 android:text="Asset Value"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <EditText
                 android:id="@+id/asset_value"
-                android:inputType="numberDecimal"
-                android:layout_width="177dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="207dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
 
             <Button
                 android:id="@+id/get_info"
@@ -34,17 +34,27 @@
                 android:layout_height="wrap_content"
                 android:text="Get Info" />
 
-            <Button
-                android:id="@+id/view_graph"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View Graph" />
         </LinearLayout>
+        <Button
+            android:id="@+id/view_graph"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Analytics"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:paddingTop="15dp"
+            android:text="Number of Assets With Value Higher or Equal:"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="18sp"
+            android:textAllCaps="true"
+            android:layout_width="208dp"
+            android:layout_height="104dp" />
     </LinearLayout>
 
 

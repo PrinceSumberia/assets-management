@@ -77,7 +77,7 @@ public class FragmentGraphValue extends Fragment {
                     return Color.rgb((int) data.getX() * 255 / 4, (int) Math.abs(data.getY() * 255 / 6), 100);
                 }
             });
-            series.setTitle(assetsArr[i]);
+//            series.setTitle(assetsArr[i]);
             series.setSpacing(10);
             series.setDrawValuesOnTop(true);
             series.setValuesOnTopColor(Color.BLACK);
@@ -85,8 +85,8 @@ public class FragmentGraphValue extends Fragment {
         graph.addSeries(series);
         graph.getViewport().setScalable(true);
         graph.getViewport().setScalableY(true);
-        graph.getLegendRenderer().setVisible(true);
-        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+//        graph.getLegendRenderer().setVisible(true);
+//        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
         return view;
     }
 
