@@ -33,6 +33,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Get Info" />
+
+            <Button
+                android:id="@+id/view_graph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Graph" />
         </LinearLayout>
 
         <TextView

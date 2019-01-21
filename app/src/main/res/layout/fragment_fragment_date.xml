@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,14 +18,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="105dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:text="Date"
+                android:text="Year"
                 android:textAlignment="center" />
 
             <EditText
                 android:id="@+id/asset_year"
-                android:layout_width="177dp"
+                android:layout_width="125dp"
                 android:layout_height="wrap_content" />
 
             <Button
@@ -32,6 +33,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Get Info" />
+
+            <Button
+                android:id="@+id/view_graph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Graph" />
+
         </LinearLayout>
 
         <TextView
@@ -39,11 +47,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp" />
+
         <TextView
             android:id="@+id/result_before"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp" />
+
         <TextView
             android:id="@+id/result_after"
             android:layout_width="wrap_content"

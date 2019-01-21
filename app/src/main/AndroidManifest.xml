@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_custom"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".NormalUser"></activity>
+        <activity android:name=".Display_Graph"></activity>
+        <activity android:name=".NormalUser" />
         <activity android:name=".Approver" />
 
         <provider

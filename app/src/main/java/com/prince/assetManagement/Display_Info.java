@@ -41,7 +41,7 @@ public class Display_Info extends FragmentActivity {
             Fragment fragment = new FragmentVendor();
             fragmentTransaction.replace(R.id.fragment_area, fragment);
             fragmentTransaction.commit();
-        }else if (selected_item.equals("By Date")) {
+        }else if (selected_item.equals("By Year")) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             Fragment fragment = new FragmentDate();

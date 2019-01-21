@@ -1,5 +1,6 @@
 package com.prince.assetManagement;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,12 +21,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.support.constraint.Constraints.TAG;
+import static java.util.Collections.sort;
 
 
 public class FragmentDate extends Fragment {
-    Button get_info;
+    Button get_info, view_graph;
     EditText editText;
     TextView textView, textView1, textView2;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -41,6 +44,8 @@ public class FragmentDate extends Fragment {
         textView = view.findViewById(R.id.result_on);
         textView1 = view.findViewById(R.id.result_before);
         textView2 = view.findViewById(R.id.result_after);
+        view_graph = view.findViewById(R.id.view_graph);
+        final ArrayList<String> list_year = new ArrayList<>();
 
 //        Date inputDate
         get_info.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +139,78 @@ public class FragmentDate extends Fragment {
                                 }
                             }
                         });
+                db.collection("users")
+                        .document(user_id)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    Log.e(TAG, "onComplete: loop is executing");
+                                    final DocumentSnapshot documentSnapshot = task.getResult();
+                                    Log.e(TAG, "onComplete: assets are " + documentSnapshot.get("year").toString());
+                                    final ArrayList<Long> list = new ArrayList<>();
+                                    list.addAll((ArrayList) documentSnapshot.get("year"));
+                                    sort(list);
+                                    Log.e(TAG, "onComplete: sorted list is " + list);
+                                    Log.e(TAG, "onComplete: list is " + list.toString());
+                                    for (final Long year : list) {
+                                        Log.e(TAG, "onComplete: year is " + year);
+                                        db.collection("users")
+                                                .document(user_id)
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            DocumentSnapshot documentSnapshot1 = task.getResult();
+                                                            Log.e(TAG, "onComplete: Assets are in year" + year + " is " + documentSnapshot1.get("assets").toString());
+                                                            for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
+                                                                db.collection("users")
+                                                                        .document(user_id)
+                                                                        .collection(assets.toString())
+                                                                        .whereEqualTo("year", year)
+                                                                        .get()
+                                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                if (task.isSuccessful()) {
+
+                                                                                    if (task.getResult().size() != 0) {
+                                                                                        Log.e(TAG, "onComplete: Complete Result is " + assets.toString() + " in year " + year + " is " + task.getResult().size());
+                                                                                        for (DocumentSnapshot i : task.getResult()) {
+                                                                                            list_year.add(year.toString());
+                                                                                            Log.e(TAG, "onComplete: inside for " + year.toString());
+                                                                                        }
+                                                                                        Log.e(TAG, "onComplete: complete list_year is" + list_year);
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        });
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                }
+                            }
+                        });
             }
+        });
+
+        view_graph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e(TAG, "onClick: array list year is " + list_year.toString());
+//                List<String> list_new =
+                String[] stringArray = list_year.toArray(new String[0]);
+                Log.e(TAG, "onClick: new list array" + stringArray.toString() );
+                Intent intent = new Intent(getActivity(), Display_Graph.class);
+                intent.putExtra("graph", "year");
+                intent.putStringArrayListExtra("data", list_year);
+                startActivity(intent);
+            }
+
         });
         return view;
     }
