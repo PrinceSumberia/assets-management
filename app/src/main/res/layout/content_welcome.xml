@@ -64,6 +64,27 @@
         tools:layout_editor_absoluteX="120dp"
         tools:layout_editor_absoluteY="240dp" />
 
+    <Button
+        android:id="@+id/reported_assets"
+        android:layout_width="143dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorAccent"
+        android:text="Reported Assets"
+        android:textColor="#fff"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="240dp" />
+
+    <Button
+        android:id="@+id/asset_requests"
+        android:layout_width="143dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorAccent"
+        android:text="Asset Requests"
+        android:textColor="#fff"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="240dp" />
 
 
     <TextView

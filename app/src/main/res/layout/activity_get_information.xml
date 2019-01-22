@@ -194,6 +194,6 @@
         android:layout_width="215dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Report Asset Status" />
+        android:text="Report Asset" />
 
 </LinearLayout>

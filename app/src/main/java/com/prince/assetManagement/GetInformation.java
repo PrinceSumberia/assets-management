@@ -62,8 +62,8 @@ public class GetInformation extends AppCompatActivity {
 //        result_id.setText(complete_id);
 
         String[] complete_string = complete_id.split("-");
-        String detectedObject = complete_string[0];
-        String user_id_asset_id = complete_string[1];
+        final String detectedObject = complete_string[0];
+        final String user_id_asset_id = complete_string[1];
 
         final String[] user_asset = user_id_asset_id.split("/");
         final String user_id = user_asset[0];
@@ -260,6 +260,25 @@ public class GetInformation extends AppCompatActivity {
                 }
             }
         });
+        report_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.collection("users")
+                        .document(user_id)
+                        .collection(detectedObject)
+                        .document(user_id_asset_id)
+                        .update("is_working","false")
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    ReportAsset("princesumberia7@gmail.com");
+                                    Toast.makeText(GetInformation.this, "Asset Reported", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
 //        report_status.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -303,7 +322,7 @@ public class GetInformation extends AppCompatActivity {
                             "PASSWORDPRINCE");
 //                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/image.jpg");
 
-                    sender.sendMail("Asset Reported", "An asset has been reported by the user. It may not be damaged or not working properly. Please open your admin dashboard",
+                    sender.sendMail("Asset Reported", "An asset has been reported by the user. It may be damaged or not working properly. Please open your admin dashboard to know about the issue",
 
                             "noreply.assetmanagement@gmail.com", adminEmail);
                     Log.e(TAG, "run: email status sent");

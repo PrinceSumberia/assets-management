@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
@@ -123,8 +124,9 @@ public class GetPDF extends AppCompatActivity {
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            String emailAddress = editText.getText().toString();
+            String emailAddress = FirebaseAuth.getInstance().getCurrentUser().getEmail();
             Log.e(TAG, "Document is now closed and expecting email intent.");
+//            ReportAsset(emailAddress);
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
             emailIntent.setType("text/plain");
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
@@ -155,6 +157,29 @@ public class GetPDF extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         progressDialog.show();
+    }
+    public void ReportAsset(final String adminEmail) {
+        new Thread(new Runnable() {
+
+            public void run() {
+                try {
+                    GMailSender sender = new GMailSender(
+                            "noreply.assetmanagement@gmail.com",
+                            "PASSWORDPRINCE");
+                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/qrcode.pdf");
+
+                    sender.sendMail("Generated QRCode PDF", "Please find the attached QRCode PDF Document for your Assets.\n ",
+
+                            "noreply.assetmanagement@gmail.com", adminEmail);
+                    Log.e(TAG, "run: email status sent");
+                    Toast.makeText(GetPDF.this, "Email Sent", Toast.LENGTH_SHORT).show();
+
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).start();
     }
 
 }

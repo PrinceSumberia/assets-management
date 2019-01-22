@@ -161,13 +161,14 @@ public class Details extends AppCompatActivity {
                 String uploaded_bill = bill_url;
                 String seller_information = seller.getText().toString();
                 String location = geo_tag_location;
+                String assetType  = detectedCategory.getText().toString();
                 Log.e(Constraints.TAG, "onClick: split test this time" + date_of_purchase.split("-")[2]);
                 int year = Integer.valueOf(date_of_purchase.split("-")[2]);
                 int asset_value = Integer.parseInt(assetValue.getText().toString());
                 final int total_quantity = Integer.parseInt(total_assets);
                 Log.e(TAG, "Asset Information" + user_id + " " + total_assets + " " + date_of_purchase + " "
                         + warranty_date + " " + uploaded_bill + " " + seller_information + " " + location);
-                asset.put("category", detectedObject);
+                asset.put("category", assetType);
                 asset.put("user_id", user_id);
                 asset.put("total_quantity", total_quantity);
                 asset.put("date_of_purchase", date_of_purchase);
@@ -189,7 +190,7 @@ public class Details extends AppCompatActivity {
                 for (int i = 0; i < total_quantity; i++) {
 //                    numView.setText(String.valueOf(i));
                     final int finalI = i;
-                    db.collection("users").document(user_id).collection(detectedObject).add(asset)
+                    db.collection("users").document(user_id).collection(assetType).add(asset)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {

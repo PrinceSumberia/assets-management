@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.JsonElement;
 
 import java.util.Map;
@@ -33,7 +34,7 @@ import ai.api.model.Result;
 public class WelcomeActivity extends AppCompatActivity implements AIListener {
     FloatingActionButton listenButton;
     TextView resultTextView, logout;
-    Button addAsset, scanAsset, serachAsset, addUsers;
+    Button addAsset, scanAsset, serachAsset, addUsers, reported_assets;
     AIService aiService;
     private TextToSpeech textToSpeech;
     final Handler handler = new Handler();
@@ -54,6 +55,7 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         logout = findViewById(R.id.logout);
         serachAsset = findViewById(R.id.search_asset);
         addUsers = findViewById(R.id.add_users);
+        reported_assets = findViewById(R.id.reported_assets);
 
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -109,6 +111,15 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddUsers.class);
                 intent.putExtra("admin_user", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                startActivity(intent);
+            }
+        });
+
+        reported_assets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                Intent intent = new Intent(getApplicationContext(), ReportedAssets.class);
                 startActivity(intent);
             }
         });

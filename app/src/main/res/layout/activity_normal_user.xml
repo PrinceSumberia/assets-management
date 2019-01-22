@@ -14,13 +14,13 @@
         android:layout_gravity="center"
         android:text="Scan Asset" />
 
-    <Button
-        android:id="@+id/report_asset"
-        android:layout_width="215dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Report Asset" />
-
+    <!--<Button-->
+        <!--android:id="@+id/report_asset"-->
+        <!--android:layout_width="215dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:text="Report Asset" />-->
+<!---->
     <Button
         android:id="@+id/request_asset"
         android:layout_width="215dp"

@@ -20,7 +20,7 @@ public class NormalUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_normal_user);
         requestAsset = findViewById(R.id.request_asset);
-        reportAsset = findViewById(R.id.report_asset);
+//        reportAsset = findViewById(R.id.report_asset);
         scanAsset = findViewById(R.id.scan_asset_user);
         logout = findViewById(R.id.logout_user);
 
@@ -51,16 +51,12 @@ public class NormalUser extends AppCompatActivity {
             }
         });
 
-        reportAsset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(NormalUser.this, "Report Asset", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         requestAsset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RequestAsset.class);
+                startActivity(intent);
                 Toast.makeText(NormalUser.this, "Request Asset", Toast.LENGTH_SHORT).show();
             }
         });
