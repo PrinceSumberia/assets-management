@@ -1,59 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout_reported"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="15dp"
-    android:id="@+id/parent_layout_reported">
+    android:padding="15dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/asset"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="Asset: "
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/asset_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="80dp"
-            android:text="Asset Name"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status: "
-            android:textAlignment="viewEnd"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/asset_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="working"
-            android:textAlignment="viewEnd"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/asset_type"
+        android:layout_toRightOf="@id/asset"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="Asset Name"
+        android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reported By: "
-            android:textSize="17sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/asset_status"
+        android:text="Status: "
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/reported_by"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prince"
-            android:textSize="17sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/asset_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="working"
+        android:textAlignment="viewEnd"
+        android:textSize="20sp" />
 
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/reported"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/asset_type"
+        android:layout_marginTop="10dp"
+        android:text="Reported By: "
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/reported_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/asset_type"
+        android:layout_toRightOf="@id/reported"
+        android:text="Prince"
+        android:textSize="17sp" />
+
+
+</RelativeLayout>
