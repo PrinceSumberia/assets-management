@@ -18,7 +18,8 @@ public class RequestAsset extends AppCompatActivity {
         setContentView(R.layout.activity_request_asset);
 
         assetType = findViewById(R.id.asset_type);
-        assetType = findViewById(R.id.asset_no);
+        assetNumber = findViewById(R.id.asset_no);
+        submit = findViewById(R.id.submit);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -34,6 +34,7 @@ public class FragmentUser extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
