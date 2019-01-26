@@ -41,34 +41,35 @@ public class LoginActivity extends Activity {
             db.collection("users").document(FirebaseAuth.getInstance()
                     .getCurrentUser()
                     .getUid())
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()){
-                        Log.e(TAG, "onComplete: First Task is successful");
-                        DocumentSnapshot documentSnapshot =  task.getResult();
-                        String role = documentSnapshot.get("role").toString();
-                        if (role.equals("admin")){
-                            Log.e(TAG, "onComplete: User is admin first loop");
-                            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                            startActivity(intent);
-                        } else if (role.equals("approver")){
-                            Log.e(TAG, "onComplete: User  is approver first loop");
-                            Intent intent = new Intent(getApplicationContext(), Approver.class);
-                            startActivity(intent);
-                        } else if (role.equals("normal user")){
-                            Log.e(TAG, "onComplete: User is normal user first loop");
-                            Intent intent = new Intent(getApplicationContext(), NormalUser.class);
-                            startActivity(intent);
-                        } else {
-                            Log.e(TAG, "onComplete: User is neither");
-                            Toast.makeText(LoginActivity.this, "Who are you?", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), NormalUser.class);
-                            startActivity(intent);
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                Log.e(TAG, "onComplete: First Task is successful");
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                String role = documentSnapshot.get("role").toString();
+                                if (role.equals("admin")) {
+                                    Log.e(TAG, "onComplete: User is admin first loop");
+                                    Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                    startActivity(intent);
+                                } else if (role.equals("approver")) {
+                                    Log.e(TAG, "onComplete: User  is approver first loop");
+                                    Intent intent = new Intent(getApplicationContext(), Approver.class);
+                                    startActivity(intent);
+                                } else if (role.equals("normal user")) {
+                                    Log.e(TAG, "onComplete: User is normal user first loop");
+                                    Intent intent = new Intent(getApplicationContext(), NormalUser.class);
+                                    startActivity(intent);
+                                } else {
+                                    Log.e(TAG, "onComplete: User is neither");
+                                    Toast.makeText(LoginActivity.this, "Who are you?", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), NormalUser.class);
+                                    startActivity(intent);
+                                }
+                            }
                         }
-                    }
-                }
-            });
+                    });
 //            Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
 //            startActivity(intent);
         } else {
