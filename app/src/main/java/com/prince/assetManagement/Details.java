@@ -52,15 +52,12 @@ import static ai.api.android.AIDataService.TAG;
 
 
 public class Details extends AppCompatActivity {
+    private final int PICK_IMAGE_REQUEST = 71;
     Button btnChoose, btnUpload, warrantyDate, purchaseDate;
     FirebaseStorage storage;
     StorageReference storageReference;
     Button save_info, geotag, next_ac;
     EditText datePurchase, dateWarranty, detectedCategory, total_quantity, seller, assetValue;
-    private LocationManager locationManager;
-    private LocationListener listener;
-    private Uri filePath;
-    private final int PICK_IMAGE_REQUEST = 71;
     int mYear, mMonth, mDay;
     FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -69,7 +66,9 @@ public class Details extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<>();
     TextView textView, numView;
     ProgressDialog progressDialog;
-
+    private LocationManager locationManager;
+    private LocationListener listener;
+    private Uri filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
