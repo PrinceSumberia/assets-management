@@ -49,22 +49,25 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
         userEmail = findViewById(R.id.user_email);
         mAuth = FirebaseAuth.getInstance();
         final String admin_id = mAuth.getCurrentUser().getUid();
+        final String admin_email = mAuth.getCurrentUser().getEmail();
+        Log.e(TAG, "onCreate: admin email is " + admin_email);
 
-        FirebaseOptions  firebaseOptions = new FirebaseOptions.Builder()
+        FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
                 .setDatabaseUrl("https://asset-management-7.firebaseio.com/")
                 .setApiKey("AIzaSyAJHud_0w896SMJNGTs93qRbWTZ6CEMnuw")
                 .setApplicationId("1:1024636946567:android:3fe23dc0bbeda053")
                 .build();
 
-        try { FirebaseApp myApp = FirebaseApp.initializeApp(getApplicationContext(), firebaseOptions, "Asset Management");
+        try {
+            FirebaseApp myApp = FirebaseApp.initializeApp(getApplicationContext(), firebaseOptions, "Asset Management");
             mAuth1 = FirebaseAuth.getInstance(myApp);
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             mAuth1 = FirebaseAuth.getInstance(FirebaseApp.getInstance("Asset Management"));
         }
 
 
         final String admin_user = getIntent().getStringExtra("admin_user");
-        Log.e(TAG, "onCreate: admin user id " + admin_user );
+        Log.e(TAG, "onCreate: admin user id " + admin_user);
 
         spinner.setOnItemSelectedListener(this);
         List<String> categories = new ArrayList<String>();
@@ -97,6 +100,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                     user.put("email", userEmail.getText().toString());
                                     user.put("user_id", mAuth1.getCurrentUser().getUid());
                                     user.put("admin_id", admin_id);
+                                    user.put("admin_email", admin_email);
                                     mAuth1.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -113,7 +117,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                             Log.e(TAG, "onSuccess: Task is completed");
                                             Log.e(TAG, "onSuccess: admin user " + admin_user);
                                             final Map<String, Object> user = new HashMap<>();
-                                            Log.e(TAG, "onSuccess: user role " + user_role );
+                                            Log.e(TAG, "onSuccess: user role " + user_role);
                                             Log.e(TAG, "onSuccess: is true" + user_role.toLowerCase().equals("approver"));
                                             if (user_role.toLowerCase().equals("approver")) {
                                                 user.put("approver", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
