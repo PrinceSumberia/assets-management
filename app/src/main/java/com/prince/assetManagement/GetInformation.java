@@ -175,7 +175,7 @@ public class GetInformation extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Log.e(TAG, "onComplete: the admin email field is " + admin_email);
-                                    ReportAsset(admin_email);
+                                    ReportAsset(admin_email, asset_category_field.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                                 }
                             }
                         });
@@ -212,7 +212,7 @@ public class GetInformation extends AppCompatActivity {
 //        });
     }
 
-    public void ReportAsset(final String adminEmail) {
+    public void ReportAsset(final String adminEmail, final String reportedAsset, final String reporter) {
         new Thread(new Runnable() {
 
             public void run() {
@@ -224,7 +224,9 @@ public class GetInformation extends AppCompatActivity {
                             "PASSWORDPRINCE");
 //                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/image.jpg");
 
-                    sender.sendMail("Asset Reported", "An asset has been reported by the user. It may be damaged or not working properly. Please open your admin dashboard to know about the issue",
+                    sender.sendMail("Asset Reported", "An asset has been reported by the user. It may be damaged or not working properly. " +
+                                    "\nReported Asset:" + reportedAsset + " \n Reported By:" + reporter + "\n" +
+                                    "Please open your admin dashboard to know about the issue",
 
                             "noreply.assetmanagement@gmail.com", adminEmail);
                     Log.e(TAG, "run: email status sent");
