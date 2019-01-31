@@ -48,6 +48,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
         userName = findViewById(R.id.user_name);
         userEmail = findViewById(R.id.user_email);
         mAuth = FirebaseAuth.getInstance();
+        final String admin_id = mAuth.getCurrentUser().getUid();
 
         FirebaseOptions  firebaseOptions = new FirebaseOptions.Builder()
                 .setDatabaseUrl("https://asset-management-7.firebaseio.com/")
@@ -95,6 +96,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                     user.put("role", user_role.toLowerCase());
                                     user.put("email", userEmail.getText().toString());
                                     user.put("user_id", mAuth1.getCurrentUser().getUid());
+                                    user.put("admin_id", admin_id);
                                     mAuth1.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

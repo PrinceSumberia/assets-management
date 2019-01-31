@@ -214,16 +214,12 @@ public class GetInformation extends AppCompatActivity {
 
     public void ReportAsset(final String adminEmail, final String reportedAsset, final String reporter) {
         new Thread(new Runnable() {
-
             public void run() {
-
                 try {
-
                     GMailSender sender = new GMailSender(
                             "noreply.assetmanagement@gmail.com",
                             "PASSWORDPRINCE");
 //                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/image.jpg");
-
                     sender.sendMail("Asset Reported", "An asset has been reported by the user. It may be damaged or not working properly. " +
                                     "\nReported Asset:" + reportedAsset + " \n Reported By:" + reporter + "\n" +
                                     "Please open your admin dashboard to know about the issue",
@@ -231,8 +227,6 @@ public class GetInformation extends AppCompatActivity {
                             "noreply.assetmanagement@gmail.com", adminEmail);
                     Log.e(TAG, "run: email status sent");
                     Toast.makeText(GetInformation.this, "Asset Reported", Toast.LENGTH_SHORT).show();
-
-
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }

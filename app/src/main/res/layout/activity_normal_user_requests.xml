@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".NormalUserRequests">
+
+    <EditText
+        android:id="@+id/asset_cat"
+        android:layout_width="252dp"
+        android:layout_height="wrap_content"
+        android:hint="Asset Type" />
+
+    <EditText
+        android:id="@+id/number_of_assets_req"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:hint="No. of Assets"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/request_assets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Request Asset" />
+
+</LinearLayout>
