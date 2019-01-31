@@ -98,6 +98,19 @@ public class GetInformation extends AppCompatActivity {
 
                         if (isWorking.equals("true")) {
                             working_status.setChecked(true);
+
+                        } else {
+                            working_status.setChecked(false);
+                        }
+
+                        if (issued_to.equals("")) {
+                            issued_to_field.setAlpha(0.0f);
+                            issued_date_field.setAlpha(0.0f);
+                            textView_issued_date.setAlpha(0.0f);
+                            textView_issued_to.setAlpha(0.0f);
+                        } else {
+                            issued_to_field.setText(issued_to_detail);
+                            issued_date_field.setText(issued_date);
                             if (user_id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                 report_status.setVisibility(View.VISIBLE);
                             } else if (issued_user_id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
@@ -106,18 +119,6 @@ public class GetInformation extends AppCompatActivity {
                                 Log.e(TAG, "onComplete: this is working but the user is neither admin not normal user of the asset");
                             }
                             Log.e(TAG, "isWorking is true");
-                        } else {
-                            working_status.setChecked(false);
-                        }
-
-                        if (issued_to == null) {
-                            issued_to_field.setAlpha(0.0f);
-                            issued_date_field.setAlpha(0.0f);
-                            textView_issued_date.setAlpha(0.0f);
-                            textView_issued_to.setAlpha(0.0f);
-                        } else {
-                            issued_to_field.setText(issued_to_detail);
-                            issued_date_field.setText(issued_date);
 
                         }
                         final String bill_url = document.get("bill").toString();
