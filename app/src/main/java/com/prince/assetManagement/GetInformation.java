@@ -20,7 +20,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.List;
 import java.util.Locale;
 
 public class GetInformation extends AppCompatActivity {
@@ -31,6 +30,7 @@ public class GetInformation extends AppCompatActivity {
     Button view_bill, get_geolocation, report_status;
     Switch working_status;
     boolean before_switch_status;
+    String admin_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class GetInformation extends AppCompatActivity {
 
         final String[] user_asset = user_id_asset_id.split("/");
         final String user_id = user_asset[0];
-        String asset_id = user_asset[1];
+        final String asset_id = user_asset[1];
 
 
         DocumentReference documentReference = db.collection("users").document(user_id).collection(detectedObject).document(asset_id);
@@ -75,7 +75,7 @@ public class GetInformation extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
+                    final DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         String asset_category = document.get("category").toString();
                         asset_category_field.setText(asset_category);
@@ -93,122 +93,22 @@ public class GetInformation extends AppCompatActivity {
                         String issued_to_detail = issued_to + "\n" + "Department: " + department + "\nRoom: " + room_number;
                         String issued_date = document.get("issued_date").toString();
                         String isWorking = document.get("is_working").toString();
-                        final String admin_email = document.get("admin_email").toString();
+                        admin_email = document.get("admin_email").toString();
+                        String issued_user_id = document.get("issued_to_id").toString();
 
                         if (isWorking.equals("true")) {
                             working_status.setChecked(true);
-                            before_switch_status = true;
                             if (user_id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                working_status.setClickable(true);
+                                report_status.setVisibility(View.VISIBLE);
+                            } else if (issued_user_id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                report_status.setVisibility(View.VISIBLE);
+                            } else {
+                                Log.e(TAG, "onComplete: this is working but the user is neither admin not normal user of the asset");
                             }
                             Log.e(TAG, "isWorking is true");
                         } else {
                             working_status.setChecked(false);
-                            before_switch_status = false;
                         }
-
-
-                        db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    Log.e(TAG, "onComplete: Task is successful");
-                                    Log.e(TAG, "onComplete: email status outside" + admin_email );
-                                    DocumentSnapshot documentSnapshot = task.getResult();
-                                    if (documentSnapshot.exists()) {
-                                        Log.e(TAG, "onComplete: Field exists");
-                                        String role = documentSnapshot.get("role").toString();
-                                        if (role.equals("approver")) {
-                                            db.collection("users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        DocumentSnapshot document = task.getResult();
-                                                        if (document.exists()) {
-                                                            Log.e(TAG, "onComplete: Field exists");
-                                                            List<String> list = (List<String>) document.get("approver");
-                                                            for (String uid : list) {
-                                                                Log.d("TAG", uid);
-                                                                if (uid.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                                                    working_status.setClickable(true);
-                                                                    report_status.setOnClickListener(new View.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(View view) {
-                                                                                Log.e(TAG, "onClick: email is" + admin_email );
-                                                                                ReportAsset(admin_email);
-                                                                            }
-                                                                        });
-//                                                                    if (before_switch_status != working_status.isChecked()) {
-//                                                                        Log.e(TAG, "onComplete: status check" + before_switch_status);
-//                                                                        Log.e(TAG, "onComplete: status check" + working_status.isChecked());
-////                                                                        report_status.setAlpha(1.0f);
-//                                                                        report_status.setOnClickListener(new View.OnClickListener() {
-//                                                                            @Override
-//                                                                            public void onClick(View view) {
-//                                                                                Log.e(TAG, "onClick: email is" + admin_email );
-//                                                                                ReportAsset(admin_email);
-//                                                                            }
-//                                                                        });
-//                                                                    }
-                                                                }
-                                                            }
-
-                                                        } else {
-                                                            Log.e(TAG, "onComplete: Field Doesn't exists");
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        } else if (role.equals("normal user")) {
-                                            db.collection("users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        DocumentSnapshot document = task.getResult();
-                                                        Log.e(TAG, "onComplete: Result" + task.getResult());
-                                                        Log.e(TAG, "onComplete: Result" + task.getResult().getData().toString());
-                                                        Log.e(TAG, "onComplete: Result" + task.getResult().getData().toString());
-                                                        if (document.exists()) {
-                                                            Log.e(TAG, "onComplete: Field exists");
-                                                            List<String> list = (List<String>) document.get("normal_users");
-                                                            for (String uid : list) {
-                                                                Log.d("TAG", uid);
-                                                                if (uid.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                                                    working_status.setClickable(true);
-                                                                    report_status.setOnClickListener(new View.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(View view) {
-                                                                                Log.e(TAG, "onClick: email is" + admin_email );
-                                                                                ReportAsset(admin_email);
-                                                                            }
-                                                                        });
-//                                                                    if (before_switch_status != working_status.isChecked()) {
-//                                                                        Log.e(TAG, "onComplete: status check" + before_switch_status);
-//                                                                        Log.e(TAG, "onComplete: status check" + working_status.isChecked());
-////                                                                        report_status.setAlpha(1.0f);
-//                                                                        report_status.setOnClickListener(new View.OnClickListener() {
-//                                                                            @Override
-//                                                                            public void onClick(View view) {
-//                                                                                Log.e(TAG, "onClick: email is" + admin_email );
-//                                                                                ReportAsset(admin_email);
-//                                                                            }
-//                                                                        });
-//                                                                    }
-                                                                }
-                                                            }
-
-                                                        } else {
-                                                            Log.e(TAG, "onComplete: Field Doesn't exists");
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                }
-                            }
-                        });
 
                         if (issued_to == null) {
                             issued_to_field.setAlpha(0.0f);
@@ -260,20 +160,21 @@ public class GetInformation extends AppCompatActivity {
                 }
             }
         });
+
         report_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 db.collection("users")
                         .document(user_id)
                         .collection(detectedObject)
-                        .document(user_id_asset_id)
-                        .update("is_working","false")
+                        .document(asset_id)
+                        .update("is_working", "false")
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()){
-                                    ReportAsset("princesumberia7@gmail.com");
-                                    Toast.makeText(GetInformation.this, "Asset Reported", Toast.LENGTH_SHORT).show();
+                                if (task.isSuccessful()) {
+                                    Log.e(TAG, "onComplete: the admin email field is " + admin_email);
+                                    ReportAsset(admin_email);
                                 }
                             }
                         });
@@ -326,7 +227,7 @@ public class GetInformation extends AppCompatActivity {
 
                             "noreply.assetmanagement@gmail.com", adminEmail);
                     Log.e(TAG, "run: email status sent");
-                    Toast.makeText(GetInformation.this, "Email Sent", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GetInformation.this, "Asset Reported", Toast.LENGTH_SHORT).show();
 
 
                 } catch (Exception e) {

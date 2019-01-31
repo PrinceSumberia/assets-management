@@ -194,6 +194,7 @@
         android:layout_width="215dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:text="Report Asset" />
 
 </LinearLayout>
