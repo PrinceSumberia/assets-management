@@ -67,7 +67,6 @@ public class NormalUserRequests extends AppCompatActivity {
                                                             ReportAsset(admin_email, asset_type, name, str_number_assets);
                                                         }
                                                     });
-
                                         }
                                     }
                                 }

@@ -95,55 +95,65 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                     Toast.makeText(AddUsers.this, "User Created", Toast.LENGTH_SHORT).show();
                                     Log.e(TAG, "onComplete: entering the block");
                                     final Map<String, Object> user = new HashMap<>();
+                                    final String username = userName.getText().toString().toLowerCase();
                                     user.put("name", userName.getText().toString().toLowerCase());
                                     user.put("role", user_role.toLowerCase());
                                     user.put("email", userEmail.getText().toString());
                                     user.put("user_id", mAuth1.getCurrentUser().getUid());
                                     user.put("admin_id", admin_id);
                                     user.put("admin_email", admin_email);
-                                    mAuth1.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Log.e(TAG, "onComplete: Email sent ");
-                                            }
-                                        }
-                                    });
+                                    mAuth1.getCurrentUser()
+                                            .sendEmailVerification()
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.e(TAG, "onComplete: Email sent ");
+                                                    }
+                                                }
+                                            });
                                     Log.e(TAG, "onComplete: Current user " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                    db.collection("users").document(mAuth1.getCurrentUser().getUid())
-                                            .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.e(TAG, "onSuccess: Task is completed");
-                                            Log.e(TAG, "onSuccess: admin user " + admin_user);
-                                            final Map<String, Object> user = new HashMap<>();
-                                            Log.e(TAG, "onSuccess: user role " + user_role);
-                                            Log.e(TAG, "onSuccess: is true" + user_role.toLowerCase().equals("approver"));
-                                            if (user_role.toLowerCase().equals("approver")) {
-                                                user.put("approver", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
-                                                db.collection("users").document(admin_user)
-                                                        .update("approver", FieldValue.arrayUnion(mAuth1.getCurrentUser().getUid()))
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Log.e(TAG, "onSuccess: user role is Approver");
-                                                                mAuth1.signOut();
-                                                            }
-                                                        });
-                                            } else {
-                                                user.put("normal_users", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
-                                                db.collection("users").document(admin_user)
-                                                        .update("normal_users", FieldValue.arrayUnion(mAuth1.getCurrentUser().getUid()))
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Log.e(TAG, "onSuccess: user role is normal user");
-                                                                mAuth1.signOut();
-                                                            }
-                                                        });
-                                            }
-                                        }
-                                    });
+                                    db.collection("users")
+                                            .document(mAuth1.getCurrentUser().getUid())
+                                            .set(user)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.e(TAG, "onSuccess: Task is completed");
+                                                    Log.e(TAG, "onSuccess: admin user " + admin_user);
+                                                    final Map<String, Object> user = new HashMap<>();
+                                                    Log.e(TAG, "onSuccess: user role " + user_role);
+                                                    Log.e(TAG, "onSuccess: is true" + user_role.toLowerCase().equals("approver"));
+                                                    final Map<String, Object> user_list = new HashMap<>();
+                                                    user_list.put("name", username);
+                                                    user_list.put("id", mAuth1.getCurrentUser().getUid());
+                                                    if (user_role.toLowerCase().equals("approver")) {
+                                                        user.put("approver", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                                                        db.collection("users")
+                                                                .document(admin_user)
+                                                                .update("approver", FieldValue.arrayUnion(user_list))
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Log.e(TAG, "onSuccess: user role is Approver");
+                                                                        mAuth1.signOut();
+                                                                    }
+                                                                });
+                                                    } else {
+                                                        user.put("normal_users", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                                                        db.collection("users")
+                                                                .document(admin_user)
+                                                                .update("normal_users", FieldValue.arrayUnion(user_list))
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Log.e(TAG, "onSuccess: user role is normal user");
+                                                                        mAuth1.signOut();
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+                                            });
                                 } else {
                                     Log.e(TAG, "onComplete: task is unsuccessful " + task.getException().toString());
                                 }
