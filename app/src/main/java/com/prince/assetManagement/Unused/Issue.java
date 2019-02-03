@@ -1,9 +1,7 @@
-package com.prince.assetManagement;
+package com.prince.assetManagement.Unused;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.prince.assetManagement.R;
 
-import static com.prince.assetManagement.Geotag.TAG;
+import static com.prince.assetManagement.Unused.Geotag.TAG;
 
 
 public class Issue extends Fragment {

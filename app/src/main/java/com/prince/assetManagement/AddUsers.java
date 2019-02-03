@@ -19,8 +19,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -125,13 +125,15 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                                     Log.e(TAG, "onSuccess: user role " + user_role);
                                                     Log.e(TAG, "onSuccess: is true" + user_role.toLowerCase().equals("approver"));
                                                     final Map<String, Object> user_list = new HashMap<>();
-                                                    user_list.put("name", username);
-                                                    user_list.put("id", mAuth1.getCurrentUser().getUid());
+                                                    final Map<String, Object> approver = new HashMap<>();
+                                                    user_list.put(username, mAuth1.getCurrentUser().getUid());
+                                                    approver.put("approver", user_list);
+//                                                    user_list.put("id", mAuth1.getCurrentUser().getUid());
                                                     if (user_role.toLowerCase().equals("approver")) {
                                                         user.put("approver", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                                                         db.collection("users")
                                                                 .document(admin_user)
-                                                                .update("approver", FieldValue.arrayUnion(user_list))
+                                                                .set(approver, SetOptions.merge())
                                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                     @Override
                                                                     public void onSuccess(Void aVoid) {
@@ -141,9 +143,12 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                                                 });
                                                     } else {
                                                         user.put("normal_users", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                                                        final Map<String, Object> normal_users = new HashMap<>();
+                                                        user_list.put(username, mAuth1.getCurrentUser().getUid());
+                                                        normal_users.put("normal_users", user_list);
                                                         db.collection("users")
                                                                 .document(admin_user)
-                                                                .update("normal_users", FieldValue.arrayUnion(user_list))
+                                                                .set(normal_users, SetOptions.merge())
                                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                     @Override
                                                                     public void onSuccess(Void aVoid) {

@@ -337,7 +337,7 @@ public class Details extends AppCompatActivity {
                 String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 Intent intent1 = new Intent(Details.this, IssuingAssets.class);
                 intent1.putExtra("totalQuantity", total_quantity);
-                intent1.putExtra("detectedObject", detectedObject);
+                intent1.putExtra("detectedObject", detectedCategory.getText().toString());
                 intent1.putExtra("id", user_id);
                 intent1.putExtra("document_id", text);
                 startActivity(intent1);

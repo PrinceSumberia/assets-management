@@ -83,11 +83,12 @@
             android:layout_height="49dp"
             android:text="Issued To" />
 
-        <EditText
-            android:id="@+id/issued_to"
-            android:layout_width="182dp"
+        <Spinner
+            android:id="@+id/spinner_issue"
+            android:layout_width="184dp"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:prompt="@string/spinner_title" />
+        
     </LinearLayout>
 
     <LinearLayout

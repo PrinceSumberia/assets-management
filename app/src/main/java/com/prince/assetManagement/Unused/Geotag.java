@@ -1,4 +1,4 @@
-package com.prince.assetManagement;
+package com.prince.assetManagement.Unused;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.prince.assetManagement.R;
 
 public class Geotag extends Fragment {
     public static final String TAG = Geotag.class.getSimpleName();
