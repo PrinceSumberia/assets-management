@@ -110,7 +110,7 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
                         if (task.isSuccessful()) {
 
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            Map<String, String> users = (Map<String, String>) documentSnapshot.get("approver");
+                            Map<String, String> users = (Map<String, String>) documentSnapshot.get("normal_users");
                             for (Map.Entry<String, String> user : users.entrySet()) {
                                 Log.e(TAG, "onComplete: the user is: " + user.getKey() + " id is: " + user.getValue());
                                 username.add(user.getKey());
