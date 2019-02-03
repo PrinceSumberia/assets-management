@@ -16,6 +16,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,7 +58,12 @@ public class RequestAsset extends AppCompatActivity {
                                     final Map<String, Object> request_details = new HashMap<>();
                                     request_type.put(type, request_details);
                                     request_details.put("asset_number", number);
-                                    request_details.put("approved", false);
+                                    Calendar calendar = Calendar.getInstance();
+                                    SimpleDateFormat mdformat = new SimpleDateFormat("dd/MM/yyyy");
+                                    final String strDate = mdformat.format(calendar.getTime());
+                                    Log.e(TAG, "Current Date: " + strDate);
+                                    request_details.put("date", strDate);
+                                    request_details.put("approved", "false");
                                     request_list.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), request_type);
                                     requests.put("requests", request_list);
                                     db.collection("users")

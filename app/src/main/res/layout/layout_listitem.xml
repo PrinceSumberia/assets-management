@@ -1,56 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/parent_layout_requested"
     android:padding="15dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/asset_type"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_toRightOf="@id/asset"
+        android:text="Asset Type:"
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/asset_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Asset Name"
-            android:textSize="20sp"
-            android:layout_marginRight="80dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Number: "
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/asset_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1123456"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_toLeftOf="@id/asset_number"
+        android:text="Number: "
+        android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Requested By: "
-            android:textSize="17sp"/>
-
-        <TextView
-            android:id="@+id/request_by"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Prince"
-            android:textSize="17sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/asset_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="number"
+        android:textAlignment="viewEnd"
+        android:textSize="20sp" />
 
 
+    <TextView
+        android:id="@+id/requested"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/asset_type"
+        android:layout_marginTop="10dp"
+        android:text="Requested By: "
+        android:textSize="17sp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/requested_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/asset_type"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/requested"
+        android:text="Prince"
+        android:textSize="17sp" />
+
+</RelativeLayout>
