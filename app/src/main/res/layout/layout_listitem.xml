@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout_requested"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/parent_layout_requested"
     android:padding="15dp">
 
     <TextView
@@ -28,6 +28,7 @@
         android:layout_alignParentRight="true"
         android:text="number"
         android:textAlignment="viewEnd"
+        android:layout_marginRight="20dp"
         android:textSize="20sp" />
 
 
@@ -49,5 +50,26 @@
         android:layout_toRightOf="@id/requested"
         android:text="Prince"
         android:textSize="17sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:layout_marginRight="-216dp"
+        android:layout_toLeftOf="@id/requested_by"
+        android:text="Acceptable:"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/is_acceptable"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/asset_number"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/color1"
+        android:textAlignment="viewEnd" />
+
 
 </RelativeLayout>

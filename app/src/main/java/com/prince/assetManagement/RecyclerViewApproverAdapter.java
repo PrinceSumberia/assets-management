@@ -2,6 +2,7 @@ package com.prince.assetManagement;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,12 +22,14 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
     private ArrayList<String> mAssetType = new ArrayList<>();
     private ArrayList<String> mAssetNumber = new ArrayList<>();
     private ArrayList<String> mRequestedBy = new ArrayList<>();
+    private ArrayList<String> mIsAcceptable = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewApproverAdapter(Context mContext, ArrayList<String> mAssetType, ArrayList<String> mAssetNumber, ArrayList<String> mRequestedBy) {
+    public RecyclerViewApproverAdapter(Context mContext, ArrayList<String> mAssetType, ArrayList<String> mAssetNumber, ArrayList<String> mRequestedBy, ArrayList<String> mIsAcceptable) {
         this.mAssetType = mAssetType;
         this.mAssetNumber = mAssetNumber;
         this.mRequestedBy = mRequestedBy;
+        this.mIsAcceptable = mIsAcceptable;
         this.mContext = mContext;
     }
 
@@ -45,6 +48,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
         viewHolder.assetType.setText(mAssetType.get(i));
         viewHolder.assetNumber.setText(mAssetNumber.get(i));
         viewHolder.requestedBy.setText(mRequestedBy.get(i));
+        viewHolder.isAcceptable.setBackgroundColor(Color.parseColor(mIsAcceptable.get(i)));
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +80,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView assetType, assetNumber, requestedBy;
+        TextView assetType, assetNumber, requestedBy, isAcceptable;
         RelativeLayout parentLayout;
 
         public ViewHolder(View itemView) {
@@ -84,6 +88,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
             assetType = itemView.findViewById(R.id.asset_type);
             assetNumber = itemView.findViewById(R.id.asset_number);
             requestedBy = itemView.findViewById(R.id.requested_by);
+            isAcceptable = itemView.findViewById(R.id.is_acceptable);
             parentLayout = itemView.findViewById(R.id.parent_layout_requested);
         }
     }

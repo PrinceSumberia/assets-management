@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class ApproverAssetRequest extends AppCompatActivity {
     private ArrayList<String> mAssetType = new ArrayList<>();
     private ArrayList<String> mAssetNumber = new ArrayList<>();
     private ArrayList<String> mRequestedBy = new ArrayList<>();
+    private ArrayList<String> mIsAcceptable = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class ApproverAssetRequest extends AppCompatActivity {
         Log.d(TAG, "initRecyclerView: init recycler view");
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        final RecyclerViewApproverAdapter adapter = new RecyclerViewApproverAdapter(this, mAssetType, mAssetNumber, mRequestedBy);
+        final RecyclerViewApproverAdapter adapter = new RecyclerViewApproverAdapter(this, mAssetType, mAssetNumber, mRequestedBy, mIsAcceptable);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
@@ -48,7 +50,7 @@ public class ApproverAssetRequest extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            String admin_id = documentSnapshot.get("admin_id").toString();
+                            final String admin_id = documentSnapshot.get("admin_id").toString();
                             db.collection("users")
                                     .document(admin_id)
                                     .get()
@@ -77,11 +79,41 @@ public class ApproverAssetRequest extends AppCompatActivity {
                                                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                                                 if (task.isSuccessful()) {
                                                                                     DocumentSnapshot documentSnapshot2 = task.getResult();
-                                                                                    String name = documentSnapshot2.get("name").toString();
-                                                                                    mRequestedBy.add(name.toUpperCase());
-                                                                                    mAssetType.add(entr.getKey().toUpperCase());
-                                                                                    mAssetNumber.add(req_details.getValue());
-                                                                                    adapter.notifyDataSetChanged();
+                                                                                    final String requestedBy = documentSnapshot2.get("name").toString();
+                                                                                    final String assetType = entr.getKey();
+                                                                                    final String assetNumber = req_details.getValue();
+                                                                                    db.collection("users")
+                                                                                            .document(admin_id)
+                                                                                            .collection(assetType)
+                                                                                            .whereEqualTo("issued_to", "None")
+                                                                                            .get()
+                                                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                                @Override
+                                                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                                    if (task.isSuccessful()) {
+                                                                                                        if (Integer.valueOf(assetNumber) > task.getResult().size()) {
+                                                                                                            Log.e(TAG, "onComplete: this is executing");
+                                                                                                            Log.e(TAG, "onComplete: comparision is " + Integer.valueOf(assetNumber) + "-" + task.getResult().size());
+                                                                                                            mIsAcceptable.add("#FF0000");
+                                                                                                            mRequestedBy.add(requestedBy.toUpperCase());
+                                                                                                            mAssetType.add(assetType.toUpperCase());
+                                                                                                            mAssetNumber.add(assetNumber);
+                                                                                                            adapter.notifyDataSetChanged();
+                                                                                                        } else {
+                                                                                                            mRequestedBy.add(requestedBy.toUpperCase());
+                                                                                                            mAssetType.add(assetType.toUpperCase());
+                                                                                                            mAssetNumber.add(assetNumber);
+                                                                                                            mIsAcceptable.add("#008000");
+                                                                                                            adapter.notifyDataSetChanged();
+                                                                                                        }
+                                                                                                        Log.e(TAG, "onComplete: color list is " + mIsAcceptable.toString());
+                                                                                                        Log.e(TAG, "onComplete: asset list is " + mAssetType.toString());
+                                                                                                        Log.e(TAG, "onComplete: number list is " + mAssetNumber.toString());
+                                                                                                    } else {
+                                                                                                        Log.e(TAG, "onComplete: exception is: " + task.getException().toString());
+                                                                                                    }
+                                                                                                }
+                                                                                            });
                                                                                 }
                                                                             }
                                                                         });
