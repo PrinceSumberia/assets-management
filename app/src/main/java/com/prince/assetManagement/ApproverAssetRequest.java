@@ -28,6 +28,7 @@ public class ApproverAssetRequest extends AppCompatActivity {
     private ArrayList<String> mAssetNumber = new ArrayList<>();
     private ArrayList<String> mRequestedBy = new ArrayList<>();
     private ArrayList<String> mIsAcceptable = new ArrayList<>();
+    private ArrayList<String> mRequestorID = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class ApproverAssetRequest extends AppCompatActivity {
         Log.d(TAG, "initRecyclerView: init recycler view");
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        final RecyclerViewApproverAdapter adapter = new RecyclerViewApproverAdapter(this, mAssetType, mAssetNumber, mRequestedBy, mIsAcceptable);
+        final RecyclerViewApproverAdapter adapter = new RecyclerViewApproverAdapter(this, mAssetType, mAssetNumber, mRequestedBy, mIsAcceptable, mRequestorID);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
@@ -62,7 +63,7 @@ public class ApproverAssetRequest extends AppCompatActivity {
                                                 Map<String, Object> requests = (Map<String, Object>) documentSnapshot1.get("requests");
                                                 Log.e(TAG, "onComplete: requests is: " + requests.toString());
                                                 Log.e(TAG, "onComplete: requests key: " + requests.keySet() + " requests value: " + requests.values());
-                                                for (Map.Entry<String, Object> entry : requests.entrySet()) {
+                                                for (final Map.Entry<String, Object> entry : requests.entrySet()) {
                                                     Log.d(TAG, "Hello world  " + entry.getKey() + "/" + entry.getValue());
                                                     Map<String, Object> ent = (Map<String, Object>) entry.getValue();
                                                     for (final Map.Entry<String, Object> entr : ent.entrySet()) {
@@ -78,7 +79,7 @@ public class ApproverAssetRequest extends AppCompatActivity {
                                                                             @Override
                                                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                                                 if (task.isSuccessful()) {
-                                                                                    DocumentSnapshot documentSnapshot2 = task.getResult();
+                                                                                    final DocumentSnapshot documentSnapshot2 = task.getResult();
                                                                                     final String requestedBy = documentSnapshot2.get("name").toString();
                                                                                     final String assetType = entr.getKey();
                                                                                     final String assetNumber = req_details.getValue();
@@ -98,11 +99,13 @@ public class ApproverAssetRequest extends AppCompatActivity {
                                                                                                             mRequestedBy.add(requestedBy.toUpperCase());
                                                                                                             mAssetType.add(assetType.toUpperCase());
                                                                                                             mAssetNumber.add(assetNumber);
+                                                                                                            mRequestorID.add(entry.getKey());
                                                                                                             adapter.notifyDataSetChanged();
                                                                                                         } else {
                                                                                                             mRequestedBy.add(requestedBy.toUpperCase());
                                                                                                             mAssetType.add(assetType.toUpperCase());
                                                                                                             mAssetNumber.add(assetNumber);
+                                                                                                            mRequestorID.add(entry.getKey());
                                                                                                             mIsAcceptable.add("#008000");
                                                                                                             adapter.notifyDataSetChanged();
                                                                                                         }

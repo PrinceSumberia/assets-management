@@ -63,7 +63,7 @@ public class RequestAsset extends AppCompatActivity {
                                     final String strDate = mdformat.format(calendar.getTime());
                                     Log.e(TAG, "Current Date: " + strDate);
                                     request_details.put("date", strDate);
-                                    request_details.put("approved", "false");
+                                    request_details.put("approved", "awaiting");
                                     request_list.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), request_type);
                                     requests.put("requests", request_list);
                                     db.collection("users")
