@@ -65,63 +65,68 @@ public class ApproverAssetRequest extends AppCompatActivity {
                                                 Log.e(TAG, "onComplete: requests key: " + requests.keySet() + " requests value: " + requests.values());
                                                 for (final Map.Entry<String, Object> entry : requests.entrySet()) {
                                                     Log.d(TAG, "Hello world  " + entry.getKey() + "/" + entry.getValue());
-                                                    Map<String, Object> ent = (Map<String, Object>) entry.getValue();
+                                                    final Map<String, Object> ent = (Map<String, Object>) entry.getValue();
                                                     for (final Map.Entry<String, Object> entr : ent.entrySet()) {
                                                         Log.d(TAG, "onComplete: hello world 2 " + entr.getKey() + "-" + entr.getValue());
                                                         Map<String, String> details = (Map<String, String>) entr.getValue();
-                                                        for (final Map.Entry<String, String> req_details : details.entrySet()) {
-                                                            Log.d(TAG, "onComplete: the final result is " + req_details.getKey() + "=" + req_details.getValue());
-                                                            if (req_details.getKey().equals("asset_number")) {
-                                                                db.collection("users")
-                                                                        .document(entry.getKey())
-                                                                        .get()
-                                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                            @Override
-                                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                                if (task.isSuccessful()) {
-                                                                                    final DocumentSnapshot documentSnapshot2 = task.getResult();
-                                                                                    final String requestedBy = documentSnapshot2.get("name").toString();
-                                                                                    final String assetType = entr.getKey();
-                                                                                    final String assetNumber = req_details.getValue();
-                                                                                    db.collection("users")
-                                                                                            .document(admin_id)
-                                                                                            .collection(assetType)
-                                                                                            .whereEqualTo("issued_to", "None")
-                                                                                            .get()
-                                                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                                                @Override
-                                                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                                                    if (task.isSuccessful()) {
-                                                                                                        if (Integer.valueOf(assetNumber) > task.getResult().size()) {
-                                                                                                            Log.e(TAG, "onComplete: this is executing");
-                                                                                                            Log.e(TAG, "onComplete: comparision is " + Integer.valueOf(assetNumber) + "-" + task.getResult().size());
-                                                                                                            mIsAcceptable.add("#FF0000");
-                                                                                                            mRequestedBy.add(requestedBy.toUpperCase());
-                                                                                                            mAssetType.add(assetType.toUpperCase());
-                                                                                                            mAssetNumber.add(assetNumber);
-                                                                                                            mRequestorID.add(entry.getKey());
-                                                                                                            adapter.notifyDataSetChanged();
-                                                                                                        } else {
-                                                                                                            mRequestedBy.add(requestedBy.toUpperCase());
-                                                                                                            mAssetType.add(assetType.toUpperCase());
-                                                                                                            mAssetNumber.add(assetNumber);
-                                                                                                            mRequestorID.add(entry.getKey());
-                                                                                                            mIsAcceptable.add("#008000");
-                                                                                                            adapter.notifyDataSetChanged();
-                                                                                                        }
-                                                                                                        Log.e(TAG, "onComplete: color list is " + mIsAcceptable.toString());
-                                                                                                        Log.e(TAG, "onComplete: asset list is " + mAssetType.toString());
-                                                                                                        Log.e(TAG, "onComplete: number list is " + mAssetNumber.toString());
+                                                        Log.e(TAG, "onComplete: testing phase" + entr.getKey() + ":" + ((Map<String, String>) entr.getValue()).get("approved"));
+                                                        if (((Map<String, String>) entr.getValue()).get("approved").equals("awaiting")) {
+                                                            db.collection("users")
+                                                                    .document(entry.getKey())
+                                                                    .get()
+                                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                            if (task.isSuccessful()) {
+                                                                                final DocumentSnapshot documentSnapshot2 = task.getResult();
+                                                                                final String requestedBy = documentSnapshot2.get("name").toString();
+                                                                                final String assetType = entr.getKey();
+                                                                                final String assetNumber = ((Map<String, String>) entr.getValue()).get("asset_number");
+                                                                                db.collection("users")
+                                                                                        .document(admin_id)
+                                                                                        .collection(assetType)
+                                                                                        .whereEqualTo("issued_to", "None")
+                                                                                        .get()
+                                                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                            @Override
+                                                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                                if (task.isSuccessful()) {
+                                                                                                    if (Integer.valueOf(assetNumber) > task.getResult().size()) {
+                                                                                                        Log.e(TAG, "onComplete: this is executing");
+                                                                                                        Log.e(TAG, "onComplete: comparision is " + Integer.valueOf(assetNumber) + "-" + task.getResult().size());
+                                                                                                        mIsAcceptable.add("#FF0000");
+                                                                                                        mRequestedBy.add(requestedBy.toUpperCase());
+                                                                                                        mAssetType.add(assetType.toUpperCase());
+                                                                                                        mAssetNumber.add(assetNumber);
+                                                                                                        mRequestorID.add(entry.getKey());
+                                                                                                        adapter.notifyDataSetChanged();
                                                                                                     } else {
-                                                                                                        Log.e(TAG, "onComplete: exception is: " + task.getException().toString());
+                                                                                                        mRequestedBy.add(requestedBy.toUpperCase());
+                                                                                                        mAssetType.add(assetType.toUpperCase());
+                                                                                                        mAssetNumber.add(assetNumber);
+                                                                                                        mRequestorID.add(entry.getKey());
+                                                                                                        mIsAcceptable.add("#008000");
+                                                                                                        adapter.notifyDataSetChanged();
                                                                                                     }
+                                                                                                    Log.e(TAG, "onComplete: color list is " + mIsAcceptable.toString());
+                                                                                                    Log.e(TAG, "onComplete: asset list is " + mAssetType.toString());
+                                                                                                    Log.e(TAG, "onComplete: number list is " + mAssetNumber.toString());
+                                                                                                } else {
+                                                                                                    Log.e(TAG, "onComplete: exception is: " + task.getException().toString());
                                                                                                 }
-                                                                                            });
-                                                                                }
+                                                                                            }
+                                                                                        });
                                                                             }
-                                                                        });
-                                                            }
+                                                                        }
+                                                                    });
+
                                                         }
+//                                                        for (final Map.Entry<String, String> req_details : details.entrySet()) {
+//                                                            Log.d(TAG, "onComplete: the final result is " + req_details.getKey() + "=" + req_details.getValue());
+//                                                            if (req_details.getKey().equals("asset_number")) {
+//
+//                                                            }
+//                                                        }
                                                     }
                                                 }
                                             }
