@@ -121,12 +121,7 @@ public class ApproverAssetRequest extends AppCompatActivity {
                                                                     });
 
                                                         }
-//                                                        for (final Map.Entry<String, String> req_details : details.entrySet()) {
-//                                                            Log.d(TAG, "onComplete: the final result is " + req_details.getKey() + "=" + req_details.getValue());
-//                                                            if (req_details.getKey().equals("asset_number")) {
 //
-//                                                            }
-//                                                        }
                                                     }
                                                 }
                                             }

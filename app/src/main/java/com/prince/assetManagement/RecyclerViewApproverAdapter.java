@@ -61,7 +61,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
         viewHolder.isAcceptable.setBackgroundColor(Color.parseColor(mIsAcceptable.get(i)));
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 Log.d(TAG, "onClick: clicked on: " + mAssetType.get(viewHolder.getAdapterPosition()));
                 PopupMenu popupMenu = new PopupMenu(mContext, viewHolder.parentLayout);
                 popupMenu.inflate(R.menu.menu_approver);
@@ -80,6 +80,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                 if (task.isSuccessful()) {
                                                     DocumentSnapshot documentSnapshot = task.getResult();
                                                     final String admin_id = documentSnapshot.get("admin_id").toString();
+                                                    final String admin_email = documentSnapshot.get("admin_email").toString();
                                                     db.collection("users")
                                                             .document(admin_id)
                                                             .get()
@@ -87,6 +88,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                                     if (task.isSuccessful()) {
+                                                                        String date = null;
                                                                         DocumentSnapshot documentSnapshot1 = task.getResult();
                                                                         Map<String, Object> requests = (Map<String, Object>) documentSnapshot1.get("requests");
                                                                         Log.e(TAG, "onComplete: requests is: " + requests.toString());
@@ -103,14 +105,20 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                                                     Log.e(TAG, "onComplete: check result :" + documentSnapshot1.getReference().getFirestore().toString());
                                                                                     String query = "requests." + mRequestorID.get(viewHolder.getAdapterPosition()) + "." + mAssetType.get(viewHolder.getAdapterPosition()).toLowerCase() + "." + "approved";
                                                                                     Log.e(TAG, "onComplete: query is " + query);
-                                                                                    documentSnapshot1
-                                                                                            .getReference()
+                                                                                    date = ((Map<String, String>) entr.getValue()).get("date");
+                                                                                    documentSnapshot1.getReference()
                                                                                             .update(
                                                                                                     query, "true"
                                                                                             );
                                                                                 }
                                                                             }
                                                                         }
+                                                                        String subject = "Asset Request Approved";
+                                                                        String status = "approved";
+                                                                        String name = mRequestedBy.get(viewHolder.getAdapterPosition());
+                                                                        String asset = mAssetType.get(viewHolder.getAdapterPosition());
+                                                                        String number = mAssetNumber.get(viewHolder.getAdapterPosition());
+                                                                        mailStatus(subject, status, date, admin_email, asset, number);
                                                                     }
                                                                 }
                                                             });
@@ -131,6 +139,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                 if (task.isSuccessful()) {
                                                     DocumentSnapshot documentSnapshot = task.getResult();
                                                     final String admin_id = documentSnapshot.get("admin_id").toString();
+                                                    final String admin_email = documentSnapshot.get("admin_email").toString();
                                                     db.collection("users")
                                                             .document(admin_id)
                                                             .get()
@@ -138,6 +147,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                                     if (task.isSuccessful()) {
+                                                                        String date = null;
                                                                         DocumentSnapshot documentSnapshot1 = task.getResult();
                                                                         Map<String, Object> requests = (Map<String, Object>) documentSnapshot1.get("requests");
                                                                         Log.e(TAG, "onComplete: requests is: " + requests.toString());
@@ -154,14 +164,21 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                                                     Log.e(TAG, "onComplete: check result :" + documentSnapshot1.getReference().getFirestore().toString());
                                                                                     String query = "requests." + mRequestorID.get(viewHolder.getAdapterPosition()) + "." + mAssetType.get(viewHolder.getAdapterPosition()).toLowerCase() + "." + "approved";
                                                                                     Log.e(TAG, "onComplete: query is " + query);
-                                                                                    documentSnapshot1
-                                                                                            .getReference()
+                                                                                    date = ((Map<String, String>) entr.getValue()).get("date");
+
+                                                                                    documentSnapshot1.getReference()
                                                                                             .update(
                                                                                                     query, "false"
                                                                                             );
                                                                                 }
                                                                             }
                                                                         }
+                                                                        String subject = "Asset Request Declined";
+                                                                        String status = "declined";
+                                                                        String name = mRequestedBy.get(viewHolder.getAdapterPosition());
+                                                                        String asset = mAssetType.get(viewHolder.getAdapterPosition());
+                                                                        String number = mAssetNumber.get(viewHolder.getAdapterPosition());
+                                                                        mailStatus(subject, status, date, admin_email, asset, number);
                                                                     }
                                                                 }
                                                             });
@@ -198,5 +215,37 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
             isAcceptable = itemView.findViewById(R.id.is_acceptable);
             parentLayout = itemView.findViewById(R.id.parent_layout_requested);
         }
+    }
+
+    public void mailStatus(final String subject, final String status, final String date, final String adminEmail, final String type, final String number) {
+        new Thread(new Runnable() {
+
+            @SuppressLint("LongLogTag")
+            public void run() {
+
+                try {
+
+                    GMailSender sender = new GMailSender(
+                            "noreply.assetmanagement@gmail.com",
+                            "PASSWORDPRINCE");
+//                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/image.jpg");
+
+                    sender.sendMail(subject, "Asset has been you requested has been " + status.toUpperCase() + "\n" +
+                                    "Asset Requested: " + type.toUpperCase() + "\n" +
+                                    "Number of Asset Requested: " + number + "\n" +
+                                    "Requested on: " + date.toUpperCase() + "\n" +
+                                    "Status: " + status.toUpperCase()
+                            ,
+                            "noreply.assetmanagement@gmail.com", adminEmail);
+
+//                    Toast.makeText(RequestAsset.this, "Email Sent", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "run: email status" + subject + status + date + adminEmail + type + number);
+
+
+                } catch (Exception e) {
+//                    Toast.makeText(mContext, "Error", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).start();
     }
 }
