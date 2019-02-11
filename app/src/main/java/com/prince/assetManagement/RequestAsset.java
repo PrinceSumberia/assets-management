@@ -49,7 +49,7 @@ public class RequestAsset extends AppCompatActivity {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot documentSnapshot = task.getResult();
-                                    String admin_id = documentSnapshot.get("admin_id").toString();
+                                    final String admin_id = documentSnapshot.get("admin_id").toString();
                                     final String name = documentSnapshot.get("name").toString();
                                     final String admin_email = documentSnapshot.get("admin_email").toString();
                                     final Map<String, Object> request_list = new HashMap<>();
@@ -74,8 +74,38 @@ public class RequestAsset extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
-                                                        ReportAsset(admin_email, name, type, number);
-                                                        Log.e(TAG, "onComplete: task is successful");
+                                                        db.collection("users")
+                                                                .document(admin_id)
+                                                                .get()
+                                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                        DocumentSnapshot documentSnapshot1 = task.getResult();
+                                                                        String result = documentSnapshot1.get("approver").toString();
+                                                                        Log.e(TAG, "onComplete: string result is " + result);
+                                                                        Map<String, String> approver_list = (Map<String, String>) documentSnapshot1.get("approver");
+                                                                        Log.e(TAG, "onComplete: map result is " + approver_list);
+                                                                        Log.e(TAG, "onComplete: the complete result " + approver_list.keySet() + " - " + approver_list.values());
+                                                                        for (Map.Entry<String, String> final_approver_list : approver_list.entrySet()) {
+                                                                            Log.e(TAG, "onComplete: loop is starting " + final_approver_list.getKey() + " : " + final_approver_list.getValue());
+                                                                            db.collection("users")
+                                                                                    .document(final_approver_list.getValue())
+                                                                                    .get()
+                                                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                                        @Override
+                                                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                            DocumentSnapshot documentSnapshot2 = task.getResult();
+                                                                                            if (task.isSuccessful()) {
+                                                                                                String approver_email = documentSnapshot2.get("email").toString();
+                                                                                                RequestAssetMail(approver_email, name, type, number);
+                                                                                                Toast.makeText(RequestAsset.this, "Asset Requested Successfully.", Toast.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        }
+                                                                                    });
+                                                                        }
+                                                                        Log.e(TAG, "onComplete: task is successful");
+                                                                    }
+                                                                });
                                                     } else {
                                                         Log.e(TAG, "onComplete: task is unsuccessful " + task.getException().toString());
                                                     }
@@ -88,7 +118,7 @@ public class RequestAsset extends AppCompatActivity {
         });
     }
 
-    public void ReportAsset(final String adminEmail, final String name, final String type, final String number) {
+    public void RequestAssetMail(final String approverEmail, final String name, final String type, final String number) {
         new Thread(new Runnable() {
 
             public void run() {
@@ -100,12 +130,12 @@ public class RequestAsset extends AppCompatActivity {
                             "PASSWORDPRINCE");
 //                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/image.jpg");
 
-                    sender.sendMail("Asset Requested", "Asset has been requested by the user. Please login to your admin dashboard. " + "\n" +
+                    sender.sendMail("Asset Requested", "Asset has been requested by the user. Please login to your dashboard. " + "\n" +
                                     "Requested By: " + name.toUpperCase() + "\n" +
                                     "Asset Requested: " + type.toUpperCase() + "\n" +
                                     "Number of Asset Requested: " + number,
 
-                            "noreply.assetmanagement@gmail.com", adminEmail);
+                            "noreply.assetmanagement@gmail.com", approverEmail);
 
 //                    Toast.makeText(RequestAsset.this, "Email Sent", Toast.LENGTH_SHORT).show();
 
