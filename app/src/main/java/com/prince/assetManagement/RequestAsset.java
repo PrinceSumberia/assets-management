@@ -64,6 +64,7 @@ public class RequestAsset extends AppCompatActivity {
                                     Log.e(TAG, "Current Date: " + strDate);
                                     request_details.put("date", strDate);
                                     request_details.put("approved", "awaiting");
+                                    request_details.put("user_email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
                                     request_list.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), request_type);
                                     requests.put("requests", request_list);
                                     db.collection("users")

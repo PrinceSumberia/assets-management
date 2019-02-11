@@ -30,9 +30,10 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
     private ArrayList<String> mAssetNumber = new ArrayList<>();
     private ArrayList<String> mRequestedBy = new ArrayList<>();
     private ArrayList<String> mIsAcceptable = new ArrayList<>();
+    private ArrayList<String> mRequestorID = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Context mContext;
-    private ArrayList<String> mRequestorID = new ArrayList<>();
+    private String user_email;
 
     public RecyclerViewApproverAdapter(Context mContext, ArrayList<String> mAssetType, ArrayList<String> mAssetNumber, ArrayList<String> mRequestedBy, ArrayList<String> mIsAcceptable, ArrayList<String> mRequestorID) {
         this.mAssetType = mAssetType;
@@ -100,12 +101,12 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                                                 for (final Map.Entry<String, Object> entr : ent.entrySet()) {
                                                                                     Log.d(TAG, "onComplete: hello world again " + entr.getKey() + "-" + entr.getValue());
                                                                                     Log.e(TAG, "onComplete: check result :" + documentSnapshot1.getReference().getId());
-
                                                                                     Log.e(TAG, "onComplete: check result :" + mAssetType.get(viewHolder.getAdapterPosition()));
                                                                                     Log.e(TAG, "onComplete: check result :" + documentSnapshot1.getReference().getFirestore().toString());
                                                                                     String query = "requests." + mRequestorID.get(viewHolder.getAdapterPosition()) + "." + mAssetType.get(viewHolder.getAdapterPosition()).toLowerCase() + "." + "approved";
                                                                                     Log.e(TAG, "onComplete: query is " + query);
                                                                                     date = ((Map<String, String>) entr.getValue()).get("date");
+                                                                                    user_email = ((Map<String, String>) entr.getValue()).get("user_email");
                                                                                     documentSnapshot1.getReference()
                                                                                             .update(
                                                                                                     query, "true"
@@ -118,7 +119,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                                         String name = mRequestedBy.get(viewHolder.getAdapterPosition());
                                                                         String asset = mAssetType.get(viewHolder.getAdapterPosition());
                                                                         String number = mAssetNumber.get(viewHolder.getAdapterPosition());
-                                                                        mailStatus(subject, status, date, admin_email, asset, number);
+                                                                        mailStatus(subject, status, date, user_email, asset, number);
                                                                     }
                                                                 }
                                                             });
@@ -165,7 +166,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                                                     String query = "requests." + mRequestorID.get(viewHolder.getAdapterPosition()) + "." + mAssetType.get(viewHolder.getAdapterPosition()).toLowerCase() + "." + "approved";
                                                                                     Log.e(TAG, "onComplete: query is " + query);
                                                                                     date = ((Map<String, String>) entr.getValue()).get("date");
-
+                                                                                    user_email = ((Map<String, String>) entr.getValue()).get("user_email");
                                                                                     documentSnapshot1.getReference()
                                                                                             .update(
                                                                                                     query, "false"
@@ -178,7 +179,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                                                         String name = mRequestedBy.get(viewHolder.getAdapterPosition());
                                                                         String asset = mAssetType.get(viewHolder.getAdapterPosition());
                                                                         String number = mAssetNumber.get(viewHolder.getAdapterPosition());
-                                                                        mailStatus(subject, status, date, admin_email, asset, number);
+                                                                        mailStatus(subject, status, date, user_email, asset, number);
                                                                     }
                                                                 }
                                                             });
@@ -217,7 +218,7 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public void mailStatus(final String subject, final String status, final String date, final String adminEmail, final String type, final String number) {
+    public void mailStatus(final String subject, final String status, final String date, final String userEmail, final String type, final String number) {
         new Thread(new Runnable() {
 
             @SuppressLint("LongLogTag")
@@ -236,10 +237,10 @@ public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerVi
                                     "Requested on: " + date.toUpperCase() + "\n" +
                                     "Status: " + status.toUpperCase()
                             ,
-                            "noreply.assetmanagement@gmail.com", adminEmail);
+                            "noreply.assetmanagement@gmail.com", userEmail);
 
 //                    Toast.makeText(RequestAsset.this, "Email Sent", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "run: email status" + subject + status + date + adminEmail + type + number);
+                    Log.e(TAG, "run: email status" + subject + status + date + userEmail + type + number);
 
 
                 } catch (Exception e) {
