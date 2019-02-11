@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parent_layout_requested"
+    android:id="@+id/parent_layout_admin_asset_request"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="15dp">
 
     <TextView
-        android:id="@+id/asset_type"
+        android:id="@+id/asset_type_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/asset"
@@ -17,59 +17,39 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/asset_number"
+        android:layout_toLeftOf="@id/asset_number_admin"
         android:text="Number: "
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/asset_number"
+        android:id="@+id/asset_number_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
         android:text="number"
         android:textAlignment="viewEnd"
-        android:layout_marginRight="20dp"
         android:textSize="20sp" />
 
 
     <TextView
-        android:id="@+id/requested"
+        android:id="@+id/requested_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/asset_type"
+        android:layout_below="@id/asset_type_admin"
         android:layout_marginTop="10dp"
         android:text="Requested By: "
-        android:textSize="16sp" />
+        android:textSize="17sp" />
 
     <TextView
-        android:id="@+id/requested_by"
+        android:id="@+id/requested_by_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/asset_type"
+        android:layout_below="@id/asset_type_admin"
+        android:layout_marginLeft="-2dp"
         android:layout_marginTop="12dp"
-        android:layout_toRightOf="@id/requested"
+        android:layout_toRightOf="@id/requested_admin"
         android:text="Prince"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
-        android:layout_marginRight="-230dp"
-        android:layout_toLeftOf="@id/requested_by"
-        android:text="Acceptable:"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/is_acceptable"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/asset_number"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@color/color1"
-        android:textAlignment="viewEnd" />
-
+        android:textSize="15sp" />
 
 </RelativeLayout>

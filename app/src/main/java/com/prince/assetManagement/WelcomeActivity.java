@@ -1,7 +1,6 @@
 package com.prince.assetManagement;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -11,7 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,7 +32,7 @@ import ai.api.model.Result;
 public class WelcomeActivity extends AppCompatActivity implements AIListener {
     FloatingActionButton listenButton;
     TextView resultTextView, logout;
-    Button addAsset, scanAsset, serachAsset, addUsers, reported_assets;
+    Button addAsset, scanAsset, serachAsset, addUsers, reported_assets, asset_requests;
     AIService aiService;
     private TextToSpeech textToSpeech;
     final Handler handler = new Handler();
@@ -56,6 +54,7 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         serachAsset = findViewById(R.id.search_asset);
         addUsers = findViewById(R.id.add_users);
         reported_assets = findViewById(R.id.reported_assets);
+        asset_requests = findViewById(R.id.asset_requests);
 
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -120,6 +119,14 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
             public void onClick(View view) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 Intent intent = new Intent(getApplicationContext(), ReportedAssets.class);
+                startActivity(intent);
+            }
+        });
+
+        asset_requests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AdminAssetRequest.class);
                 startActivity(intent);
             }
         });
