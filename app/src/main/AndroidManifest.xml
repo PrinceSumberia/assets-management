@@ -21,7 +21,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".AdminAssetRequest"></activity>
-        <activity android:name=".ApproverAssetRequest" />
+        <activity android:name=".ApproverAssetRequest">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="asset-managemnt.blogspot.com"
+                    android:pathPrefix="/approver-asset.html"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity android:name=".NormalUserRequests" />
         <activity android:name=".RequestAsset" />
         <activity android:name=".ReportedAssets" />

@@ -1,6 +1,7 @@
 package com.prince.assetManagement;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +23,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,7 +36,7 @@ import java.util.Map;
 
 public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Spinner spinner;
-    Button createUser;
+    Button createUser, bulk_register;
     EditText userName, userEmail;
     String user_role;
     private FirebaseAuth mAuth;
@@ -47,10 +53,24 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
         createUser = findViewById(R.id.create_user);
         userName = findViewById(R.id.user_name);
         userEmail = findViewById(R.id.user_email);
+        bulk_register = findViewById(R.id.test);
         mAuth = FirebaseAuth.getInstance();
         final String admin_id = mAuth.getCurrentUser().getUid();
         final String admin_email = mAuth.getCurrentUser().getEmail();
         Log.e(TAG, "onCreate: admin email is " + admin_email);
+
+
+        final File folder = new File(Environment.getExternalStorageDirectory() +
+                File.separator + "Asset Management");
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdirs();
+        }
+        if (success) {
+            // Do something on success
+        } else {
+            // Do something else on failure
+        }
 
         FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
                 .setDatabaseUrl("https://asset-management-7.firebaseio.com/")
@@ -79,6 +99,117 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
         spinner.setAdapter(dataAdapter);
 //        final String user_email = userEmail.getText().toString();
         final String userPassword = "PASSWORD";
+
+        bulk_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final List<String> user_names = new ArrayList<>();
+                final List<String> user_email = new ArrayList<>();
+                Log.e(TAG, "onClick: folder is : " + folder.getPath());
+//                File fileDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                File fileToGet = new File(folder, "userdetails.csv");
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader(fileToGet));
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        String[] tokens = line.split(",");
+                        Log.e(TAG, "onClick: tokens are 0" + tokens[0]);
+                        Log.e(TAG, "onClick: tokens are 1" + tokens[1]);
+                        user_names.add(tokens[1]);
+                        user_email.add(tokens[0]);
+                    }
+                    for (int i = 0; i < user_email.size(); i++) {
+                        final int finalI = i;
+                        mAuth1.createUserWithEmailAndPassword(user_email.get(i), userPassword)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        Log.e(TAG, "onComplete: Executing the db query");
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(AddUsers.this, "User Created", Toast.LENGTH_SHORT).show();
+                                            Log.e(TAG, "onComplete: entering the block");
+                                            final Map<String, Object> user = new HashMap<>();
+                                            final String username = user_names.get(finalI).toLowerCase();
+                                            user.put("name", user_names.get(finalI).toLowerCase());
+                                            user.put("role", user_role.toLowerCase());
+                                            user.put("email", user_email.get(finalI));
+                                            user.put("user_id", mAuth1.getCurrentUser().getUid());
+                                            user.put("admin_id", admin_id);
+                                            user.put("admin_email", admin_email);
+                                            final String uuid = mAuth1.getCurrentUser().getUid();
+                                            mAuth1.getCurrentUser()
+                                                    .sendEmailVerification()
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Log.e(TAG, "onComplete: Email sent ");
+                                                            }
+                                                        }
+                                                    });
+                                            Log.e(TAG, "onComplete: Current user " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                            db.collection("users")
+                                                    .document(mAuth1.getCurrentUser().getUid())
+                                                    .set(user)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.e(TAG, "onSuccess: Task is completed");
+                                                            Log.e(TAG, "onSuccess: admin user " + admin_user);
+                                                            final Map<String, Object> user = new HashMap<>();
+                                                            Log.e(TAG, "onSuccess: user role " + user_role);
+                                                            Log.e(TAG, "onSuccess: is true" + user_role.toLowerCase().equals("approver"));
+                                                            final Map<String, Object> user_list = new HashMap<>();
+                                                            final Map<String, Object> approver = new HashMap<>();
+                                                            user_list.put(username, uuid);
+                                                            approver.put("approver", user_list);
+//                                                          user_list.put("id", mAuth1.getCurrentUser().getUid());
+                                                            if (user_role.toLowerCase().equals("approver")) {
+                                                                user.put("approver", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                                                                db.collection("users")
+                                                                        .document(admin_user)
+                                                                        .set(approver, SetOptions.merge())
+                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                            @Override
+                                                                            public void onSuccess(Void aVoid) {
+                                                                                Log.e(TAG, "onSuccess: user role is Approver");
+                                                                                mAuth1.signOut();
+                                                                            }
+                                                                        });
+                                                            } else {
+                                                                user.put("normal_users", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                                                                final Map<String, Object> normal_users = new HashMap<>();
+                                                                user_list.put(username, uuid);
+                                                                normal_users.put("normal_users", user_list);
+                                                                db.collection("users")
+                                                                        .document(admin_user)
+                                                                        .set(normal_users, SetOptions.merge())
+                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                            @Override
+                                                                            public void onSuccess(Void aVoid) {
+                                                                                Log.e(TAG, "onSuccess: user role is normal user");
+                                                                                mAuth1.signOut();
+                                                                            }
+                                                                        });
+                                                            }
+                                                        }
+                                                    });
+                                        } else {
+                                            Log.e(TAG, "onComplete: task is unsuccessful " + task.getException().toString());
+                                        }
+                                    }
+                                });
+
+                    }
+                } catch (
+                        FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         createUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,6 +298,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
             }
         });
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

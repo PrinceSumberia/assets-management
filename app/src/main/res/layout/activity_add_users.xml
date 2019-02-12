@@ -43,5 +43,16 @@
         android:layout_height="wrap_content"
         android:text="Create User" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-------OR-------" />
+
+    <Button
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bulk Registration" />
+
 
 </LinearLayout>
