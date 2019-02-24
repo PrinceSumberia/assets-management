@@ -13,10 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.constraint.Constraints;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +43,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import static ai.api.android.AIDataService.TAG;
 
@@ -165,7 +165,7 @@ public class Details extends AppCompatActivity {
                 String seller_information = seller.getText().toString();
                 String location = geo_tag_location;
                 final String assetType = detectedCategory.getText().toString();
-                Log.e(Constraints.TAG, "onClick: split test this time" + date_of_purchase.split("-")[2]);
+                Log.e(TAG, "onClick: split test this time" + date_of_purchase.split("-")[2]);
                 int year = Integer.valueOf(date_of_purchase.split("-")[2]);
                 int asset_value = Integer.parseInt(assetValue.getText().toString());
                 final int total_quantity = Integer.parseInt(total_assets);

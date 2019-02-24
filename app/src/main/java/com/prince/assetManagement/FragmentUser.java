@@ -1,8 +1,6 @@
 package com.prince.assetManagement;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +22,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static android.support.constraint.Constraints.TAG;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 
 
 public class FragmentUser extends Fragment {
@@ -33,6 +33,7 @@ public class FragmentUser extends Fragment {
     TextView textView, textView1;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private static final String TAG = "FragmentUser";
 
 
     @Override

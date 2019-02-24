@@ -20,7 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_custom"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".AdminAssetRequest"></activity>
+        <activity android:name=".DeleteAssetInfo"></activity>
+        <activity android:name=".DeleteAssets" />
+        <activity android:name=".AdminAssetRequest" />
         <activity android:name=".ApproverAssetRequest">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -42,7 +44,7 @@
         <activity android:name=".Approver" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

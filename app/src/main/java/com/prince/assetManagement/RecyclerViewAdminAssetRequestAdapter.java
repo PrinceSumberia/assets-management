@@ -1,8 +1,6 @@
 package com.prince.assetManagement;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,6 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdminAssetRequestAdapter extends RecyclerView.Adapter<RecyclerViewAdminAssetRequestAdapter.ViewHolder> {
     FirebaseFirestore db = FirebaseFirestore.getInstance();

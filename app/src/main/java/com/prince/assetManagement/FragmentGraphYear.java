@@ -2,7 +2,6 @@ package com.prince.assetManagement;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +18,11 @@ import com.jjoe64.graphview.series.DataPoint;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.TreeSet;
 
+import androidx.fragment.app.Fragment;
+
 import static android.content.ContentValues.TAG;
-import static java.util.Arrays.sort;
 
 public class FragmentGraphYear extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -1,11 +1,6 @@
 package com.prince.assetManagement;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,7 +13,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import static android.support.constraint.Constraints.TAG;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static android.widget.LinearLayout.VERTICAL;
 
 public class ReportedAssets extends AppCompatActivity {
@@ -27,6 +27,7 @@ public class ReportedAssets extends AppCompatActivity {
     private ArrayList<String> mAssetType = new ArrayList<>();
     private ArrayList<String> mAssetStatus = new ArrayList<>();
     private ArrayList<String> mReportedBy = new ArrayList<>();
+    private static final String TAG = "ReportedAssets";
 
 
     @Override

@@ -4,17 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.JsonElement;
@@ -27,12 +22,17 @@ import ai.api.android.AIService;
 import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 
 public class WelcomeActivity extends AppCompatActivity implements AIListener {
     FloatingActionButton listenButton;
     TextView resultTextView, logout;
-    Button addAsset, scanAsset, serachAsset, addUsers, reported_assets, asset_requests;
+    Button addAsset, scanAsset, serachAsset, addUsers, reported_assets, asset_requests, delete_assets;
     AIService aiService;
     private TextToSpeech textToSpeech;
     final Handler handler = new Handler();
@@ -54,6 +54,7 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
         serachAsset = findViewById(R.id.search_asset);
         addUsers = findViewById(R.id.add_users);
         reported_assets = findViewById(R.id.reported_assets);
+        delete_assets = findViewById(R.id.delete_assets);
         asset_requests = findViewById(R.id.asset_requests);
 
         toolbar = findViewById(R.id.toolbar_main);
@@ -128,6 +129,21 @@ public class WelcomeActivity extends AppCompatActivity implements AIListener {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AdminAssetRequest.class);
                 startActivity(intent);
+            }
+        });
+
+        delete_assets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                    Toast.makeText(WelcomeActivity.this, "You are not logged in", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), DeleteAssets.class);
+                    startActivity(intent);
+                }
             }
         });
 

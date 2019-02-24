@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,8 @@ import com.prince.assetManagement.R;
 
 import java.io.IOException;
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
 
 import static ai.api.android.AIDataService.TAG;
 import static android.app.Activity.RESULT_OK;

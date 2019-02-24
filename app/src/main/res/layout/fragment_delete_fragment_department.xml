@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DeleteFragmentDepartment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:text="Year"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/asset_year"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/delete_asset_type"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/get_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Assets" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/result_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/result_before"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/result_after"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</FrameLayout>

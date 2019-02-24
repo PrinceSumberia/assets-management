@@ -3,8 +3,6 @@ package com.prince.assetManagement;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,6 +21,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewApproverAdapter extends RecyclerView.Adapter<RecyclerViewApproverAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewApproverAdapter";
