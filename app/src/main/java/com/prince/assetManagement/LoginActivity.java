@@ -19,7 +19,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -158,9 +157,9 @@ public class LoginActivity extends Activity {
                                             user.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
                                             user.put("role", "admin");
                                             ArrayList<Integer> year_list = new ArrayList<>();
-                                            int year = Calendar.getInstance().get(Calendar.YEAR);
-                                            Log.d(TAG, "onComplete: the current year is " + year);
-                                            for (int i = 2000; i <= year; i++) {
+//                                            int year = Calendar.getInstance().get(Calendar.YEAR);
+//                                            Log.d(TAG, "onComplete: the current year is " + year);
+                                            for (int i = 2000; i <= 2050; i++) {
                                                 year_list.add(i);
                                             }
                                             user.put("year", year_list);
@@ -188,9 +187,9 @@ public class LoginActivity extends Activity {
                                 user.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
                                 user.put("role", "admin");
                                 ArrayList<Integer> year_list = new ArrayList<>();
-                                int year = Calendar.getInstance().get(Calendar.YEAR);
-                                Log.d(TAG, "onComplete: the current year is " + year);
-                                for (int i = 2000; i <= year; i++) {
+//                                int year = Calendar.getInstance().get(Calendar.YEAR);
+//                                Log.d(TAG, "onComplete: the current year is " + year);
+                                for (int i = 2000; i <= 2050; i++) {
                                     year_list.add(i);
                                 }
                                 user.put("year", year_list);
