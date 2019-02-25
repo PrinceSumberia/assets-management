@@ -17,7 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,6 +157,13 @@ public class LoginActivity extends Activity {
                                             user.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                                             user.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
                                             user.put("role", "admin");
+                                            ArrayList<Integer> year_list = new ArrayList<>();
+                                            int year = Calendar.getInstance().get(Calendar.YEAR);
+                                            Log.d(TAG, "onComplete: the current year is " + year);
+                                            for (int i = 2000; i <= year; i++) {
+                                                year_list.add(i);
+                                            }
+                                            user.put("year", year_list);
                                             user.put("normal_users", Arrays.asList());
                                             user.put("approver", Arrays.asList());
                                             Log.e(TAG, "onComplete: isEmpty is not empty and new user");
@@ -178,6 +187,13 @@ public class LoginActivity extends Activity {
                                 user.put("name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                                 user.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
                                 user.put("role", "admin");
+                                ArrayList<Integer> year_list = new ArrayList<>();
+                                int year = Calendar.getInstance().get(Calendar.YEAR);
+                                Log.d(TAG, "onComplete: the current year is " + year);
+                                for (int i = 2000; i <= year; i++) {
+                                    year_list.add(i);
+                                }
+                                user.put("year", year_list);
                                 user.put("normal_users", Arrays.asList());
                                 user.put("approver", Arrays.asList());
                                 Log.e(TAG, "onComplete: isEmpty is true");
