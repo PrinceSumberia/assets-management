@@ -12,16 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.itextpdf.text.Paragraph;
@@ -69,6 +65,7 @@ public class GenerateQR extends AppCompatActivity {
         next = findViewById(R.id.next_ac);
         gen_qr = findViewById(R.id.generate_qr);
         textView = findViewById(R.id.numList);
+        document_id = getIntent().getStringArrayListExtra("Document IDs");
 
         gen_qr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,82 +76,79 @@ public class GenerateQR extends AppCompatActivity {
                 progressDialog.show();
                 Log.e(TAG, "The parent document id is" + id);
                 Log.e(TAG, "current user in generate" + user_id);
-                document_id = getIntent().getStringArrayListExtra("Document IDs");
+//                document_id = getIntent().getStringArrayListExtra("Document IDs");
                 Log.e(TAG, "onCreate: Final Document ID " + document_id.toString());
                 listSize = document_id.size();
                 Log.e(TAG, "onCreate: Outer List Size" + listSize);
-                db.collection("users").document(user_id).collection(detectedObject).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        Log.d(TAG, "Checking is going on: " + listSize);
-                        Log.d(TAG, "onCreate: " + document_id.toString());
-                        for (int i = 0; i < listSize - 1; i++) {
-                            String text = document_id.get(i);
-                            final Paragraph p = new Paragraph();
-                            p.add("Hello World");
-                            try {
-                                Bitmap bitmap = QRCode.from(detectedObject + "-" + user_id + "/" + document_id.get(i + 1)).bitmap();
-                                final StorageReference ref = storageReference.child("/qrcode/" + UUID.randomUUID().toString());
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                                byte[] data = baos.toByteArray();
-                                final int finalI = i;
-                                textView.setAlpha(0.0f);
-                                textView.setText(String.valueOf(finalI));
-                                ref.putBytes(data)
-                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                    @Override
-                                                    public void onSuccess(Uri uri) {
-//                                                        Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_SHORT).show();
-                                                        image_url = uri.toString();
-                                                        qrcode_urls.add(image_url);
-                                                        Log.d(TAG, "onSuccess: url = " + uri.toString());
+                final int[] counter = {0};
 
+                Log.d(TAG, "Checking is going on: " + listSize);
+                Log.d(TAG, "onCreate: " + document_id.toString());
+                for (int i = 0; i < listSize - 1; i++) {
+                    String text = document_id.get(i);
+                    final Paragraph p = new Paragraph();
+                    p.add("Hello World");
+                    try {
+                        Bitmap bitmap = QRCode.from(detectedObject + "-" + user_id + "/" + document_id.get(i + 1)).bitmap();
+                        final StorageReference ref = storageReference.child("/qrcode/" + UUID.randomUUID().toString());
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] data = baos.toByteArray();
+                        final int finalI = i;
+                        textView.setAlpha(0.0f);
+                        textView.setText(String.valueOf(finalI));
+                        ref.putBytes(data)
+                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+//                                                        Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+                                                image_url = uri.toString();
+                                                qrcode_urls.add(image_url);
+//                                                        Log.d(TAG, "onSuccess: url = " + uri.toString());
+                                                Log.e(TAG, "onSuccess: document_id size is " + document_id.size());
 //                                                        Toast.makeText(GenerateQR.this, "Images are stored here: " + image_url, Toast.LENGTH_SHORT).show();
-                                                        if (Integer.parseInt(textView.getText().toString()) == listSize - 2) {
-                                                            Log.e(TAG, "Final value is " + finalI);
-                                                            Log.e(TAG, "final value of list size" + listSize);
-                                                            Log.e(TAG, "this is new this is getting executed");
-                                                            progressDialog.dismiss();
-                                                            Toast.makeText(GenerateQR.this, "Successfully Generated IDs & QRCodes You Can Now Proceed!", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                        next.setOnClickListener(new View.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(View view) {
-                                                                Intent intent1 = new Intent(getApplicationContext(), GetPDF.class);
-                                                                intent1.putStringArrayListExtra("qrcode_links", qrcode_urls);
-                                                                startActivity(intent1);
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                                Log.e(TAG, "qrcode url is" + qrcode_urls.toString());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                                        .getTotalByteCount());
+//                                                        if (Integer.parseInt(textView.getText().toString()) == listSize - 2) {
+//                                                            Log.e(TAG, "Final value is " + finalI);
+//                                                            Log.e(TAG, "final value of list size" + listSize);
+//                                                            Log.e(TAG, "this is new this is getting executed");
+//                                                        }
+
                                             }
                                         });
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
+                                        counter[0] = counter[0] + 1;
+                                        Log.e(TAG, "onSuccess: counter is  " + counter[0]);
+                                        Log.e(TAG, "qrcode url is" + qrcode_urls.toString());
+                                        if (counter[0] == document_id.size() - 1) {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(GenerateQR.this, "You Can Proceed Now", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                });
+
+                }
             }
         });
 
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(getApplicationContext(), GetPDF.class);
+                intent1.putStringArrayListExtra("qrcode_links", qrcode_urls);
+                startActivity(intent1);
+            }
+        });
     }
 }
