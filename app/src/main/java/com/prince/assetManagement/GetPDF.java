@@ -26,21 +26,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -82,77 +67,6 @@ public class GetPDF extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void ReportAsset(final String adminEmail) {
-        new Thread(new Runnable() {
-
-            public void run() {
-
-                String to = adminEmail;//change accordingly
-                final String user = "noreply.assetmanagement@gmail.com";//change accordingly
-                final String password = "PASSWORDPRINCE";//change accordingly
-                Properties properties = System.getProperties();
-                properties.setProperty("mail.smtp.host", "smtp.gmail.com");
-                properties.put("mail.smtp.auth", "true");
-
-                Session session = Session.getDefaultInstance(properties,
-                        new javax.mail.Authenticator() {
-                            protected PasswordAuthentication getPasswordAuthentication() {
-                                return new PasswordAuthentication(user, password);
-                            }
-                        });
-                try {
-                    MimeMessage message = new MimeMessage(session);
-                    message.setFrom(new InternetAddress(user));
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                    message.setSubject("Generated QRCode PDF");
-
-                    BodyPart messageBodyPart1 = new MimeBodyPart();
-                    messageBodyPart1.setText("Please find the attached QRCode PDF Document for your Assets.\n");
-
-                    MimeBodyPart messageBodyPart2 = new MimeBodyPart();
-
-                    String filename = Environment.getExternalStorageDirectory().getPath() + "/qrcode.pdf";//change accordingly
-                    DataSource source = new FileDataSource(filename);
-                    messageBodyPart2.setDataHandler(new DataHandler(source));
-                    messageBodyPart2.setFileName(filename);
-
-                    Multipart multipart = new MimeMultipart();
-                    multipart.addBodyPart(messageBodyPart1);
-                    multipart.addBodyPart(messageBodyPart2);
-
-                    message.setContent(multipart);
-
-                    Transport.send(message);
-
-//                    GMailSender sender = new GMailSender(
-//                            "",
-//                            "PASSWORDPRINCE");
-//                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/qrcode.pdf");
-//
-//                    sender.sendMail("", " ",
-//
-//                            "noreply.assetmanagement@gmail.com", adminEmail);
-//                    Log.e(TAG, "run: email status sent");
-
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                }
-            }
-        }).start();
-    }
-
-    private void showProgressDialog(String title, String message) {
-        progressDialog = new ProgressDialog(this);
-
-        progressDialog.setTitle(title); //title
-
-        progressDialog.setMessage(message); // message
-
-        progressDialog.setCancelable(false);
-
-        progressDialog.show();
     }
 
     private class MyAsyncTask extends AsyncTask {
@@ -214,8 +128,6 @@ public class GetPDF extends AppCompatActivity {
             String emailAddress = FirebaseAuth.getInstance().getCurrentUser().getEmail();
             Log.e(TAG, "Document is now closed and expecting email intent.");
 //            ReportAsset(emailAddress);
-//            Toast.makeText(GetPDF.this, "Email Sent", Toast.LENGTH_SHORT).show();
-
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
             emailIntent.setType("text/plain");
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
@@ -234,6 +146,42 @@ public class GetPDF extends AppCompatActivity {
             startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
 
         }
+    }
+
+    private void showProgressDialog(String title, String message) {
+        progressDialog = new ProgressDialog(this);
+
+        progressDialog.setTitle(title); //title
+
+        progressDialog.setMessage(message); // message
+
+        progressDialog.setCancelable(false);
+
+        progressDialog.show();
+    }
+
+    public void ReportAsset(final String adminEmail) {
+        new Thread(new Runnable() {
+
+            public void run() {
+                try {
+                    GMailSender sender = new GMailSender(
+                            "noreply.assetmanagement@gmail.com",
+                            "PASSWORDPRINCE");
+                    sender.addAttachment(Environment.getExternalStorageDirectory().getPath() + "/qrcode.pdf");
+
+                    sender.sendMail("Generated QRCode PDF", "Please find the attached QRCode PDF Document for your Assets.\n ",
+
+                            "noreply.assetmanagement@gmail.com", adminEmail);
+                    Log.e(TAG, "run: email status sent");
+                    Toast.makeText(GetPDF.this, "Email Sent", Toast.LENGTH_SHORT).show();
+
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).start();
     }
 
 }
