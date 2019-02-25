@@ -20,14 +20,14 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
     //WIDGETS
     GridView gridView;
     Integer[] img_id = {
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
+            R.drawable.ic_add,
+            R.drawable.ic_qr_code_final,
+            R.drawable.ic_search,
+            R.drawable.ic_employee,
+            R.drawable.ic_wrench,
+            R.drawable.ic_notification,
+            R.drawable.ic_delete,
+            R.drawable.ic_help,
     };
 
     String[] txt = {"Add Asset", "Scan Asset", "Search Asset", "Add Users", "Reported Assets", "Asset Requests",

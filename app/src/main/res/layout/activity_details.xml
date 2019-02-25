@@ -1,59 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:layout_marginStart="5dp"
     android:orientation="vertical"
     tools:context=".Details">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="25dp"
-        android:text="Enter Asset Details"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:hint="Asset Type"
+        app:hintEnabled="true">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="134dp"
-            android:layout_height="33dp"
-            android:text="Category" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/category"
-            android:layout_width="182dp"
-            android:layout_height="wrap_content"
-            android:hint="Add Category" />
-    </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        android:hint="Number of Assets"
+        app:hintEnabled="true">
 
-        <TextView
-            android:layout_width="134dp"
-            android:layout_height="33dp"
-            android:text="Number of Such Assets" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/number_of_assets"
-            android:layout_width="182dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Number of Such Assets"
             android:inputType="number" />
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -61,16 +43,20 @@
         android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="134dp"
-            android:layout_height="33dp"
-            android:text="Date of Purchase" />
-
-        <EditText
-            android:id="@+id/date_of_purchase"
-            android:layout_width="128dp"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select Date" />
+            android:hint="testing"
+            app:hintEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/number_of"
+                android:layout_width="277dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/select_date"
@@ -157,8 +143,8 @@
         <TextView
             android:layout_width="133dp"
             android:layout_height="33dp"
-            android:text="Asset Value"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal"
+            android:text="Asset Value" />
 
         <EditText
             android:id="@+id/asset_value"
