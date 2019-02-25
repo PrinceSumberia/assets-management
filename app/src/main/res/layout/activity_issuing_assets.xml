@@ -1,132 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
     android:layout_marginStart="5dp"
-    android:layout_marginTop="15dp"
+    android:layout_marginEnd="5dp"
     android:orientation="vertical"
     tools:context=".IssuingAssets">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="68dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Issuing Details"
-        android:textAlignment="center"
-        android:textSize="30sp"
+        android:layout_marginBottom="15dp"
+        android:text="Please Enter Issuing Details"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
+        android:hint="Total Quantity Available"
+        app:hintEnabled="true">
 
-        <TextView
-            android:layout_width="160dp"
-            android:layout_height="33dp"
-            android:text="Total Quantity Available" />
-
-        <TextView
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/total_quantity_available"
-            android:layout_width="182dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
             android:text="" />
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
+        android:hint="Department"
+        app:hintEnabled="true">
 
-        <TextView
-            android:layout_width="161dp"
-            android:layout_height="33dp"
-            android:text="Department" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/department"
-            android:layout_width="182dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="" />
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
+        android:hint="Room Number/Name"
+        app:hintEnabled="true">
 
-        <TextView
-            android:layout_width="160dp"
-            android:layout_height="33dp"
-            android:text="Room Number/Name" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/room_number"
-            android:layout_width="182dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="" />
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="161dp"
-            android:layout_height="49dp"
-            android:text="Issued To" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="198dp"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:text="Issued To" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
             android:id="@+id/spinner_issue"
+            android:layout_gravity="center"
             android:layout_width="184dp"
             android:layout_height="wrap_content"
             android:prompt="@string/spinner_title" />
-        
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
+        android:hint="Quantity To Be Issued"
+        app:hintEnabled="true">
 
-        <TextView
-            android:layout_width="161dp"
-            android:layout_height="49dp"
-            android:text="Quantity To Be Issued" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/issue_quantity"
-            android:layout_width="182dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:text="0" />
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
+        android:hint="Remaining Quantity"
+        app:hintEnabled="true">
 
-        <TextView
-            android:layout_width="161dp"
-            android:layout_height="49dp"
-            android:text="Remaining Quantity" />
-
-        <TextView
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/remaining_quantity"
-            android:layout_width="182dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:editable="false"
             android:text="" />
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/update"
