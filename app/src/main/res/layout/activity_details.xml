@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
     android:orientation="vertical"
@@ -13,8 +14,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="10dp"
         android:hint="Asset Type"
         app:hintEnabled="true">
 
@@ -24,33 +24,50 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal">-->
-    <!---->
-    <!--</LinearLayout>-->
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:hint="Number of Assets"
-        app:hintEnabled="true">
+        android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/number_of_assets"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Number of Assets"
+            app:hintEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/number_of_assets"
+                android:layout_width="195dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="Asset Value"
+            app:hintEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/asset_value"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -78,13 +95,13 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
             android:hint="Warranty"
             app:hintEnabled="true">
 
@@ -93,6 +110,7 @@
                 android:layout_width="259dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp" />
+
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,37 +127,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Vendor"
+        android:layout_marginBottom="10dp"
         app:hintEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/seller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
             android:inputType="textMultiLine" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:hint="Asset Value"
-        app:hintEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/asset_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -193,31 +195,26 @@
     <!--android:text="Upload" />-->
     <!--</LinearLayout>-->
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+
+    <Button
+        android:id="@+id/geotag"
+        android:layout_width="212dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:text="Click To GeoTag" />
 
-        <Button
-            android:id="@+id/geotag"
-            android:layout_width="191dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="7dp"
-            android:text="Click To GeoTag" />
+    <Button
+        android:id="@+id/save_info"
+        android:layout_width="212dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Save Information" />
 
-        <Button
-            android:id="@+id/save_info"
-            android:layout_width="204dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Save Information" />
-    </LinearLayout>
 
     <Button
         android:id="@+id/next_ac"
-        android:layout_width="190dp"
+        android:layout_width="212dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Issuing Information" />
