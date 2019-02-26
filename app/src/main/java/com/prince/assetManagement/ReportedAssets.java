@@ -71,6 +71,9 @@ public class ReportedAssets extends AppCompatActivity {
                                                             mAssetType.add(assets.toString().toUpperCase());
                                                             mAssetStatus.add("Damaged");
                                                             mReportedBy.add(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                                                            if (mAssetType.isEmpty()) {
+                                                                Toast.makeText(ReportedAssets.this, "No Damaged Asset Reported", Toast.LENGTH_SHORT).show();
+                                                            }
                                                             adapter.notifyDataSetChanged();
                                                         }
 
@@ -78,6 +81,7 @@ public class ReportedAssets extends AppCompatActivity {
                                                 }
                                             });
                                 }
+
                             } catch (NullPointerException e) {
                                 Toast.makeText(ReportedAssets.this, "No Damaged Asset Reported", Toast.LENGTH_SHORT).show();
                             }

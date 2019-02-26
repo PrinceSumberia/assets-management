@@ -79,6 +79,9 @@ public class AdminAssetRequest extends AppCompatActivity {
                                                                 mAssetType.add(assetType.toUpperCase());
                                                                 mAssetNumber.add(assetNumber);
                                                                 mRequestorID.add(entry.getKey());
+                                                                if (mAssetType.isEmpty()) {
+                                                                    Toast.makeText(AdminAssetRequest.this, "No Asset Requests", Toast.LENGTH_SHORT).show();
+                                                                }
                                                                 adapter.notifyDataSetChanged();
                                                             }
                                                         }
@@ -87,6 +90,7 @@ public class AdminAssetRequest extends AppCompatActivity {
                                         }
 //
                                     }
+
                                 }
                             } catch (NullPointerException e) {
                                 Toast.makeText(AdminAssetRequest.this, "No Asset Requests", Toast.LENGTH_SHORT).show();
