@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
     android:layout_marginStart="5dp"
+    android:layout_marginTop="12dp"
     android:layout_marginEnd="5dp"
-    android:orientation="vertical"
     tools:context=".Details">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/details_id"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="12dp"
         android:hint="Asset Type"
         app:hintEnabled="true">
 
@@ -25,8 +25,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
+        android:id="@+id/second_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_below="@+id/details_id"
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -34,13 +37,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="10dp"
             android:hint="Number of Assets"
             app:hintEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/number_of_assets"
-                android:layout_width="195dp"
+                android:layout_width="202dp"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -49,13 +51,12 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:hint="Asset Value"
             app:hintEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/asset_value"
-                android:layout_width="190dp"
+                android:layout_width="185dp"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
 
@@ -65,21 +66,24 @@
 
 
     <LinearLayout
+        android:id="@+id/third_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_below="@id/second_field"
+        android:layout_marginBottom="12dp"
         android:orientation="horizontal">
+
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Date of Purchase"
             app:hintEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/date_of_purchase"
-                android:layout_width="257dp"
+                android:layout_width="233dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp" />
 
@@ -87,47 +91,51 @@
 
         <Button
             android:id="@+id/select_date"
-            android:layout_width="wrap_content"
+            android:layout_width="138dp"
             android:layout_height="wrap_content"
             android:text="Select Date" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/fourth_field"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_below="@id/third_field"
+        android:layout_marginBottom="12dp"
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Warranty"
             app:hintEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/date_of_warranty"
-                android:layout_width="259dp"
+                android:layout_width="236dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp" />
-
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/warranty_date"
-            android:layout_width="wrap_content"
+            android:layout_width="132dp"
             android:layout_height="wrap_content"
             android:text="Select Date" />
+
     </LinearLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fifth_field"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/fourth_field"
+        android:layout_marginBottom="12dp"
         android:hint="Vendor"
-        android:layout_marginBottom="10dp"
         app:hintEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -139,14 +147,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
+        android:id="@+id/sixth_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_below="@id/fifth_field"
+        android:layout_marginBottom="12dp"
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -195,31 +205,41 @@
     <!--android:text="Upload" />-->
     <!--</LinearLayout>-->
 
-
-    <Button
-        android:id="@+id/geotag"
-        android:layout_width="212dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        android:text="Click To GeoTag" />
+        android:layout_below="@+id/sixth_field"
+        android:id="@+id/seventh_field"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/save_info"
-        android:layout_width="212dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Save Information" />
+        <Button
+            android:id="@+id/geotag"
+            android:layout_width="212dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="Click To GeoTag" />
+
+        <Button
+            android:id="@+id/save_info"
+            android:layout_width="212dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Save Information" />
 
 
-    <Button
-        android:id="@+id/next_ac"
-        android:layout_width="212dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Issuing Information" />
+        <Button
+            android:id="@+id/next_ac"
+            android:layout_width="212dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Issuing Information" />
+    </LinearLayout>
+
 
     <TextView
+        android:layout_below="@+id/seventh_field"
         android:id="@+id/num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -227,7 +247,8 @@
     <TextView
         android:id="@+id/doc"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/num" />
 
 
-</LinearLayout>
+</RelativeLayout>
