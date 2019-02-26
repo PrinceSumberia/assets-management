@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -35,6 +36,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Toolbar toolbar;
     private ActionBar actionBar;
+    TextView userEmail, userName;
 
     //WIDGETS
     GridView gridView;
@@ -217,6 +219,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
     private void initNavigationMenu() {
         NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        View headerView = nav_view.getHeaderView(0);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -224,6 +227,11 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
         };
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        userEmail = headerView.findViewById(R.id.draw_user_email);
+        userName = headerView.findViewById(R.id.draw_user_name);
+
+        userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
+        userEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(final MenuItem item) {

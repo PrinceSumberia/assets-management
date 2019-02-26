@@ -33,6 +33,7 @@ public class StartActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null) {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
+            finish();
         }
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +41,7 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -48,6 +50,7 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

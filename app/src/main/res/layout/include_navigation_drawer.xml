@@ -30,6 +30,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/draw_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -37,7 +38,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
-            android:id="@+id/email"
+            android:id="@+id/draw_user_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="johnmiller@mail.com"
