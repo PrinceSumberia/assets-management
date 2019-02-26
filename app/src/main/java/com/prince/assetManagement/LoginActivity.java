@@ -172,7 +172,7 @@ public class LoginActivity extends Activity {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             Log.e(TAG, "onSuccess: Data added successfully");
-                                                            Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+                                                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                                                             startActivity(intent);
                                                         }
                                                     });
@@ -202,7 +202,7 @@ public class LoginActivity extends Activity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.e(TAG, "onSuccess: Data added successfully");
-                                                Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+                                                Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                                                 startActivity(intent);
                                             }
                                         });

@@ -20,8 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_custom"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Main3Activity"></activity>
+        <activity android:name=".Main3Activity" />
         <activity android:name=".DeleteAssetInfo" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".DeleteAssets" />
         <activity android:name=".AdminAssetRequest" />
         <activity android:name=".ApproverAssetRequest">
@@ -54,7 +55,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".LoginActivity">
+        <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

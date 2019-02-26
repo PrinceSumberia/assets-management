@@ -25,7 +25,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
@@ -66,7 +65,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(WelcomeActivity.this, "Clicked " + i, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(WelcomeActivity.this, "Clicked " + i, Toast.LENGTH_SHORT).show();
                 switch (i) {
                     case 0:
                         // Add Asset
@@ -75,7 +74,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
                             startActivity(intent);
                         }
@@ -91,7 +90,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), GetAssetInfo.class);
                             startActivity(intent);
                         }
@@ -118,7 +117,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), DeleteAssets.class);
                             startActivity(intent);
                         }
@@ -129,7 +128,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                     case 8:
                         FirebaseAuth.getInstance().signOut();
                         Toast.makeText(WelcomeActivity.this, "Successfully Logged You Out", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                 Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -196,7 +195,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
         if (item.getItemId() == R.id.action_settings) {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(WelcomeActivity.this, "Successfully Logged You Out", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                     Intent.FLAG_ACTIVITY_CLEAR_TASK |
                     Intent.FLAG_ACTIVITY_NEW_TASK);

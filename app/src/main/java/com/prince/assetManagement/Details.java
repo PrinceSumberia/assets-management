@@ -341,7 +341,7 @@ public class Details extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String text = textView.getText().toString();
-                Toast.makeText(Details.this, "Text is " + text, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Details.this, "Text is " + text, Toast.LENGTH_SHORT).show();
                 String total_assets = total_quantity.getText().toString();
                 int total_quantity = Integer.parseInt(total_assets);
                 String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
