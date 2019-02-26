@@ -34,6 +34,8 @@ public class Approver extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Toolbar toolbar;
     private ActionBar actionBar;
+    TextView userEmail, userName;
+
 
     public static void setSystemBarColor(Activity act, @ColorRes int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -145,6 +147,12 @@ public class Approver extends AppCompatActivity {
     private void initNavigationMenu() {
         NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        View headerView = nav_view.getHeaderView(0);
+        userEmail = headerView.findViewById(R.id.draw_user_email);
+        userName = headerView.findViewById(R.id.draw_user_name);
+
+        userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
+        userEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
