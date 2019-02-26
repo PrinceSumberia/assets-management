@@ -1,25 +1,48 @@
 package com.prince.assetManagement;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.util.UUID;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +50,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 public class NormalUser extends AppCompatActivity {
-
+    private static final String TAG = "NormalUser";
+    private final int PICK_IMAGE_REQUEST = 71;
     Button requestAsset, reportAsset, scanAsset;
     TextView logout;
     private DrawerLayout drawerLayout;
@@ -35,6 +59,11 @@ public class NormalUser extends AppCompatActivity {
     private Toolbar toolbar;
     private ActionBar actionBar;
     TextView userEmail, userName;
+    ImageView editImage, avatar;
+    Uri filePath;
+    StorageReference storageReference;
+    FirebaseStorage storage;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     public static void setSystemBarColor(Activity act, @ColorRes int color) {
@@ -69,6 +98,9 @@ public class NormalUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_normal_user);
         initToolbar();
+        FirebaseApp.initializeApp(getApplicationContext());
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
         initNavigationMenu();
         requestAsset = findViewById(R.id.request_asset);
 //        reportAsset = findViewById(R.id.report_asset);
@@ -152,6 +184,13 @@ public class NormalUser extends AppCompatActivity {
         View headerView = nav_view.getHeaderView(0);
         userEmail = headerView.findViewById(R.id.draw_user_email);
         userName = headerView.findViewById(R.id.draw_user_name);
+        editImage = headerView.findViewById(R.id.edit);
+        avatar = headerView.findViewById(R.id.avatar);
+        Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+        if (uri != null) {
+            Log.e(TAG, "initNavigationMenu: url is second" + uri);
+            Picasso.get().load(uri).into(avatar);
+        }
 
         userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
         userEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
@@ -172,7 +211,96 @@ public class NormalUser extends AppCompatActivity {
             }
         });
 
+        editImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(NormalUser.this, "Working", Toast.LENGTH_SHORT).show();
+                chooseImage();
+
+            }
+        });
+
         // open drawer at start
 //        drawer.openDrawer(GravityCompat.START);
+    }
+
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(NormalUser.this.getContentResolver(), filePath);
+                uploadImage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void uploadImage() {
+        if (filePath != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(NormalUser.this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            final StorageReference ref = storageReference.child("/user_images/" + UUID.randomUUID().toString());
+
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String image_url = uri.toString();
+                                    Log.d(TAG, "onSuccess: url = " + uri.toString());
+                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                            .setPhotoUri(uri)
+                                            .build();
+
+                                    user.updateProfile(profileUpdates)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.d(TAG, "User profile updated.");
+                                                        Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+                                                        Picasso.get()
+                                                                .load(uri)
+                                                                .into(avatar);
+                                                        Toast.makeText(NormalUser.this, "Profile Photo Updated", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(NormalUser.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                        }
+                    });
+        }
     }
 }
