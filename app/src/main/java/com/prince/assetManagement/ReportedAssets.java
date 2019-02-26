@@ -2,6 +2,7 @@ package com.prince.assetManagement;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -51,30 +52,34 @@ public class ReportedAssets extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.e(TAG, "onComplete: loop is executing");
                             final DocumentSnapshot documentSnapshot = task.getResult();
-                            Log.e(TAG, "onComplete: assets are " + documentSnapshot.get("assets").toString());
-                            for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
-                                Log.e(TAG, "onComplete: Loop is executing " + assets);
-                                db.collection("users")
-                                        .document(user_id)
-                                        .collection(assets.toString())
-                                        .whereEqualTo("is_working", "false")
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    for (QueryDocumentSnapshot documentSnapshot1 : task.getResult()) {
-                                                        Log.d(TAG, "onComplete: not working assets: " + documentSnapshot1.get("asset_value"));
-                                                        Log.d(TAG, "onComplete: not working assets: ");
-                                                        mAssetType.add(assets.toString().toUpperCase());
-                                                        mAssetStatus.add("Damaged");
-                                                        mReportedBy.add(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-                                                        adapter.notifyDataSetChanged();
-                                                    }
+                            try {
+                                Log.e(TAG, "onComplete: assets are " + documentSnapshot.get("assets").toString());
+                                for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
+                                    Log.e(TAG, "onComplete: Loop is executing " + assets);
+                                    db.collection("users")
+                                            .document(user_id)
+                                            .collection(assets.toString())
+                                            .whereEqualTo("is_working", "false")
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot documentSnapshot1 : task.getResult()) {
+                                                            Log.d(TAG, "onComplete: not working assets: " + documentSnapshot1.get("asset_value"));
+                                                            Log.d(TAG, "onComplete: not working assets: ");
+                                                            mAssetType.add(assets.toString().toUpperCase());
+                                                            mAssetStatus.add("Damaged");
+                                                            mReportedBy.add(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                                                            adapter.notifyDataSetChanged();
+                                                        }
 
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                }
+                            } catch (NullPointerException e) {
+                                Toast.makeText(ReportedAssets.this, "No Damaged Asset Reported", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
