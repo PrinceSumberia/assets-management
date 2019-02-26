@@ -3,40 +3,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".NormalUser">
 
-    <Button
-        android:id="@+id/scan_asset_user"
-        android:layout_width="215dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Scan Asset" />
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
 
-    <!--<Button-->
-        <!--android:id="@+id/report_asset"-->
-        <!--android:layout_width="215dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:text="Report Asset" />-->
-<!---->
-    <Button
-        android:id="@+id/request_asset"
-        android:layout_width="215dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Request Asset" />
+        <LinearLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/app_bar_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/scan_asset_user"
+                    android:layout_width="215dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Scan Asset" />
+
+                <!--<Button-->
+                <!--android:id="@+id/report_asset"-->
+                <!--android:layout_width="215dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:text="Report Asset" />-->
+                <!---->
+                <Button
+                    android:id="@+id/request_asset"
+                    android:layout_width="215dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Request Asset" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/logout_user"
-        android:layout_width="105dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="20dp"
-        android:text="Logout"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        <!--navigation drawer menu-->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="false"
+            app:headerLayout="@layout/include_navigation_drawer"
+            app:itemIconTint="@color/grey_40"
+            app:itemTextColor="@color/grey_90"
+            app:menu="@menu/menu_navigation_drawer" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 
 </LinearLayout>
