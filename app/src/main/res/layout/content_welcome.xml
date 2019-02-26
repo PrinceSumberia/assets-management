@@ -4,22 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:id="@+id/gridview"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".WelcomeActivity"
     android:columnWidth="90dp"
+    android:gravity="center"
     android:horizontalSpacing="10dp"
     android:stretchMode="columnWidth"
     android:verticalSpacing="10dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_welcome" />
 
-    <!--<Button-->
-    <!--android:id="@+id/listen"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:layout_marginBottom="59dp"-->
-    <!---->
-    <!--android:text="Start recognition" />-->
+
+    <!--<Button--><!--android:id="@+id/listen"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentBottom="true"--><!--android:layout_alignParentStart="true"--><!--android:layout_marginBottom="59dp"--><!----><!--android:text="Start recognition" />-->

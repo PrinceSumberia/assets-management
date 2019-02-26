@@ -20,6 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_custom"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Main3Activity"></activity>
         <activity android:name=".DeleteAssetInfo" />
         <activity android:name=".DeleteAssets" />
         <activity android:name=".AdminAssetRequest" />
