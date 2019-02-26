@@ -28,10 +28,11 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
             R.drawable.ic_notification,
             R.drawable.ic_delete,
             R.drawable.ic_help,
+            R.drawable.ic_sent,
     };
 
     String[] txt = {"Add Asset", "Scan Asset", "Search Asset", "Add Users", "Reported Assets", "Asset Requests",
-            "Delete Assets", "Help"};
+            "Delete Assets", "Help", "Sign Out"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,16 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                         break;
                     case 7:
                         Toast.makeText(WelcomeActivity.this, "Ready to help", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 8:
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(WelcomeActivity.this, "Successfully Logged You Out", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
                         break;
                 }
             }
