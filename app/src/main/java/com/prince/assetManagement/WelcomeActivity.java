@@ -16,13 +16,16 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
@@ -32,6 +35,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Toolbar toolbar;
+    private ActionBar actionBar;
 
     //WIDGETS
     GridView gridView;
@@ -56,15 +60,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_welcome);
         gridView = findViewById(R.id.gridview);
         initToolbar();
-
-//        toolbar = findViewById(R.id.toolbar_main);
-//        setSupportActionBar(toolbar);
-//
-//
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setHomeButtonEnabled(true);
-
+        initNavigationMenu();
         gridViewAdapter = new GridViewAdapter(this, txt, img_id);
         checkOrientation();
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -160,12 +156,12 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        toolbar.setNavigationIcon(R.drawable.ic_menu);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.grey_60), PorterDuff.Mode.SRC_ATOP);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("MIET Asset Management");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle("AI-AMS");
         setSystemBarColor(this, R.color.grey_5);
         setSystemBarLight(this);
     }
@@ -187,6 +183,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
             view.setSystemUiVisibility(flags);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_settings, menu);
@@ -196,9 +193,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
-        } else {
+        if (item.getItemId() == R.id.action_settings) {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(WelcomeActivity.this, "Successfully Logged You Out", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -210,6 +205,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
         }
         return super.onOptionsItemSelected(item);
     }
+
     public static void changeMenuIconColor(Menu menu, @ColorInt int color) {
         for (int i = 0; i < menu.size(); i++) {
             Drawable drawable = menu.getItem(i).getIcon();
@@ -217,6 +213,30 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
             drawable.mutate();
             drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         }
+    }
+
+    private void initNavigationMenu() {
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(final MenuItem item) {
+                Toast.makeText(getApplicationContext(), item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
+//                actionBar.setTitle(item.getTitle());
+                drawer.closeDrawers();
+                return true;
+            }
+        });
+
+        // open drawer at start
+//        drawer.openDrawer(GravityCompat.START);
     }
 }
 

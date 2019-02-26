@@ -69,6 +69,8 @@ dependencies {
     implementation 'com.opencsv:opencsv:4.4'
     implementation 'com.google.android.material:material:1.0.0'
 
+    implementation 'com.mikhaellopez:circularimageview:3.2.0'
+
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
