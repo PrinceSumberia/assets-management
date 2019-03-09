@@ -60,6 +60,7 @@ public class GetInformation extends AppCompatActivity {
 //        String user_id = mAuth.getCurrentUser().getUid();
 //        Log.d(TAG, "User ID " + user_id);
         String complete_id = getIntent().getStringExtra("qrcode_id");
+        final String[] issued_user_id = new String[1];
 //        result_id.setText(complete_id);
 
         String[] complete_string = complete_id.split("-");
@@ -69,6 +70,7 @@ public class GetInformation extends AppCompatActivity {
         final String[] user_asset = user_id_asset_id.split("/");
         final String user_id = user_asset[0];
         final String asset_id = user_asset[1];
+//        String issued_user_id;
 
 
         DocumentReference documentReference = db.collection("users").document(user_id).collection(detectedObject).document(asset_id);
@@ -95,7 +97,7 @@ public class GetInformation extends AppCompatActivity {
                         String issued_date = document.get("issued_date").toString();
                         String isWorking = document.get("is_working").toString();
                         admin_email = document.get("admin_email").toString();
-                        String issued_user_id = document.get("issued_to_id").toString();
+                        issued_user_id[0] = document.get("issued_to_id").toString();
 
                         if (isWorking.equals("true")) {
                             working_status.setChecked(true);
@@ -114,7 +116,7 @@ public class GetInformation extends AppCompatActivity {
                             issued_date_field.setText(issued_date);
                             if (user_id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                 report_status.setVisibility(View.VISIBLE);
-                            } else if (issued_user_id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            } else if (issued_user_id[0].equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                 report_status.setVisibility(View.VISIBLE);
                             } else {
                                 Log.e(TAG, "onComplete: this is working but the user is neither admin not normal user of the asset");
@@ -175,8 +177,25 @@ public class GetInformation extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Log.e(TAG, "onComplete: the admin email field is " + admin_email);
-                                    ReportAsset(admin_email, asset_category_field.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                                    db.collection("users")
+                                            .document(issued_user_id[0])
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot documentSnapshot = task.getResult();
+                                                        String issued_username = documentSnapshot.get("name").toString();
+                                                        Log.e(TAG, "onComplete: the admin email field is " + admin_email);
+                                                        ReportAsset(admin_email, asset_category_field.getText().toString(), issued_username);
+                                                        Toast.makeText(GetInformation.this, "Asset Reported", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
+                                } else {
+                                    Log.e(TAG, "onComplete: Task is unsuccessful" + task.getException());
+                                    Toast.makeText(GetInformation.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -227,7 +246,7 @@ public class GetInformation extends AppCompatActivity {
 
                             "noreply.assetmanagement@gmail.com", adminEmail);
                     Log.e(TAG, "run: email status sent");
-                    Toast.makeText(GetInformation.this, "Asset Reported", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(GetInformation.this, "Asset Reported", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }

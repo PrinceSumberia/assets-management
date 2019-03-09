@@ -146,7 +146,7 @@ public class NormalUser extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -179,8 +179,8 @@ public class NormalUser extends AppCompatActivity {
     }
 
     private void initNavigationMenu() {
-        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView nav_view = findViewById(R.id.nav_view);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         View headerView = nav_view.getHeaderView(0);
         userEmail = headerView.findViewById(R.id.draw_user_email);
         userName = headerView.findViewById(R.id.draw_user_name);
@@ -191,9 +191,12 @@ public class NormalUser extends AppCompatActivity {
             Log.e(TAG, "initNavigationMenu: url is second" + uri);
             Picasso.get().load(uri).into(avatar);
         }
-
-        userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
-        userEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        try {
+            userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
+            userEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        } catch (Exception e) {
+            Log.e(TAG, "initNavigationMenu: " + e.toString());
+        }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
