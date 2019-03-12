@@ -175,14 +175,15 @@
 
         <Button
             android:id="@+id/get_geolocation"
-            android:layout_width="164dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginRight="5dp"
             android:text="Get Geolocation" />
 
         <Button
             android:id="@+id/view_bill"
-            android:layout_width="161dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="View Bill" />
