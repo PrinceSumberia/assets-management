@@ -147,8 +147,14 @@ public class GetInformation extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                                startActivity(intent);
+                                try {
+                                    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                                    String latlong = latitude + "," + longitude;
+                                    intent.putExtra("latlong", latlong);
+                                    startActivity(intent);
+                                } catch (Exception e) {
+                                    Toast.makeText(GetInformation.this, "Error Getting Location", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
 

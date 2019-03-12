@@ -159,6 +159,8 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                         break;
                     case 7:
                         Toast.makeText(WelcomeActivity.this, "Ready to help", Toast.LENGTH_SHORT).show();
+//                        Intent intent2 = new Intent(getApplicationContext(), MapActivity.class);
+//                        startActivity(intent2);
                         break;
                     case 8:
                         FirebaseAuth.getInstance().signOut();
@@ -190,7 +192,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -250,8 +252,8 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void initNavigationMenu() {
-        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView nav_view = findViewById(R.id.nav_view);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         View headerView = nav_view.getHeaderView(0);
         userEmail = headerView.findViewById(R.id.draw_user_email);
         userName = headerView.findViewById(R.id.draw_user_name);
