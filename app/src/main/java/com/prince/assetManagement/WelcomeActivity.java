@@ -264,9 +264,16 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
             Log.e(TAG, "initNavigationMenu: url is second" + uri);
             Picasso.get().load(uri).into(avatar);
         }
-
-        userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
         userEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
+
+        try {
+            userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
+        } catch (NullPointerException e) {
+            userName.setText("");
+            Log.e(TAG, "initNavigationMenu: Username is not defined");
+        }
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);

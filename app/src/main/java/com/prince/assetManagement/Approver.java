@@ -144,7 +144,7 @@ public class Approver extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -177,8 +177,8 @@ public class Approver extends AppCompatActivity {
     }
 
     private void initNavigationMenu() {
-        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView nav_view = findViewById(R.id.nav_view);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         View headerView = nav_view.getHeaderView(0);
         userEmail = headerView.findViewById(R.id.draw_user_email);
         userName = headerView.findViewById(R.id.draw_user_name);
@@ -190,7 +190,12 @@ public class Approver extends AppCompatActivity {
             Picasso.get().load(uri).into(avatar);
         }
 
-        userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
+        try {
+            userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
+        } catch (NullPointerException e) {
+            Log.e(TAG, "initNavigationMenu: " + e.getMessage());
+            userName.setText("");
+        }
         userEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {

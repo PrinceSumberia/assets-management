@@ -191,11 +191,12 @@ public class NormalUser extends AppCompatActivity {
             Log.e(TAG, "initNavigationMenu: url is second" + uri);
             Picasso.get().load(uri).into(avatar);
         }
+        userEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         try {
             userName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName().toUpperCase());
-            userEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         } catch (Exception e) {
             Log.e(TAG, "initNavigationMenu: " + e.toString());
+            userName.setText("");
         }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
