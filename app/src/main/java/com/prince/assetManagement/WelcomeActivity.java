@@ -32,6 +32,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -131,9 +132,27 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                         }
                         break;
                     case 3: {
-                        Intent intent = new Intent(getApplicationContext(), AddUsers.class);
-                        intent.putExtra("admin_user", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        startActivity(intent);
+                        db.collection("users")
+                                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                            try {
+                                                String admin_id = documentSnapshot.get("admin_id").toString();
+                                                String admin_email = documentSnapshot.get("admin_email").toString();
+                                                Intent intent = new Intent(getApplicationContext(), AddUsers.class);
+                                                intent.putExtra("admin_id", admin_id);
+                                                intent.putExtra("admin_email", admin_email);
+                                                startActivity(intent);
+                                            } catch (NullPointerException e) {
+                                                Log.e(TAG, "onComplete: " + e.getMessage());
+                                            }
+                                        }
+                                    }
+                                });
                         break;
                     }
                     case 4: {

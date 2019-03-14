@@ -56,8 +56,8 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
         userEmail = findViewById(R.id.user_email);
         bulk_register = findViewById(R.id.test);
         mAuth = FirebaseAuth.getInstance();
-        final String admin_id = mAuth.getCurrentUser().getUid();
-        final String admin_email = mAuth.getCurrentUser().getEmail();
+        final String admin_id = getIntent().getStringExtra("admin_id");
+        final String admin_email = getIntent().getStringExtra("admin_email");
         Log.e(TAG, "onCreate: admin email is " + admin_email);
 
 
@@ -87,13 +87,14 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
         }
 
 
-        final String admin_user = getIntent().getStringExtra("admin_user");
-        Log.e(TAG, "onCreate: admin user id " + admin_user);
+//        final String admin_user = getIntent().getStringExtra("admin_user");
+//        Log.e(TAG, "onCreate: admin user id " + admin_user);
 
         spinner.setOnItemSelectedListener(this);
         List<String> categories = new ArrayList<String>();
         categories.add("Approver");
         categories.add("Normal User");
+        categories.add("Admin");
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -156,7 +157,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             Log.e(TAG, "onSuccess: Task is completed");
-                                                            Log.e(TAG, "onSuccess: admin user " + admin_user);
+                                                            Log.e(TAG, "onSuccess: admin user " + admin_id);
                                                             final Map<String, Object> user = new HashMap<>();
                                                             Log.e(TAG, "onSuccess: user role " + user_role);
                                                             Log.e(TAG, "onSuccess: is true" + user_role.toLowerCase().equals("approver"));
@@ -168,7 +169,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                                             if (user_role.toLowerCase().equals("approver")) {
                                                                 user.put("approver", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                                                                 db.collection("users")
-                                                                        .document(admin_user)
+                                                                        .document(admin_id)
                                                                         .set(approver, SetOptions.merge())
                                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                             @Override
@@ -177,18 +178,33 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                                                                 mAuth1.signOut();
                                                                             }
                                                                         });
-                                                            } else {
+                                                            } else if (user_role.toLowerCase().equals("normal user")) {
                                                                 user.put("normal_users", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                                                                 final Map<String, Object> normal_users = new HashMap<>();
                                                                 user_list.put(username, uuid);
                                                                 normal_users.put("normal_users", user_list);
                                                                 db.collection("users")
-                                                                        .document(admin_user)
+                                                                        .document(admin_id)
                                                                         .set(normal_users, SetOptions.merge())
                                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                             @Override
                                                                             public void onSuccess(Void aVoid) {
                                                                                 Log.e(TAG, "onSuccess: user role is normal user");
+                                                                                mAuth1.signOut();
+                                                                            }
+                                                                        });
+                                                            } else if (user_role.toLowerCase().equals("admin")) {
+                                                                user.put("admin", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                                                                final Map<String, Object> admin_users = new HashMap<>();
+                                                                user_list.put(username, uuid);
+                                                                admin_users.put("admin_users", user_list);
+                                                                db.collection("users")
+                                                                        .document(admin_id)
+                                                                        .set(admin_users, SetOptions.merge())
+                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                            @Override
+                                                                            public void onSuccess(Void aVoid) {
+                                                                                Log.e(TAG, "onSuccess: user role is admin user");
                                                                                 mAuth1.signOut();
                                                                             }
                                                                         });
@@ -252,7 +268,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     Log.e(TAG, "onSuccess: Task is completed");
-                                                    Log.e(TAG, "onSuccess: admin user " + admin_user);
+                                                    Log.e(TAG, "onSuccess: admin user " + admin_id);
                                                     final Map<String, Object> user = new HashMap<>();
                                                     Log.e(TAG, "onSuccess: user role " + user_role);
                                                     Log.e(TAG, "onSuccess: is true" + user_role.toLowerCase().equals("approver"));
@@ -264,7 +280,7 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                                     if (user_role.toLowerCase().equals("approver")) {
                                                         user.put("approver", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                                                         db.collection("users")
-                                                                .document(admin_user)
+                                                                .document(admin_id)
                                                                 .set(approver, SetOptions.merge())
                                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                     @Override
@@ -273,18 +289,33 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                                                         mAuth1.signOut();
                                                                     }
                                                                 });
-                                                    } else {
+                                                    } else if (user_role.toLowerCase().equals("normal user")) {
                                                         user.put("normal_users", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                                                         final Map<String, Object> normal_users = new HashMap<>();
                                                         user_list.put(username, mAuth1.getCurrentUser().getUid());
                                                         normal_users.put("normal_users", user_list);
                                                         db.collection("users")
-                                                                .document(admin_user)
+                                                                .document(admin_id)
                                                                 .set(normal_users, SetOptions.merge())
                                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                     @Override
                                                                     public void onSuccess(Void aVoid) {
                                                                         Log.e(TAG, "onSuccess: user role is normal user");
+                                                                        mAuth1.signOut();
+                                                                    }
+                                                                });
+                                                    } else if (user_role.toLowerCase().equals("admin")) {
+                                                        user.put("normal_users", Arrays.asList(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                                                        final Map<String, Object> admin_users = new HashMap<>();
+                                                        user_list.put(username, mAuth1.getCurrentUser().getUid());
+                                                        admin_users.put("admin_users", user_list);
+                                                        db.collection("users")
+                                                                .document(admin_id)
+                                                                .set(admin_users, SetOptions.merge())
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Log.e(TAG, "onSuccess: user role is admin user");
                                                                         mAuth1.signOut();
                                                                     }
                                                                 });
