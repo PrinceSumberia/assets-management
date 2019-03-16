@@ -34,6 +34,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public abstract class CameraActivity extends Activity
         implements OnImageAvailableListener {
     private static final Logger LOGGER = new Logger();
@@ -56,6 +58,7 @@ public abstract class CameraActivity extends Activity
     private Runnable imageConverter;
 
     private TextToSpeech textToSpeech;
+    String admin_id, admin_email;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -65,6 +68,9 @@ public abstract class CameraActivity extends Activity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_camera);
+        admin_id = getIntent().getStringExtra("admin_id");
+        Log.e(TAG, "onCreate: admin id getintent()" + getIntent().getStringExtra("admin_id"));
+        admin_email = getIntent().getStringExtra("admin_email");
 
         if (hasPermission()) {
             setFragment();
@@ -384,6 +390,10 @@ public abstract class CameraActivity extends Activity
         String detectedObject = recognition.getTitle();
         Intent intent = new Intent(getApplicationContext(), Details.class);
         intent.putExtra("Detected Object", detectedObject);
+        intent.putExtra("admin_id", admin_id);
+        intent.putExtra("admin_email", admin_email);
+        Log.d(TAG, "toSpeech: Admin id is: " + admin_id);
+        Log.d(TAG, "toSpeech: Admin email is: " + admin_email);
         startActivity(intent);
     }
 

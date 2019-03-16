@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -24,7 +23,7 @@ import static android.widget.GridLayout.VERTICAL;
 public class AdminAssetRequest extends AppCompatActivity {
     private static final String TAG = "AdminAssetRequest";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
     private ArrayList<String> mAssetType = new ArrayList<>();
     private ArrayList<String> mAssetNumber = new ArrayList<>();
     private ArrayList<String> mRequestedBy = new ArrayList<>();
@@ -35,6 +34,8 @@ public class AdminAssetRequest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_asset_request);
         Log.d(TAG, "initRecyclerView: init recycler view");
+        String admin_id = getIntent().getStringExtra("admin_id");
+        String admin_email = getIntent().getStringExtra("admin_email");
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         final RecyclerViewAdminAssetRequestAdapter adapter = new RecyclerViewAdminAssetRequestAdapter(this, mAssetType, mAssetNumber, mRequestedBy, mRequestorID);
@@ -45,7 +46,7 @@ public class AdminAssetRequest extends AppCompatActivity {
 
 
         db.collection("users")
-                .document(user_id)
+                .document(admin_id)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override

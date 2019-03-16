@@ -39,37 +39,44 @@ public class FragmentDepartment extends Fragment {
         editText = view.findViewById(R.id.department);
         textView = view.findViewById(R.id.result);
 
+        assert getArguments() != null;
+        final String admin_id = getArguments().getString("admin_id");
+
         get_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String department = editText.getText().toString();
-                db.collection("users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot documentSnapshot = task.getResult();
-                            Log.e(TAG, "onComplete: " + documentSnapshot.get("assets"));
-                            for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
-                                Log.e(TAG, "onComplete: Inside lopp is executing");
-                                db.collection("users")
-                                        .document(user_id)
-                                        .collection(assets.toString())
-                                        .whereEqualTo("department", department)
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()){
-                                                    Log.e(TAG, "onComplete: asset type is " + assets  +  "Number of assets" + task.getResult().size());
-                                                    String result = assets + ": " + task.getResult().size() + "" + "\n";
-                                                    textView.setText(result.toUpperCase());
-                                                }
-                                            }
-                                        });
+                assert admin_id != null;
+                db.collection("users")
+                        .document(admin_id)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                    Log.e(TAG, "onComplete: " + documentSnapshot.get("assets"));
+                                    for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
+                                        Log.e(TAG, "onComplete: Inside lopp is executing");
+                                        db.collection("users")
+                                                .document(admin_id)
+                                                .collection(assets.toString())
+                                                .whereEqualTo("department", department)
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Log.e(TAG, "onComplete: asset type is " + assets + "Number of assets" + task.getResult().size());
+                                                            String result = assets + ": " + task.getResult().size() + "" + "\n";
+                                                            textView.append(result.toUpperCase());
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                }
                             }
-                        }
-                    }
-                });
+                        });
             }
         });
 

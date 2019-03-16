@@ -58,8 +58,8 @@ public class GenerateQR extends AppCompatActivity {
         FirebaseApp.initializeApp(getApplicationContext());
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final String id = getIntent().getStringExtra("id");
+//        final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String admin_id = getIntent().getStringExtra("admin_id");
         final String detectedObject = getIntent().getStringExtra("detectedObject");
         imageView = findViewById(R.id.image);
         next = findViewById(R.id.next_ac);
@@ -74,8 +74,8 @@ public class GenerateQR extends AppCompatActivity {
                 progressDialog.setTitle("Generating QRCodes");
                 progressDialog.setMessage("Please Wait While QRCodes are Getting Generated!");
                 progressDialog.show();
-                Log.e(TAG, "The parent document id is" + id);
-                Log.e(TAG, "current user in generate" + user_id);
+                Log.e(TAG, "The parent document id is" + admin_id);
+                Log.e(TAG, "current user in generate" + admin_id);
 //                document_id = getIntent().getStringArrayListExtra("Document IDs");
                 Log.e(TAG, "onCreate: Final Document ID " + document_id.toString());
                 listSize = document_id.size();
@@ -89,7 +89,7 @@ public class GenerateQR extends AppCompatActivity {
                     final Paragraph p = new Paragraph();
                     p.add("Hello World");
                     try {
-                        Bitmap bitmap = QRCode.from(detectedObject + "-" + user_id + "/" + document_id.get(i + 1)).bitmap();
+                        Bitmap bitmap = QRCode.from(detectedObject + "-" + admin_id + "/" + document_id.get(i + 1)).bitmap();
                         final StorageReference ref = storageReference.child("/qrcode/" + UUID.randomUUID().toString());
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -101,7 +101,8 @@ public class GenerateQR extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        ref.getDownloadUrl()
+                                                .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                             @Override
                                             public void onSuccess(Uri uri) {
 //                                                        Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_SHORT).show();

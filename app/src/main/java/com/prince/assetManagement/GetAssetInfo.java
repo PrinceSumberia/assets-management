@@ -20,6 +20,9 @@ public class GetAssetInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_asset_info);
 
+        final String admin_id = getIntent().getStringExtra("admin_id");
+        final String admin_email = getIntent().getStringExtra("admin_email");
+
         ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         ListView listView = findViewById(R.id.list_item);
 
@@ -30,6 +33,8 @@ public class GetAssetInfo extends AppCompatActivity {
                 String selectedItem = (String) adapterView.getItemAtPosition(position);
                 Intent intent = new Intent(GetAssetInfo.this, Display_Info.class);
                 intent.putExtra("Selected Item", selectedItem);
+                intent.putExtra("admin_id", admin_id);
+                intent.putExtra("admin_email", admin_email);
                 startActivity(intent);
 
                 Toast.makeText(GetAssetInfo.this, "Selected Item is: " + selectedItem, Toast.LENGTH_SHORT).show();

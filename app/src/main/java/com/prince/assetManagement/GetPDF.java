@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
@@ -125,7 +124,8 @@ public class GetPDF extends AppCompatActivity {
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            String emailAddress = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//            String emailAddress = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            String emailAddress = editText.getText().toString();
             Log.e(TAG, "Document is now closed and expecting email intent.");
 //            ReportAsset(emailAddress);
             Intent emailIntent = new Intent(Intent.ACTION_SEND);

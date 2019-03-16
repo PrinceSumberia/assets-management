@@ -43,8 +43,11 @@ public class ReportedAssets extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
         recyclerView.addItemDecoration(decoration);
+
+        final String admin_id = getIntent().getStringExtra("admin_id");
+        String admin_email = getIntent().getStringExtra("admin_email");
         db.collection("users")
-                .document(user_id)
+                .document(admin_id)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -57,7 +60,7 @@ public class ReportedAssets extends AppCompatActivity {
                                 for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
                                     Log.e(TAG, "onComplete: Loop is executing " + assets);
                                     db.collection("users")
-                                            .document(user_id)
+                                            .document(admin_id)
                                             .collection(assets.toString())
                                             .whereEqualTo("is_working", "false")
                                             .get()
@@ -66,11 +69,12 @@ public class ReportedAssets extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
                                                         for (QueryDocumentSnapshot documentSnapshot1 : task.getResult()) {
+                                                            String reported_by = documentSnapshot1.get("reported_by").toString();
                                                             Log.d(TAG, "onComplete: not working assets: " + documentSnapshot1.get("asset_value"));
                                                             Log.d(TAG, "onComplete: not working assets: ");
                                                             mAssetType.add(assets.toString().toUpperCase());
                                                             mAssetStatus.add("Damaged");
-                                                            mReportedBy.add(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                                                            mReportedBy.add(reported_by);
                                                             if (mAssetType.isEmpty()) {
                                                                 Toast.makeText(ReportedAssets.this, "No Damaged Asset Reported", Toast.LENGTH_SHORT).show();
                                                             }

@@ -98,6 +98,9 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
         initNavigationMenu();
         gridViewAdapter = new GridViewAdapter(this, txt, img_id);
         checkOrientation();
+        final String admin_id = getIntent().getStringExtra("admin_id");
+        final String admin_email = getIntent().getStringExtra("admin_email");
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -112,6 +115,8 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                         } else {
 //                            Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), DetectorActivity.class);
+                            intent.putExtra("admin_id", admin_id);
+                            intent.putExtra("admin_email", admin_email);
                             startActivity(intent);
                         }
                         break;
@@ -128,6 +133,10 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                         } else {
 //                            Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), GetAssetInfo.class);
+                            intent.putExtra("admin_id", admin_id);
+                            Log.e(TAG, "onItemClick: reported admin id" + admin_id);
+                            Log.e(TAG, "onItemClick: reported admin email" + admin_email);
+                            intent.putExtra("admin_email", admin_email);
                             startActivity(intent);
                         }
                         break;
@@ -157,11 +166,15 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                     }
                     case 4: {
                         Intent intent = new Intent(getApplicationContext(), ReportedAssets.class);
+                        intent.putExtra("admin_id", admin_id);
+                        intent.putExtra("admin_email", admin_email);
                         startActivity(intent);
                         break;
                     }
                     case 5: {
                         Intent intent = new Intent(getApplicationContext(), AdminAssetRequest.class);
+                        intent.putExtra("admin_id", admin_id);
+                        intent.putExtra("admin_email", admin_email);
                         startActivity(intent);
                         break;
                     }
@@ -173,6 +186,8 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                         } else {
 //                            Toast.makeText(WelcomeActivity.this, "Your are logged in", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), DeleteAssets.class);
+                            intent.putExtra("admin_id", admin_id);
+                            intent.putExtra("admin_email", admin_email);
                             startActivity(intent);
                         }
                         break;

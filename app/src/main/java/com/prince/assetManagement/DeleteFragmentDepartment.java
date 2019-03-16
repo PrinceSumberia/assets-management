@@ -44,6 +44,9 @@ public class DeleteFragmentDepartment extends Fragment {
         editText2 = view.findViewById(R.id.delete_asset_type);
         final ArrayList<String> list_year = new ArrayList<>();
 
+        assert getArguments() != null;
+        final String admin_id = getArguments().getString("admin_id");
+
 //        Date inputDate
         get_info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,8 +57,9 @@ public class DeleteFragmentDepartment extends Fragment {
 //                Log.e(TAG, "onClick: split test" + date_of_purchase.split("-")[2]);
 //                int year = Integer.getInteger(date_of_purchase.split("/")[2]);
 //                Log.e(TAG, "onClick: year is" + year);
+                assert admin_id != null;
                 db.collection("users")
-                        .document(user_id)
+                        .document(admin_id)
                         .collection(editText2.getText().toString())
                         .whereLessThan("year", Integer.valueOf(editText.getText().toString()))
                         .get()

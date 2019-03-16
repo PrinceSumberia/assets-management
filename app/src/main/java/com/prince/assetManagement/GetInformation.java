@@ -171,6 +171,7 @@ public class GetInformation extends AppCompatActivity {
             }
         });
 
+
         report_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,7 +179,8 @@ public class GetInformation extends AppCompatActivity {
                         .document(user_id)
                         .collection(detectedObject)
                         .document(asset_id)
-                        .update("is_working", "false")
+                        .update("is_working", "false",
+                                "reported_by", FirebaseAuth.getInstance().getCurrentUser().getDisplayName())
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

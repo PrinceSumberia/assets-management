@@ -18,6 +18,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -138,6 +139,9 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                             user.put("user_id", mAuth1.getCurrentUser().getUid());
                                             user.put("admin_id", admin_id);
                                             user.put("admin_email", admin_email);
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(username).build();
+                                            mAuth1.getCurrentUser().updateProfile(profileUpdates);
                                             final String uuid = mAuth1.getCurrentUser().getUid();
                                             mAuth1.getCurrentUser()
                                                     .sendEmailVerification()
@@ -250,6 +254,9 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
                                     user.put("user_id", mAuth1.getCurrentUser().getUid());
                                     user.put("admin_id", admin_id);
                                     user.put("admin_email", admin_email);
+                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(username).build();
+                                    mAuth1.getCurrentUser().updateProfile(profileUpdates);
                                     mAuth1.getCurrentUser()
                                             .sendEmailVerification()
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {

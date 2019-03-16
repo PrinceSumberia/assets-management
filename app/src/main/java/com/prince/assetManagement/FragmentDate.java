@@ -45,6 +45,8 @@ public class FragmentDate extends Fragment {
         textView1 = view.findViewById(R.id.result_before);
         textView2 = view.findViewById(R.id.result_after);
         view_graph = view.findViewById(R.id.view_graph);
+        assert getArguments() != null;
+        final String admin_id = getArguments().getString("admin_id");
         final ArrayList<String> list_year = new ArrayList<>();
 
 //        Date inputDate
@@ -57,8 +59,9 @@ public class FragmentDate extends Fragment {
 //                Log.e(TAG, "onClick: split test" + date_of_purchase.split("-")[2]);
 //                int year = Integer.getInteger(date_of_purchase.split("/")[2]);
 //                Log.e(TAG, "onClick: year is" + year);
+                assert admin_id != null;
                 db.collection("users")
-                        .document(user_id)
+                        .document(admin_id)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -73,7 +76,7 @@ public class FragmentDate extends Fragment {
                                     for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
                                         Log.e(TAG, "onComplete: Loop is executing " + assets);
                                         db.collection("users")
-                                                .document(user_id)
+                                                .document(admin_id)
                                                 .collection(assets.toString())
                                                 .whereEqualTo("year", Integer.valueOf(editText.getText().toString()))
                                                 .get()
@@ -96,7 +99,7 @@ public class FragmentDate extends Fragment {
                                     for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
                                         Log.e(TAG, "onComplete: Loop is executing " + assets);
                                         db.collection("users")
-                                                .document(user_id)
+                                                .document(admin_id)
                                                 .collection(assets.toString())
                                                 .whereLessThan("year", Integer.valueOf(editText.getText().toString()))
                                                 .get()
@@ -119,7 +122,7 @@ public class FragmentDate extends Fragment {
                                     for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
                                         Log.e(TAG, "onComplete: Loop is executing " + assets);
                                         db.collection("users")
-                                                .document(user_id)
+                                                .document(admin_id)
                                                 .collection(assets.toString())
                                                 .whereGreaterThan("year", Integer.valueOf(editText.getText().toString()))
                                                 .get()
@@ -140,7 +143,7 @@ public class FragmentDate extends Fragment {
                             }
                         });
                 db.collection("users")
-                        .document(user_id)
+                        .document(admin_id)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -157,7 +160,7 @@ public class FragmentDate extends Fragment {
                                     for (final Long year : list) {
                                         Log.e(TAG, "onComplete: year is " + year);
                                         db.collection("users")
-                                                .document(user_id)
+                                                .document(admin_id)
                                                 .get()
                                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                     @Override
@@ -167,7 +170,7 @@ public class FragmentDate extends Fragment {
                                                             Log.e(TAG, "onComplete: Assets are in year" + year + " is " + documentSnapshot1.get("assets").toString());
                                                             for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
                                                                 db.collection("users")
-                                                                        .document(user_id)
+                                                                        .document(admin_id)
                                                                         .collection(assets.toString())
                                                                         .whereEqualTo("year", year)
                                                                         .get()

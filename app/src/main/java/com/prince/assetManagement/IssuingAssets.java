@@ -66,8 +66,8 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
 
 
         FirebaseApp.initializeApp(getApplicationContext());
-        final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final String id = getIntent().getStringExtra("id");
+        final String admin_id = getIntent().getStringExtra("admin_id");
+//        final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         final int total_quantity = getIntent().getIntExtra("totalQuantity", 0);
         Log.e(TAG, "Total quantity getting is" + total_quantity);
@@ -103,7 +103,7 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
         spinner.setOnItemSelectedListener(this);
 
         db.collection("users")
-                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .document(admin_id)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -132,7 +132,7 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
             public void onClick(View view) {
                 Intent intent = new Intent(IssuingAssets.this, GenerateQR.class);
                 intent.putExtra("detectedObject", detectedObject);
-                intent.putExtra("id", id);
+                intent.putExtra("admin_id", admin_id);
                 intent.putStringArrayListExtra("Document IDs", document_list);
                 startActivity(intent);
             }
@@ -168,7 +168,7 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
                         final int finalI2 = i;
                         final int finalI3 = i;
                         db.collection("users")
-                                .document(user_id)
+                                .document(admin_id)
                                 .collection(detectedObject)
                                 .document(document_list.get(i + 1))
                                 .update("issued_to", issued_to_username)
@@ -178,7 +178,7 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
                                         if (task.isSuccessful()) {
                                             Log.e(TAG, "onComplete: task is successful " + issued_to_username);
                                             db.collection("users")
-                                                    .document(user_id)
+                                                    .document(admin_id)
                                                     .collection(detectedObject)
                                                     .document(document_list.get(finalI + 1))
                                                     .update("department", department)
@@ -189,7 +189,7 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
                                                                 Log.e(TAG, "onComplete: finalI: " + finalI);
                                                                 Log.e(TAG, "onComplete: task is successful " + department);
                                                                 db.collection("users")
-                                                                        .document(user_id)
+                                                                        .document(admin_id)
                                                                         .collection(detectedObject)
                                                                         .document(document_list.get(finalI1 + 1))
                                                                         .update("room", room_number)
@@ -201,7 +201,7 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
 
                                                                                     Log.e(TAG, "onComplete: task is successful " + room_number);
                                                                                     db.collection("users")
-                                                                                            .document(user_id)
+                                                                                            .document(admin_id)
                                                                                             .collection(detectedObject)
                                                                                             .document(document_list.get(finalI2 + 1))
                                                                                             .update("issued_date", strDate)
@@ -212,7 +212,7 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
                                                                                                         Log.e(TAG, "onComplete: finalI2: " + finalI2);
                                                                                                         Log.e(TAG, "onComplete: task is successful");
                                                                                                         db.collection("users")
-                                                                                                                .document(user_id)
+                                                                                                                .document(admin_id)
                                                                                                                 .collection(detectedObject)
                                                                                                                 .document(document_list.get(finalI3 + 1))
                                                                                                                 .update("issued_to_id", issued_to_id)
@@ -242,12 +242,12 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
                     }
                     Log.e(TAG, "onClick: two variables i and quantity issued outside if is " + i + " - " + quantity_issued_update);
                     db.collection("users")
-                            .document(user_id)
+                            .document(admin_id)
                             .collection(detectedObject)
                             .document(document_list.get(i + 1))
                             .update("quantity_issued", quantity_issued_update);
                     db.collection("users")
-                            .document(user_id)
+                            .document(admin_id)
                             .collection(detectedObject)
                             .document(document_list.get(i + 1))
                             .update("remaining_quantity", remaining_quantity);

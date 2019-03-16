@@ -22,6 +22,7 @@ public class DeleteAssets extends AppCompatActivity {
 
         ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         ListView listView = findViewById(R.id.list_item);
+        final String admin_id = getIntent().getStringExtra("admin_id");
 
         listView.setAdapter(itemsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -30,6 +31,7 @@ public class DeleteAssets extends AppCompatActivity {
                 String selectedItem = (String) adapterView.getItemAtPosition(position);
                 Intent intent = new Intent(DeleteAssets.this, DeleteAssetInfo.class);
                 intent.putExtra("Selected Item", selectedItem);
+                intent.putExtra("admin_id", admin_id);
                 startActivity(intent);
 
                 Toast.makeText(DeleteAssets.this, "Selected Item is: " + selectedItem, Toast.LENGTH_SHORT).show();

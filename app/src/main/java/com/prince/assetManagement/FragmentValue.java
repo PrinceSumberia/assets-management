@@ -42,6 +42,8 @@ public class FragmentValue extends Fragment {
         editText = view.findViewById(R.id.asset_value);
         textView = view.findViewById(R.id.result);
         view_graph = view.findViewById(R.id.view_graph);
+        assert getArguments() != null;
+        final String admin_id = getArguments().getString("admin_id");
         final ArrayList<String> value = new ArrayList<>();
         final ArrayList<String> asset_array = new ArrayList<>();
 
@@ -50,7 +52,11 @@ public class FragmentValue extends Fragment {
             @Override
             public void onClick(View view) {
                 final int asset_value = Integer.parseInt(editText.getText().toString());
-                db.collection("users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                assert admin_id != null;
+                db.collection("users")
+                        .document(admin_id)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
@@ -63,7 +69,7 @@ public class FragmentValue extends Fragment {
                                 Log.e(TAG, "onComplete: objects are" + assets);
                                 Log.e(TAG, "onComplete: string objects are" + assets.toString());
                                 db.collection("users")
-                                        .document(user_id)
+                                        .document(admin_id)
                                         .collection(assets.toString())
                                         .whereGreaterThanOrEqualTo("asset_value", asset_value)
                                         .get()
@@ -81,7 +87,7 @@ public class FragmentValue extends Fragment {
                     }
                 });
                 db.collection("users")
-                        .document(user_id)
+                        .document(admin_id)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -93,7 +99,7 @@ public class FragmentValue extends Fragment {
                                         Log.e(TAG, "onComplete: objects are" + assets);
                                         Log.e(TAG, "onComplete: string objects are" + assets.toString());
                                         db.collection("users")
-                                                .document(user_id)
+                                                .document(admin_id)
                                                 .collection(assets.toString())
                                                 .get()
                                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

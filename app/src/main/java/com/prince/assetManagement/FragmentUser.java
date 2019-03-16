@@ -45,13 +45,16 @@ public class FragmentUser extends Fragment {
         editText = view.findViewById(R.id.asset_user);
         textView = view.findViewById(R.id.result);
         textView1 = view.findViewById(R.id.result_title);
+        assert getArguments() != null;
+        final String admin_id = getArguments().getString("admin_id");
 
         get_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String issued_to = editText.getText().toString();
+                assert admin_id != null;
                 db.collection("users")
-                        .document(user_id)
+                        .document(admin_id)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -63,7 +66,7 @@ public class FragmentUser extends Fragment {
                                     for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
                                         Log.e(TAG, "onComplete: Loop is executing " + assets);
                                         db.collection("users")
-                                                .document(user_id)
+                                                .document(admin_id)
                                                 .collection(assets.toString())
                                                 .whereEqualTo("issued_to", issued_to)
                                                 .get()

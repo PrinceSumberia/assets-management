@@ -109,6 +109,10 @@ public class Details extends AppCompatActivity {
 
         final Intent intent = getIntent();
         final String detectedObject = intent.getStringExtra("Detected Object");
+        final String admin_id = intent.getStringExtra("admin_id");
+        Log.d(TAG, "onCreate: admin id is" + admin_id);
+        final String admin_email = intent.getStringExtra("admin_email");
+        Log.d(TAG, "onCreate: admin email is" + admin_email);
         detectedCategory.setText(detectedObject);
 
         purchaseDate.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +170,7 @@ public class Details extends AppCompatActivity {
                 progressDialog = new ProgressDialog(Details.this);
                 progressDialog.setTitle("Saving Information");
                 progressDialog.show();
-                final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//                final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 final Map<String, Object> asset = new HashMap<>();
                 String total_assets = total_quantity.getText().toString();
                 String date_of_purchase = datePurchase.getText().toString();
@@ -179,10 +183,10 @@ public class Details extends AppCompatActivity {
                 int year = Integer.valueOf(date_of_purchase.split("-")[2]);
                 int asset_value = Integer.parseInt(assetValue.getText().toString());
                 final int total_quantity = Integer.parseInt(total_assets);
-                Log.e(TAG, "Asset Information" + user_id + " " + total_assets + " " + date_of_purchase + " "
+                Log.e(TAG, "Asset Information" + admin_id + " " + total_assets + " " + date_of_purchase + " "
                         + warranty_date + " " + uploaded_bill + " " + seller_information + " " + location);
                 asset.put("category", assetType);
-                asset.put("user_id", user_id);
+                asset.put("user_id", admin_id);
                 asset.put("total_quantity", total_quantity);
                 asset.put("date_of_purchase", date_of_purchase);
                 asset.put("warranty", warranty_date);
@@ -196,11 +200,11 @@ public class Details extends AppCompatActivity {
                 asset.put("issued_to", "None");
                 asset.put("issued_date", "");
                 asset.put("is_working", "true");
-                asset.put("admin_email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                asset.put("admin_email", admin_email);
                 asset.put("asset_value", asset_value);
                 asset.put("year", year);
                 db.collection("users")
-                        .document(user_id)
+                        .document(admin_id)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -212,7 +216,10 @@ public class Details extends AppCompatActivity {
                                     if (assets != null && assets.contains(detectedCategory.getText().toString())) {
                                         for (int i = 0; i < total_quantity; i++) {
                                             final int finalI = i;
-                                            db.collection("users").document(user_id).collection(assetType).add(asset)
+                                            db.collection("users")
+                                                    .document(admin_id)
+                                                    .collection(assetType)
+                                                    .add(asset)
                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                         @Override
                                                         public void onSuccess(DocumentReference documentReference) {
@@ -243,7 +250,7 @@ public class Details extends AppCompatActivity {
                                         }
                                     } else {
                                         db.collection("users")
-                                                .document(user_id)
+                                                .document(admin_id)
                                                 .update("assets", FieldValue.arrayUnion(detectedCategory.getText().toString()))
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
@@ -252,7 +259,10 @@ public class Details extends AppCompatActivity {
                                                             Log.e(TAG, "onComplete: This is simple of course");
                                                             for (int i = 0; i < total_quantity; i++) {
                                                                 final int finalI = i;
-                                                                db.collection("users").document(user_id).collection(assetType).add(asset)
+                                                                db.collection("users")
+                                                                        .document(admin_id)
+                                                                        .collection(assetType)
+                                                                        .add(asset)
                                                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                                             @Override
                                                                             public void onSuccess(DocumentReference documentReference) {
@@ -288,7 +298,7 @@ public class Details extends AppCompatActivity {
                                     }
                                 } else {
                                     db.collection("users")
-                                            .document(user_id)
+                                            .document(admin_id)
                                             .update("assets", FieldValue.arrayUnion(detectedCategory.getText().toString()))
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
@@ -297,7 +307,10 @@ public class Details extends AppCompatActivity {
                                                         Log.e(TAG, "onComplete: This is simple");
                                                         for (int i = 0; i < total_quantity; i++) {
                                                             final int finalI = i;
-                                                            db.collection("users").document(user_id).collection(assetType).add(asset)
+                                                            db.collection("users")
+                                                                    .document(admin_id)
+                                                                    .collection(assetType)
+                                                                    .add(asset)
                                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                                         @Override
                                                                         public void onSuccess(DocumentReference documentReference) {
@@ -344,11 +357,10 @@ public class Details extends AppCompatActivity {
 //                Toast.makeText(Details.this, "Text is " + text, Toast.LENGTH_SHORT).show();
                 String total_assets = total_quantity.getText().toString();
                 int total_quantity = Integer.parseInt(total_assets);
-                String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 Intent intent1 = new Intent(Details.this, IssuingAssets.class);
                 intent1.putExtra("totalQuantity", total_quantity);
                 intent1.putExtra("detectedObject", detectedCategory.getText().toString());
-                intent1.putExtra("id", user_id);
+                intent1.putExtra("admin_id", admin_id);
                 intent1.putExtra("document_id", text);
                 startActivity(intent1);
             }
@@ -472,7 +484,7 @@ public class Details extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

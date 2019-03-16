@@ -39,12 +39,18 @@ public class FragmentVendor extends Fragment {
         get_info = view.findViewById(R.id.get_info);
         editText = view.findViewById(R.id.asset_vendor);
         textView = view.findViewById(R.id.result);
+        assert getArguments() != null;
+        final String admin_id = getArguments().getString("admin_id");
 
         get_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String seller= editText.getText().toString();
-                db.collection("users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                assert admin_id != null;
+                db.collection("users")
+                        .document(admin_id)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
@@ -57,7 +63,7 @@ public class FragmentVendor extends Fragment {
                                 Log.e(TAG, "onComplete: objects are" + assets);
                                 Log.e(TAG, "onComplete: string objects are" + assets.toString());
                                 db.collection("users")
-                                        .document(user_id)
+                                        .document(admin_id)
                                         .collection(assets.toString())
                                         .whereEqualTo("seller", seller)
                                         .get()

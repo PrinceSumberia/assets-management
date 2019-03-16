@@ -39,14 +39,18 @@ public class DeleteFragmentAssetType extends Fragment {
         editText = view.findViewById(R.id.asset_type);
         textView = view.findViewById(R.id.result);
 
+        assert getArguments() != null;
+        final String admin_id = getArguments().getString("admin_id");
+
         get_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String asset_type = editText.getText().toString();
                 final ArrayList<String> list = new ArrayList<>();
                 final ArrayList<String> new_list = new ArrayList<>();
+                assert admin_id != null;
                 db.collection("users")
-                        .document(user_id)
+                        .document(admin_id)
                         .collection(asset_type)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
