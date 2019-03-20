@@ -75,7 +75,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
             R.drawable.ic_add,
             R.drawable.ic_qr_code_final,
             R.drawable.ic_search,
-            R.drawable.ic_search,
+            R.drawable.ic_issue,
             R.drawable.ic_employee,
             R.drawable.ic_wrench,
             R.drawable.ic_notification,
