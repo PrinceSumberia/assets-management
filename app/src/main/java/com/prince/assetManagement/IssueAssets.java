@@ -158,7 +158,7 @@ public class IssueAssets extends AppCompatActivity {
                 db.collection("users")
                         .document(admin_id)
                         .collection(asset_to_issue.toLowerCase())
-                        .whereEqualTo("is_working", "true")
+                        .whereEqualTo("issued_to", "None")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -213,24 +213,30 @@ public class IssueAssets extends AppCompatActivity {
                                     Log.d(TAG, "onComplete: Query snapshot: " + querySnapshot.iterator());
                                     for (int i = 0; i < quantity_issued_update; i++) {
                                         final int finalI = i;
-                                        querySnapshot.getDocuments()
-                                                .get(i)
-                                                .getReference()
-                                                .update("issued_to", issued_to_username.toLowerCase(),
-                                                        "issued_to_id", issued_to_id,
-                                                        "issued_date", strDate,
-                                                        "department", department,
-                                                        "room", room_number)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            Log.d(TAG, "onComplete: Task completed: " + finalI);
-                                                        } else {
-                                                            Log.e(TAG, "onComplete: Error occurred");
+                                        try {
+
+
+                                            querySnapshot.getDocuments()
+                                                    .get(i)
+                                                    .getReference()
+                                                    .update("issued_to", issued_to_username.toLowerCase(),
+                                                            "issued_to_id", issued_to_id,
+                                                            "issued_date", strDate,
+                                                            "department", department,
+                                                            "room", room_number)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Log.d(TAG, "onComplete: Task completed: " + finalI);
+                                                            } else {
+                                                                Log.e(TAG, "onComplete: Error occurred");
+                                                            }
                                                         }
-                                                    }
-                                                });
+                                                    });
+                                        } catch (Exception e) {
+                                            Toast.makeText(IssueAssets.this, "Asset Can't be Issued", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                     Toast.makeText(IssueAssets.this, "Assets Issued Successfully", Toast.LENGTH_SHORT).show();
                                 }
