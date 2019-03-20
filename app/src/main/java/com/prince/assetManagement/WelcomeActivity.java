@@ -75,6 +75,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
             R.drawable.ic_add,
             R.drawable.ic_qr_code_final,
             R.drawable.ic_search,
+            R.drawable.ic_search,
             R.drawable.ic_employee,
             R.drawable.ic_wrench,
             R.drawable.ic_notification,
@@ -83,7 +84,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
             R.drawable.ic_sent,
     };
 
-    String[] txt = {"Add Asset", "Scan Asset", "Search Asset", "Add Users", "Reported Assets", "Asset Requests",
+    String[] txt = {"Add Asset", "Scan Asset", "Search Asset", "Issue Assets", "Add Users", "Reported Assets", "Asset Requests",
             "Delete Assets", "Help", "Sign Out"};
 
     @Override
@@ -141,6 +142,10 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                         }
                         break;
                     case 3: {
+                        Toast.makeText(WelcomeActivity.this, "Issuing assets clicked", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                    case 4: {
                         db.collection("users")
                                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .get()
@@ -164,21 +169,21 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                                 });
                         break;
                     }
-                    case 4: {
+                    case 5: {
                         Intent intent = new Intent(getApplicationContext(), ReportedAssets.class);
                         intent.putExtra("admin_id", admin_id);
                         intent.putExtra("admin_email", admin_email);
                         startActivity(intent);
                         break;
                     }
-                    case 5: {
+                    case 6: {
                         Intent intent = new Intent(getApplicationContext(), AdminAssetRequest.class);
                         intent.putExtra("admin_id", admin_id);
                         intent.putExtra("admin_email", admin_email);
                         startActivity(intent);
                         break;
                     }
-                    case 6:
+                    case 7:
                         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                             Toast.makeText(WelcomeActivity.this, "You are not logged in", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -191,12 +196,12 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                             startActivity(intent);
                         }
                         break;
-                    case 7:
+                    case 8:
                         Toast.makeText(WelcomeActivity.this, "Ready to help", Toast.LENGTH_SHORT).show();
 //                        Intent intent2 = new Intent(getApplicationContext(), MapActivity.class);
 //                        startActivity(intent2);
                         break;
-                    case 8:
+                    case 9:
                         FirebaseAuth.getInstance().signOut();
                         Toast.makeText(WelcomeActivity.this, "Successfully Logged You Out", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), StartActivity.class);

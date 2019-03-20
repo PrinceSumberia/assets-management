@@ -46,6 +46,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import androidx.annotation.ColorRes;
@@ -203,6 +204,9 @@ public class Details extends AppCompatActivity {
                 asset.put("admin_email", admin_email);
                 asset.put("asset_value", asset_value);
                 asset.put("year", year);
+                asset.put("added_by_admin", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+                asset.put("added_by_name", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
+
                 db.collection("users")
                         .document(admin_id)
                         .get()

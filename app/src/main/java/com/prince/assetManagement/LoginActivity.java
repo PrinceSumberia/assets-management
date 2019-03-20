@@ -52,33 +52,73 @@ public class LoginActivity extends Activity {
                                 String role = documentSnapshot.get("role").toString();
                                 String admin_id = documentSnapshot.get("admin_id").toString();
                                 String admin_email = documentSnapshot.get("admin_email").toString();
-
-                                if (role.equals("admin")) {
-                                    Log.e(TAG, "onComplete: User is admin first loop");
-                                    Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                    intent.putExtra("admin_id", admin_id);
-                                    Log.e(TAG, "onComplete: login activity " + admin_id);
-                                    intent.putExtra("admin_email", admin_email);
-                                    startActivity(intent);
-                                } else if (role.equals("approver")) {
-                                    Log.e(TAG, "onComplete: User  is approver first loop");
-                                    Intent intent = new Intent(getApplicationContext(), Approver.class);
-                                    intent.putExtra("admin_id", admin_id);
-                                    Log.e(TAG, "onComplete: login activity " + admin_id);
-                                    intent.putExtra("admin_email", admin_email);
-                                    startActivity(intent);
-                                } else if (role.equals("normal user")) {
-                                    Log.e(TAG, "onComplete: User is normal user first loop");
-                                    Intent intent = new Intent(getApplicationContext(), NormalUser.class);
-                                    Log.e(TAG, "onComplete: login activity " + admin_id);
-                                    intent.putExtra("admin_id", admin_id);
-                                    intent.putExtra("admin_email", admin_email);
-                                    startActivity(intent);
-                                } else {
-                                    Log.e(TAG, "onComplete: User is neither");
-                                    Toast.makeText(LoginActivity.this, "Error Verifying Identity", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), NormalUser.class);
-                                    startActivity(intent);
+                                switch (role) {
+                                    case "admin":
+                                        if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                            Log.e(TAG, "onComplete: User is admin first loop");
+                                            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                            intent.putExtra("admin_id", admin_id);
+                                            Log.e(TAG, "onComplete: login activity " + admin_id);
+                                            intent.putExtra("admin_email", admin_email);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "Please Verify Your Email To Sign in", Toast.LENGTH_SHORT).show();
+                                            FirebaseAuth.getInstance().signOut();
+                                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        break;
+                                    case "approver": {
+                                        if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                            Log.e(TAG, "onComplete: User  is approver first loop");
+                                            Intent intent = new Intent(getApplicationContext(), Approver.class);
+                                            intent.putExtra("admin_id", admin_id);
+                                            Log.e(TAG, "onComplete: login activity " + admin_id);
+                                            intent.putExtra("admin_email", admin_email);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "Please Verify Your Email To Sign in", Toast.LENGTH_SHORT).show();
+                                            FirebaseAuth.getInstance().signOut();
+                                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        break;
+                                    }
+                                    case "normal user": {
+                                        if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                            Log.e(TAG, "onComplete: User is normal user first loop");
+                                            Intent intent = new Intent(getApplicationContext(), NormalUser.class);
+                                            Log.e(TAG, "onComplete: login activity " + admin_id);
+                                            intent.putExtra("admin_id", admin_id);
+                                            intent.putExtra("admin_email", admin_email);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "Please Verify Your Email To Sign in", Toast.LENGTH_SHORT).show();
+                                            FirebaseAuth.getInstance().signOut();
+                                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        break;
+                                    }
+                                    default: {
+                                        Log.e(TAG, "onComplete: User is neither");
+                                        Toast.makeText(LoginActivity.this, "Error Verifying Identity", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), NormalUser.class);
+                                        startActivity(intent);
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -127,38 +167,71 @@ public class LoginActivity extends Activity {
                                             if (document.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                                 switch (document.get("role").toString()) {
                                                     case "admin": {
-                                                        counter += task.getResult().size();
-                                                        Log.d(TAG, "onComplete: user already exits and role is admin " + document.get("role").toString());
-                                                        String admin_id = document.get("admin_id").toString();
-                                                        String admin_email = document.get("admin_email").toString();
-                                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                                        intent.putExtra("admin_id", admin_id);
-                                                        intent.putExtra("admin_email", admin_email);
-                                                        startActivity(intent);
+                                                        if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                                            counter += task.getResult().size();
+                                                            Log.d(TAG, "onComplete: user already exits and role is admin " + document.get("role").toString());
+                                                            String admin_id = document.get("admin_id").toString();
+                                                            String admin_email = document.get("admin_email").toString();
+                                                            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                                            intent.putExtra("admin_id", admin_id);
+                                                            intent.putExtra("admin_email", admin_email);
+                                                            startActivity(intent);
+                                                        } else {
+                                                            Toast.makeText(LoginActivity.this, "Please Verify Your Email To Sign in", Toast.LENGTH_SHORT).show();
+                                                            FirebaseAuth.getInstance().signOut();
+                                                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
                                                         break;
                                                     }
                                                     case "normal user": {
-                                                        counter += task.getResult().size();
-                                                        Log.e(TAG, "onComplete: user is normal user" + document.get("role").toString());
-                                                        Toast.makeText(LoginActivity.this, "User is normal user", Toast.LENGTH_SHORT).show();
-                                                        Intent intent = new Intent(getApplicationContext(), NormalUser.class);
-                                                        String admin_id = document.get("admin_id").toString();
-                                                        String admin_email = document.get("admin_email").toString();
-                                                        intent.putExtra("admin_id", admin_id);
-                                                        intent.putExtra("admin_email", admin_email);
-                                                        startActivity(intent);
+                                                        if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                                            counter += task.getResult().size();
+                                                            Log.e(TAG, "onComplete: user is normal user" + document.get("role").toString());
+                                                            Toast.makeText(LoginActivity.this, "User is normal user", Toast.LENGTH_SHORT).show();
+                                                            Intent intent = new Intent(getApplicationContext(), NormalUser.class);
+                                                            String admin_id = document.get("admin_id").toString();
+                                                            String admin_email = document.get("admin_email").toString();
+                                                            intent.putExtra("admin_id", admin_id);
+                                                            intent.putExtra("admin_email", admin_email);
+                                                            startActivity(intent);
+                                                        } else {
+                                                            Toast.makeText(LoginActivity.this, "Please Verify Your Email To Sign in", Toast.LENGTH_SHORT).show();
+                                                            FirebaseAuth.getInstance().signOut();
+                                                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
                                                         break;
                                                     }
                                                     case "approver": {
-                                                        counter += task.getResult().size();
-                                                        Log.e(TAG, "onComplete: user is a approver" + document.get("role").toString());
-                                                        Toast.makeText(LoginActivity.this, "User is approver", Toast.LENGTH_SHORT).show();
-                                                        Intent intent = new Intent(getApplicationContext(), Approver.class);
-                                                        String admin_id = document.get("admin_id").toString();
-                                                        String admin_email = document.get("admin_email").toString();
-                                                        intent.putExtra("admin_id", admin_id);
-                                                        intent.putExtra("admin_email", admin_email);
-                                                        startActivity(intent);
+                                                        if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                                            counter += task.getResult().size();
+                                                            Log.e(TAG, "onComplete: user is a approver" + document.get("role").toString());
+                                                            Toast.makeText(LoginActivity.this, "User is approver", Toast.LENGTH_SHORT).show();
+                                                            Intent intent = new Intent(getApplicationContext(), Approver.class);
+                                                            String admin_id = document.get("admin_id").toString();
+                                                            String admin_email = document.get("admin_email").toString();
+                                                            intent.putExtra("admin_id", admin_id);
+                                                            intent.putExtra("admin_email", admin_email);
+                                                            startActivity(intent);
+                                                        } else {
+                                                            Toast.makeText(LoginActivity.this, "Please Verify Your Email To Sign in", Toast.LENGTH_SHORT).show();
+                                                            FirebaseAuth.getInstance().signOut();
+                                                            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                                                    Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
                                                         break;
                                                     }
                                                     default: {
