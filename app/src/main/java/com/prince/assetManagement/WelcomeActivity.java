@@ -142,7 +142,11 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                         }
                         break;
                     case 3: {
-                        Toast.makeText(WelcomeActivity.this, "Issuing assets clicked", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), IssueAssets.class);
+                        intent.putExtra("admin_id", admin_id);
+                        intent.putExtra("admin_email", admin_email);
+                        startActivity(intent);
+//                        Toast.makeText(WelcomeActivity.this, "Issuing assets clicked", Toast.LENGTH_SHORT).show();
                     }
                     break;
                     case 4: {
