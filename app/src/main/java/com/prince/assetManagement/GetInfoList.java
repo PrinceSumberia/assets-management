@@ -5,7 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class GetInfoList extends RecyclerView.Adapter<GetInfoList.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView assetType, assetNumber;
-        LinearLayout parentLayout;
+        RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
