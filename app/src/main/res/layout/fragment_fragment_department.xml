@@ -15,14 +15,14 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="105dp"
                 android:layout_height="match_parent"
                 android:text="Department"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <EditText
                 android:id="@+id/department"
@@ -36,10 +36,13 @@
                 android:text="Get Info" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/result"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+
+
     </LinearLayout>
 
 </FrameLayout>

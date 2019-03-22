@@ -46,7 +46,6 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
     List<String> userid = new ArrayList<>();
 //    ArrayList<String> document_list = new ArrayList<>();
 //
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +59,8 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
         next = findViewById(R.id.next);
         spinner = findViewById(R.id.spinner_issue);
 
-
         final String document = getIntent().getStringExtra("document_id");
         final ArrayList<String> document_list = new ArrayList<>(Arrays.asList(document.split(",")));
-
 
         FirebaseApp.initializeApp(getApplicationContext());
         final String admin_id = getIntent().getStringExtra("admin_id");
@@ -90,6 +87,8 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
                     int quantity_issued = Integer.parseInt(str_quantity_issued);
                     int remaining_quantity = total_quantity - quantity_issued;
                     remaining_quantity_field.setText(String.valueOf(remaining_quantity));
+                    Log.e(TAG, "onTextChanged: " + str_quantity_issued + " " + quantity_issued + " " + remaining_quantity);
+
                 } catch (Exception e) {
                     Log.e(TAG, "onTextChanged: Exception Occurred!");
                 }

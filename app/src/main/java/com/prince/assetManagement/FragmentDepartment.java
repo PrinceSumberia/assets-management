@@ -20,6 +20,12 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import static android.widget.LinearLayout.VERTICAL;
 
 
 public class FragmentDepartment extends Fragment {
@@ -29,24 +35,37 @@ public class FragmentDepartment extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
     String TAG = "hello";
+    ArrayList<String> mAssetType = new ArrayList<>();
+    ArrayList<String> mAssetNumber = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_fragment_department, container, false);
+        Log.d(TAG, "initRecyclerView: init recycler view");
         get_info = view.findViewById(R.id.get_info);
         editText = view.findViewById(R.id.department);
-        textView = view.findViewById(R.id.result);
+
+        final RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        final GetInfoList adapter = new GetInfoList(mAssetType, mAssetNumber, getActivity());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), VERTICAL);
+        recyclerView.addItemDecoration(decoration);
 
         assert getArguments() != null;
         final String admin_id = getArguments().getString("admin_id");
-
+        final SwipeRefreshLayout swipeRefreshLayout = new SwipeRefreshLayout(getActivity());
         get_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String department = editText.getText().toString();
                 assert admin_id != null;
+                mAssetType.clear();
+                mAssetNumber.clear();
+                adapter.notifyDataSetChanged();
                 db.collection("users")
                         .document(admin_id)
                         .get()
@@ -57,7 +76,7 @@ public class FragmentDepartment extends Fragment {
                                     DocumentSnapshot documentSnapshot = task.getResult();
                                     Log.e(TAG, "onComplete: " + documentSnapshot.get("assets"));
                                     for (final Object assets : (ArrayList) documentSnapshot.get("assets")) {
-                                        Log.e(TAG, "onComplete: Inside lopp is executing");
+                                        Log.e(TAG, "onComplete: Inside loop is executing");
                                         db.collection("users")
                                                 .document(admin_id)
                                                 .collection(assets.toString())
@@ -68,8 +87,11 @@ public class FragmentDepartment extends Fragment {
                                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                         if (task.isSuccessful()) {
                                                             Log.e(TAG, "onComplete: asset type is " + assets + "Number of assets" + task.getResult().size());
-                                                            String result = assets + ": " + task.getResult().size() + "" + "\n";
-                                                            textView.append(result.toUpperCase());
+                                                            String number = String.valueOf(task.getResult().size());
+                                                            mAssetType.add(assets.toString());
+                                                            mAssetNumber.add(number);
+                                                            adapter.notifyDataSetChanged();
+//                                                            textView.append(result.toUpperCase());
                                                         }
                                                     }
                                                 });
@@ -79,6 +101,7 @@ public class FragmentDepartment extends Fragment {
                         });
             }
         });
+
 
 //        get_info.setOnClickListener(new View.OnClickListener() {
 //            @Override
