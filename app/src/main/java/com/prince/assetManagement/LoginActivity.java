@@ -263,9 +263,11 @@ public class LoginActivity extends Activity {
                                                     }
                                                     user.put("year", year_list);
                                                     user.put("normal_users", Arrays.asList());
-                                                    user.put("admin_users", Arrays.asList());
                                                     user.put("approver", Arrays.asList());
                                                     Log.e(TAG, "onComplete: isEmpty is not empty and new user");
+                                                    final Map<String, Object> admin_list = new HashMap<>();
+                                                    admin_list.put(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                    user.put("admin_users", admin_list);
                                                     db.collection("users")
                                                             .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                             .set(user)
@@ -274,6 +276,7 @@ public class LoginActivity extends Activity {
                                                                 public void onSuccess(Void aVoid) {
                                                                     Log.e(TAG, "onSuccess: Data added successfully");
                                                                     Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                                                    FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
                                                                     startActivity(intent);
                                                                 }
                                                             });
@@ -297,7 +300,11 @@ public class LoginActivity extends Activity {
                                         user.put("year", year_list);
                                         user.put("normal_users", Arrays.asList());
                                         user.put("approver", Arrays.asList());
-                                        user.put("admin_users", Arrays.asList());
+//                                        final Map<String, Object> admin_users = new HashMap<>();
+//                                        admin_users.put("admin_users", admin_list);
+                                        final Map<String, Object> admin_list = new HashMap<>();
+                                        admin_list.put(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                        user.put("admin_users", admin_list);
                                         Log.e(TAG, "onComplete: isEmpty is true");
                                         db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .set(user)
@@ -306,6 +313,7 @@ public class LoginActivity extends Activity {
                                                     public void onSuccess(Void aVoid) {
                                                         Log.e(TAG, "onSuccess: Data added successfully");
                                                         Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                                                        FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification();
                                                         startActivity(intent);
                                                     }
                                                 });

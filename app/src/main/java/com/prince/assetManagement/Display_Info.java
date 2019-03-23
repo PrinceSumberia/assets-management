@@ -86,6 +86,16 @@ public class Display_Info extends FragmentActivity {
             fragment.setArguments(b);
             fragmentTransaction.replace(R.id.fragment_area, fragment);
             fragmentTransaction.commit();
+        } else if (selected_item.equals("By Admin")) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            Fragment fragment = new FragmentAdmin();
+            Bundle b = new Bundle();
+            b.putString("admin_id", admin_id);
+            b.putString("admin_email", admin_email);
+            fragment.setArguments(b);
+            fragmentTransaction.replace(R.id.fragment_area, fragment);
+            fragmentTransaction.commit();
         }
 // else if (selected_item.equals("By Admin")) {
 //            FragmentManager fragmentManager = getSupportFragmentManager();

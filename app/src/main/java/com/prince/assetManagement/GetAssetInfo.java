@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class GetAssetInfo extends AppCompatActivity {
-    String items[] = {"By Department", "By Asset Type", "By Value", "By Year", "By User", "By Vendor"};
+    String items[] = {"By Department", "By Asset Type", "By Value", "By Year", "By User", "By Vendor", "By Admin"};
     String TAG = "My Name";
 
     @Override

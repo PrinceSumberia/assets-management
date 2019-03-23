@@ -215,7 +215,6 @@ public class IssueAssets extends AppCompatActivity {
                                         final int finalI = i;
                                         try {
 
-
                                             querySnapshot.getDocuments()
                                                     .get(i)
                                                     .getReference()
