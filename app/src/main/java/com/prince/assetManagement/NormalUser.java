@@ -52,7 +52,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 public class NormalUser extends AppCompatActivity {
     private static final String TAG = "NormalUser";
     private final int PICK_IMAGE_REQUEST = 71;
-    Button requestAsset, reportAsset, scanAsset;
+    Button requestAsset, reportAsset, scanAsset, issuedAssets;
     TextView logout;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -103,7 +103,7 @@ public class NormalUser extends AppCompatActivity {
         storageReference = storage.getReference();
         initNavigationMenu();
         requestAsset = findViewById(R.id.request_asset);
-//        reportAsset = findViewById(R.id.report_asset);
+        issuedAssets = findViewById(R.id.issued_assets);
         scanAsset = findViewById(R.id.scan_asset_user);
 //        logout = findViewById(R.id.logout_user);
 
@@ -143,6 +143,16 @@ public class NormalUser extends AppCompatActivity {
                 Toast.makeText(NormalUser.this, "Request Asset", Toast.LENGTH_SHORT).show();
             }
         });
+
+        issuedAssets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), IssuedAssets.class);
+                startActivity(intent);
+                Toast.makeText(NormalUser.this, "Issued Assets Details", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void initToolbar() {
