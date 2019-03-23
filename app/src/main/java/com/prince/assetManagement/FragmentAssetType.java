@@ -22,8 +22,11 @@ import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-
+import static android.widget.LinearLayout.VERTICAL;
 
 
 public class FragmentAssetType extends Fragment {
@@ -33,6 +36,8 @@ public class FragmentAssetType extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private static final String TAG = "FragmentAssetType";
+    ArrayList<String> mAssetType = new ArrayList<>();
+    ArrayList<String> mAssetNumber = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +47,15 @@ public class FragmentAssetType extends Fragment {
         get_info = view.findViewById(R.id.get_info);
         editText = view.findViewById(R.id.asset_type);
         textView = view.findViewById(R.id.result);
+
+        final RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        final GetInfoList adapter = new GetInfoList(mAssetType, mAssetNumber, getActivity());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), VERTICAL);
+        recyclerView.addItemDecoration(decoration);
+
         assert getArguments() != null;
         final String admin_id = getArguments().getString("admin_id");
         get_info.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +102,11 @@ public class FragmentAssetType extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()){
-                                                    textView.append("\n" + dep.toUpperCase() + " Department: " + task.getResult().size() );
+//                                                    textView.append("\n" + dep.toUpperCase() + " Department: " + task.getResult().size() );
+                                                    String number = String.valueOf(task.getResult().size());
+                                                    mAssetType.add(dep.toUpperCase());
+                                                    mAssetNumber.add(number);
+                                                    adapter.notifyDataSetChanged();
                                                     Log.e(TAG, "onComplete: asset in department " + dep +" is " + task.getResult().size());
                                                     Log.e(TAG, "onComplete: asset in department " + dep +" is " + task.getResult().toString());
                                                 }
