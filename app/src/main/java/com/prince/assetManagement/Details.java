@@ -35,6 +35,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -79,6 +80,7 @@ public class Details extends AppCompatActivity {
     private Uri filePath;
     private Toolbar toolbar;
     private ActionBar actionBar;
+    String label = "none";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,185 +174,496 @@ public class Details extends AppCompatActivity {
                 progressDialog.setTitle("Saving Information");
                 progressDialog.show();
 //                final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                final Map<String, Object> asset = new HashMap<>();
-                String total_assets = total_quantity.getText().toString();
-                String date_of_purchase = datePurchase.getText().toString();
-                String warranty_date = dateWarranty.getText().toString();
-                String uploaded_bill = bill_url;
-                String seller_information = seller.getText().toString();
-                String location = geo_tag_location;
-                final String assetType = detectedCategory.getText().toString();
-                Log.e(TAG, "onClick: split test this time" + date_of_purchase.split("-")[2]);
-                int year = Integer.valueOf(date_of_purchase.split("-")[2]);
-                int asset_value = Integer.parseInt(assetValue.getText().toString());
-                final int total_quantity = Integer.parseInt(total_assets);
-                Log.e(TAG, "Asset Information" + admin_id + " " + total_assets + " " + date_of_purchase + " "
-                        + warranty_date + " " + uploaded_bill + " " + seller_information + " " + location);
-                asset.put("category", assetType);
-                asset.put("user_id", admin_id);
-                asset.put("total_quantity", total_quantity);
-                asset.put("date_of_purchase", date_of_purchase);
-                asset.put("warranty", warranty_date);
-                asset.put("bill", uploaded_bill);
-                asset.put("seller", seller_information);
-                asset.put("location", location);
-                asset.put("department", "None");
-                asset.put("room", "None");
-                asset.put("quantity_issued", 0);
-                asset.put("remaining_quantity", total_quantity);
-                asset.put("issued_to", "None");
-                asset.put("issued_date", "");
-                asset.put("is_working", "true");
-                asset.put("admin_email", admin_email);
-                asset.put("asset_value", asset_value);
-                asset.put("year", year);
-                asset.put("added_by_admin", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
-                asset.put("added_by_name", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
-
                 db.collection("users")
                         .document(admin_id)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.getResult() != null) {
+                                if (task.isSuccessful()) {
                                     DocumentSnapshot documentSnapshot = task.getResult();
-                                    List<String> assets = (List<String>) documentSnapshot.get("assets");
-//                                    Log.e(TAG, "onComplete: assets are" +assets.toArray().toString() );
-                                    if (assets != null && assets.contains(detectedCategory.getText().toString())) {
-                                        for (int i = 0; i < total_quantity; i++) {
-                                            final int finalI = i;
-                                            db.collection("users")
-                                                    .document(admin_id)
-                                                    .collection(assetType)
-                                                    .add(asset)
-                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                        @Override
-                                                        public void onSuccess(DocumentReference documentReference) {
-                                                            Log.e(TAG, "onSuccess: this is simple too");
-                                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                            textView.setAlpha(0.0f);
-                                                            numView.setAlpha(0.0f);
-                                                            numView.setText(String.valueOf(finalI));
-                                                            textView.setText(textView.getText() + "," + documentReference.getId());
-                                                            if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
-                                                                runOnUiThread(new Runnable() {
-                                                                    @Override
-                                                                    public void run() {
-                                                                        progressDialog.dismiss();
-                                                                        Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
-                                                                    }
-                                                                });
-                                                            }
-
-                                                        }
-                                                    })
-                                                    .addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            Log.w(TAG, "Error adding document", e);
-                                                        }
-                                                    });
+                                    final Map<String, String> assets_label = (Map<String, String>) documentSnapshot.get("assets_label");
+                                    for (Map.Entry<String, String> labels : assets_label.entrySet()) {
+                                        Log.e(TAG, "onComplete: the user is: " + labels.getKey() + " id is: " + labels.getValue());
+                                        if (labels.getKey().equals(detectedCategory.getText().toString())) {
+                                            label = labels.getValue();
                                         }
-                                    } else {
+                                    }
+                                    if (label.equals("none")) {
+                                        final Map<String, Object> asset = new HashMap<>();
+                                        String total_assets = total_quantity.getText().toString();
+                                        String date_of_purchase = datePurchase.getText().toString();
+                                        String warranty_date = dateWarranty.getText().toString();
+                                        String uploaded_bill = bill_url;
+                                        String seller_information = seller.getText().toString();
+                                        String location = geo_tag_location;
+                                        final String assetType = detectedCategory.getText().toString();
+                                        Log.e(TAG, "onClick: split test this time" + date_of_purchase.split("-")[2]);
+                                        int year = Integer.valueOf(date_of_purchase.split("-")[2]);
+                                        int asset_value = Integer.parseInt(assetValue.getText().toString());
+                                        final int total_quantity = Integer.parseInt(total_assets);
+                                        Log.e(TAG, "Asset Information" + admin_id + " " + total_assets + " " + date_of_purchase + " "
+                                                + warranty_date + " " + uploaded_bill + " " + seller_information + " " + location);
+                                        asset.put("category", assetType);
+                                        asset.put("user_id", admin_id);
+                                        asset.put("total_quantity", total_quantity);
+                                        asset.put("date_of_purchase", date_of_purchase);
+                                        asset.put("warranty", warranty_date);
+                                        asset.put("bill", uploaded_bill);
+                                        asset.put("seller", seller_information);
+                                        asset.put("location", location);
+                                        asset.put("department", "None");
+                                        asset.put("room", "None");
+                                        asset.put("quantity_issued", 0);
+                                        asset.put("remaining_quantity", total_quantity);
+                                        asset.put("issued_to", "None");
+                                        asset.put("issued_date", "");
+                                        asset.put("is_working", "true");
+                                        asset.put("admin_email", admin_email);
+                                        asset.put("asset_value", asset_value);
+                                        asset.put("year", year);
+                                        asset.put("added_by_admin", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+                                        asset.put("added_by_name", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
                                         db.collection("users")
                                                 .document(admin_id)
-                                                .update("assets", FieldValue.arrayUnion(detectedCategory.getText().toString()))
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                     @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            Log.e(TAG, "onComplete: This is simple of course");
-                                                            for (int i = 0; i < total_quantity; i++) {
-                                                                final int finalI = i;
-                                                                db.collection("users")
-                                                                        .document(admin_id)
-                                                                        .collection(assetType)
-                                                                        .add(asset)
-                                                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                                            @Override
-                                                                            public void onSuccess(DocumentReference documentReference) {
-                                                                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                                                textView.setAlpha(0.0f);
-                                                                                numView.setAlpha(0.0f);
-                                                                                numView.setText(String.valueOf(finalI));
-                                                                                textView.setText(textView.getText() + "," + documentReference.getId());
-                                                                                if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
-                                                                                    runOnUiThread(new Runnable() {
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.getResult() != null) {
+                                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                                            List<String> assets = (List<String>) documentSnapshot.get("assets");
+                                                            if (assets != null && assets.contains(detectedCategory.getText().toString())) {
+                                                                for (int i = 0; i < total_quantity; i++) {
+                                                                    final int finalI = i;
+                                                                    db.collection("users")
+                                                                            .document(admin_id)
+                                                                            .collection(assetType)
+                                                                            .add(asset)
+                                                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                @Override
+                                                                                public void onSuccess(final DocumentReference documentReference) {
+                                                                                    Log.e(TAG, "onSuccess: this is simple too");
+                                                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                                                    String str_label = detectedCategory.getText().toString() + "-" + finalI;
+                                                                                    final Map<String, Object> labels = new HashMap<>();
+                                                                                    final Map<String, Object> assets_label = new HashMap<>();
+                                                                                    labels.put(detectedCategory.getText().toString(), String.valueOf(finalI));
+                                                                                    assets_label.put("assets_label", labels);
+                                                                                    documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                         @Override
-                                                                                        public void run() {
-                                                                                            progressDialog.dismiss();
-                                                                                            Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
+                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                            if (task.isSuccessful()) {
+                                                                                                db.collection("users").document(admin_id)
+                                                                                                        .set(assets_label, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                    @Override
+                                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                                        Log.e(TAG, "onComplete: Task is successful");
+                                                                                                    }
+                                                                                                });
+                                                                                            }
                                                                                         }
                                                                                     });
-                                                                                }
+                                                                                    textView.setAlpha(0.0f);
+                                                                                    numView.setAlpha(0.0f);
+                                                                                    numView.setText(String.valueOf(finalI));
+                                                                                    textView.setText(textView.getText() + "," + documentReference.getId());
+                                                                                    if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
+                                                                                        runOnUiThread(new Runnable() {
+                                                                                            @Override
+                                                                                            public void run() {
+                                                                                                progressDialog.dismiss();
+                                                                                                Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        });
+                                                                                    }
 
-                                                                            }
-                                                                        })
-                                                                        .addOnFailureListener(new OnFailureListener() {
+                                                                                }
+                                                                            })
+                                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                                @Override
+                                                                                public void onFailure(@NonNull Exception e) {
+                                                                                    Log.w(TAG, "Error adding document", e);
+                                                                                }
+                                                                            });
+                                                                }
+                                                            } else {
+                                                                db.collection("users")
+                                                                        .document(admin_id)
+                                                                        .update("assets", FieldValue.arrayUnion(detectedCategory.getText().toString()))
+                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                             @Override
-                                                                            public void onFailure(@NonNull Exception e) {
-                                                                                Log.w(TAG, "Error adding document", e);
+                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    Log.e(TAG, "onComplete: This is simple of course");
+                                                                                    for (int i = 0; i < total_quantity; i++) {
+                                                                                        final int finalI = i;
+                                                                                        db.collection("users")
+                                                                                                .document(admin_id)
+                                                                                                .collection(assetType)
+                                                                                                .add(asset)
+                                                                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                                    @Override
+                                                                                                    public void onSuccess(final DocumentReference documentReference) {
+                                                                                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                                                                        String str_label = detectedCategory.getText().toString() + "-" + finalI;
+                                                                                                        final Map<String, Object> labels = new HashMap<>();
+                                                                                                        final Map<String, Object> assets_label = new HashMap<>();
+                                                                                                        labels.put(detectedCategory.getText().toString(), String.valueOf(finalI));
+                                                                                                        assets_label.put("assets_label", labels);
+                                                                                                        documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                            @Override
+                                                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                if (task.isSuccessful()) {
+                                                                                                                    db.collection("users").document(admin_id)
+                                                                                                                            .set(assets_label, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                                        @Override
+                                                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                            Log.e(TAG, "onComplete: Task is successful");
+                                                                                                                        }
+                                                                                                                    });
+                                                                                                                }
+                                                                                                            }
+                                                                                                        });
+                                                                                                        textView.setAlpha(0.0f);
+                                                                                                        numView.setAlpha(0.0f);
+                                                                                                        numView.setText(String.valueOf(finalI));
+                                                                                                        textView.setText(textView.getText() + "," + documentReference.getId());
+                                                                                                        if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
+                                                                                                            runOnUiThread(new Runnable() {
+                                                                                                                @Override
+                                                                                                                public void run() {
+                                                                                                                    progressDialog.dismiss();
+                                                                                                                    Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
+                                                                                                                }
+                                                                                                            });
+                                                                                                        }
+
+                                                                                                    }
+                                                                                                })
+                                                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                                                    @Override
+                                                                                                    public void onFailure(@NonNull Exception e) {
+                                                                                                        Log.w(TAG, "Error adding document", e);
+                                                                                                    }
+                                                                                                });
+                                                                                    }
+                                                                                }
                                                                             }
                                                                         });
+
+
                                                             }
-                                                        }
-                                                    }
-                                                });
-
-
-                                    }
-                                } else {
-                                    db.collection("users")
-                                            .document(admin_id)
-                                            .update("assets", FieldValue.arrayUnion(detectedCategory.getText().toString()))
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Log.e(TAG, "onComplete: This is simple");
-                                                        for (int i = 0; i < total_quantity; i++) {
-                                                            final int finalI = i;
+                                                        } else {
                                                             db.collection("users")
                                                                     .document(admin_id)
-                                                                    .collection(assetType)
-                                                                    .add(asset)
-                                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                    .update("assets", FieldValue.arrayUnion(detectedCategory.getText().toString()))
+                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
-                                                                        public void onSuccess(DocumentReference documentReference) {
-                                                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                                            textView.setAlpha(0.0f);
-                                                                            numView.setAlpha(0.0f);
-                                                                            numView.setText(String.valueOf(finalI));
-                                                                            textView.setText(textView.getText() + "," + documentReference.getId());
-                                                                            if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
-                                                                                runOnUiThread(new Runnable() {
-                                                                                    @Override
-                                                                                    public void run() {
-                                                                                        progressDialog.dismiss();
-                                                                                        Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
-                                                                                    }
-                                                                                });
-                                                                            }
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if (task.isSuccessful()) {
+                                                                                Log.e(TAG, "onComplete: This is simple");
+                                                                                for (int i = 0; i < total_quantity; i++) {
+                                                                                    final int finalI = i;
+                                                                                    db.collection("users")
+                                                                                            .document(admin_id)
+                                                                                            .collection(assetType)
+                                                                                            .add(asset)
+                                                                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                                @Override
+                                                                                                public void onSuccess(final DocumentReference documentReference) {
+                                                                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                                                                    String str_label = detectedCategory.getText().toString() + "-" + finalI;
+                                                                                                    final Map<String, Object> labels = new HashMap<>();
+                                                                                                    final Map<String, Object> assets_label = new HashMap<>();
+                                                                                                    labels.put(detectedCategory.getText().toString(), String.valueOf(finalI));
+                                                                                                    assets_label.put("assets_label", labels);
+                                                                                                    documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                        @Override
+                                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                                            if (task.isSuccessful()) {
+                                                                                                                db.collection("users").document(admin_id)
+                                                                                                                        .set(assets_label, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                                    @Override
+                                                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                        Log.e(TAG, "onComplete: Task is successful");
+                                                                                                                    }
+                                                                                                                });
+                                                                                                            }
+                                                                                                        }
+                                                                                                    });
+                                                                                                    textView.setAlpha(0.0f);
+                                                                                                    numView.setAlpha(0.0f);
+                                                                                                    numView.setText(String.valueOf(finalI));
+                                                                                                    textView.setText(textView.getText() + "," + documentReference.getId());
+                                                                                                    if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
+                                                                                                        runOnUiThread(new Runnable() {
+                                                                                                            @Override
+                                                                                                            public void run() {
+                                                                                                                progressDialog.dismiss();
+                                                                                                                Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
+                                                                                                            }
+                                                                                                        });
+                                                                                                    }
 
-                                                                        }
-                                                                    })
-                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                        @Override
-                                                                        public void onFailure(@NonNull Exception e) {
-                                                                            Log.w(TAG, "Error adding document", e);
+                                                                                                }
+                                                                                            })
+                                                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                                                @Override
+                                                                                                public void onFailure(@NonNull Exception e) {
+                                                                                                    Log.w(TAG, "Error adding document", e);
+                                                                                                }
+                                                                                            });
+                                                                                }
+                                                                            }
                                                                         }
                                                                     });
                                                         }
                                                     }
-                                                }
-                                            });
+                                                });
+
+                                    } else {
+                                        final Map<String, Object> asset = new HashMap<>();
+                                        String total_assets = total_quantity.getText().toString();
+                                        String date_of_purchase = datePurchase.getText().toString();
+                                        String warranty_date = dateWarranty.getText().toString();
+                                        String uploaded_bill = bill_url;
+                                        String seller_information = seller.getText().toString();
+                                        String location = geo_tag_location;
+                                        final String assetType = detectedCategory.getText().toString();
+                                        Log.e(TAG, "onClick: split test this time" + date_of_purchase.split("-")[2]);
+                                        int year = Integer.valueOf(date_of_purchase.split("-")[2]);
+                                        int asset_value = Integer.parseInt(assetValue.getText().toString());
+                                        final int total_quantity = Integer.parseInt(total_assets);
+                                        Log.e(TAG, "Asset Information" + admin_id + " " + total_assets + " " + date_of_purchase + " "
+                                                + warranty_date + " " + uploaded_bill + " " + seller_information + " " + location);
+                                        asset.put("category", assetType);
+                                        asset.put("user_id", admin_id);
+                                        asset.put("total_quantity", total_quantity);
+                                        asset.put("date_of_purchase", date_of_purchase);
+                                        asset.put("warranty", warranty_date);
+                                        asset.put("bill", uploaded_bill);
+                                        asset.put("seller", seller_information);
+                                        asset.put("location", location);
+                                        asset.put("department", "None");
+                                        asset.put("room", "None");
+                                        asset.put("quantity_issued", 0);
+                                        asset.put("remaining_quantity", total_quantity);
+                                        asset.put("issued_to", "None");
+                                        asset.put("issued_date", "");
+                                        asset.put("is_working", "true");
+                                        asset.put("admin_email", admin_email);
+                                        asset.put("asset_value", asset_value);
+                                        asset.put("year", year);
+                                        asset.put("added_by_admin", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+                                        asset.put("added_by_name", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
+                                        db.collection("users")
+                                                .document(admin_id)
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.getResult() != null) {
+                                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                                            List<String> assets = (List<String>) documentSnapshot.get("assets");
+                                                            if (assets != null && assets.contains(detectedCategory.getText().toString())) {
+                                                                for (int i = 0; i < total_quantity; i++) {
+                                                                    final int finalI = i;
+                                                                    db.collection("users")
+                                                                            .document(admin_id)
+                                                                            .collection(assetType)
+                                                                            .add(asset)
+                                                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                @Override
+                                                                                public void onSuccess(DocumentReference documentReference) {
+                                                                                    Log.e(TAG, "onSuccess: this is simple too");
+                                                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                                                    int intLabel = Integer.parseInt(label);
+                                                                                    int intSumLabel = intLabel + 1 + finalI;
+                                                                                    String str_label = detectedCategory.getText().toString() + "-" + intSumLabel;
+                                                                                    final Map<String, Object> labels = new HashMap<>();
+                                                                                    final Map<String, Object> assets_label = new HashMap<>();
+                                                                                    labels.put(detectedCategory.getText().toString(), String.valueOf(intSumLabel));
+                                                                                    assets_label.put("assets_label", labels);
+                                                                                    documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                        @Override
+                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                            if (task.isSuccessful()) {
+                                                                                                db.collection("users").document(admin_id)
+                                                                                                        .set(assets_label, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                    @Override
+                                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                                        Log.e(TAG, "onComplete: Task is successful");
+                                                                                                    }
+                                                                                                });
+                                                                                            }
+                                                                                        }
+                                                                                    });
+                                                                                    textView.setAlpha(0.0f);
+                                                                                    numView.setAlpha(0.0f);
+                                                                                    numView.setText(String.valueOf(finalI));
+                                                                                    textView.setText(textView.getText() + "," + documentReference.getId());
+                                                                                    if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
+                                                                                        runOnUiThread(new Runnable() {
+                                                                                            @Override
+                                                                                            public void run() {
+                                                                                                progressDialog.dismiss();
+                                                                                                Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        });
+                                                                                    }
+
+                                                                                }
+                                                                            })
+                                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                                @Override
+                                                                                public void onFailure(@NonNull Exception e) {
+                                                                                    Log.w(TAG, "Error adding document", e);
+                                                                                }
+                                                                            });
+                                                                }
+                                                            } else {
+                                                                db.collection("users")
+                                                                        .document(admin_id)
+                                                                        .update("assets", FieldValue.arrayUnion(detectedCategory.getText().toString()))
+                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    Log.e(TAG, "onComplete: This is simple of course");
+                                                                                    for (int i = 0; i < total_quantity; i++) {
+                                                                                        final int finalI = i;
+                                                                                        db.collection("users")
+                                                                                                .document(admin_id)
+                                                                                                .collection(assetType)
+                                                                                                .add(asset)
+                                                                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                                    @Override
+                                                                                                    public void onSuccess(DocumentReference documentReference) {
+                                                                                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                                                                        int intLabel = Integer.parseInt(label);
+                                                                                                        int intSumLabel = intLabel + 1 + finalI;
+                                                                                                        String str_label = detectedCategory.getText().toString() + "-" + intSumLabel;
+                                                                                                        final Map<String, Object> labels = new HashMap<>();
+                                                                                                        final Map<String, Object> assets_label = new HashMap<>();
+                                                                                                        labels.put(detectedCategory.getText().toString(), String.valueOf(intSumLabel));
+                                                                                                        assets_label.put("assets_label", labels);
+                                                                                                        documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                            @Override
+                                                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                if (task.isSuccessful()) {
+                                                                                                                    db.collection("users").document(admin_id)
+                                                                                                                            .set(assets_label, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                                        @Override
+                                                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                            Log.e(TAG, "onComplete: Task is successful");
+                                                                                                                        }
+                                                                                                                    });
+                                                                                                                }
+                                                                                                            }
+                                                                                                        });
+                                                                                                        textView.setAlpha(0.0f);
+                                                                                                        numView.setAlpha(0.0f);
+                                                                                                        numView.setText(String.valueOf(finalI));
+                                                                                                        textView.setText(textView.getText() + "," + documentReference.getId());
+                                                                                                        if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
+                                                                                                            runOnUiThread(new Runnable() {
+                                                                                                                @Override
+                                                                                                                public void run() {
+                                                                                                                    progressDialog.dismiss();
+                                                                                                                    Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
+                                                                                                                }
+                                                                                                            });
+                                                                                                        }
+
+                                                                                                    }
+                                                                                                })
+                                                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                                                    @Override
+                                                                                                    public void onFailure(@NonNull Exception e) {
+                                                                                                        Log.w(TAG, "Error adding document", e);
+                                                                                                    }
+                                                                                                });
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        });
+
+
+                                                            }
+                                                        } else {
+                                                            db.collection("users")
+                                                                    .document(admin_id)
+                                                                    .update("assets", FieldValue.arrayUnion(detectedCategory.getText().toString()))
+                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if (task.isSuccessful()) {
+                                                                                Log.e(TAG, "onComplete: This is simple");
+                                                                                for (int i = 0; i < total_quantity; i++) {
+                                                                                    final int finalI = i;
+                                                                                    db.collection("users")
+                                                                                            .document(admin_id)
+                                                                                            .collection(assetType)
+                                                                                            .add(asset)
+                                                                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                                @Override
+                                                                                                public void onSuccess(DocumentReference documentReference) {
+                                                                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                                                                    int intLabel = Integer.parseInt(label);
+                                                                                                    int intSumLabel = intLabel + 1 + finalI;
+                                                                                                    String str_label = detectedCategory.getText().toString() + "-" + intSumLabel;
+                                                                                                    final Map<String, Object> labels = new HashMap<>();
+                                                                                                    final Map<String, Object> assets_label = new HashMap<>();
+                                                                                                    labels.put(detectedCategory.getText().toString(), String.valueOf(intSumLabel));
+                                                                                                    assets_label.put("assets_label", labels);
+                                                                                                    documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                        @Override
+                                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                                            if (task.isSuccessful()) {
+                                                                                                                db.collection("users").document(admin_id)
+                                                                                                                        .set(assets_label, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                                    @Override
+                                                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                        Log.e(TAG, "onComplete: Task is successful");
+                                                                                                                    }
+                                                                                                                });
+                                                                                                            }
+                                                                                                        }
+                                                                                                    });
+                                                                                                    textView.setAlpha(0.0f);
+                                                                                                    numView.setAlpha(0.0f);
+                                                                                                    numView.setText(String.valueOf(finalI));
+                                                                                                    textView.setText(textView.getText() + "," + documentReference.getId());
+                                                                                                    if (Integer.parseInt(numView.getText().toString()) == total_quantity - 1) {
+                                                                                                        runOnUiThread(new Runnable() {
+                                                                                                            @Override
+                                                                                                            public void run() {
+                                                                                                                progressDialog.dismiss();
+                                                                                                                Toast.makeText(Details.this, "Successfully Saved", Toast.LENGTH_SHORT).show();
+                                                                                                            }
+                                                                                                        });
+                                                                                                    }
+
+                                                                                                }
+                                                                                            })
+                                                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                                                @Override
+                                                                                                public void onFailure(@NonNull Exception e) {
+                                                                                                    Log.w(TAG, "Error adding document", e);
+                                                                                                }
+                                                                                            });
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    });
+                                                        }
+                                                    }
+                                                });
+                                    }
                                 }
                             }
                         });
-
-//                int total_quantity_testing = Integer.parseInt(total_assets);
-
             }
         });
 //        textView.setAlpha(0.0f);

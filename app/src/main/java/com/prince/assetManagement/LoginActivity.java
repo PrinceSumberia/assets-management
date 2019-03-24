@@ -268,6 +268,8 @@ public class LoginActivity extends Activity {
                                                     final Map<String, Object> admin_list = new HashMap<>();
                                                     admin_list.put(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), FirebaseAuth.getInstance().getCurrentUser().getUid());
                                                     user.put("admin_users", admin_list);
+                                                    final Map<String, Object> assets_label = new HashMap<>();
+                                                    user.put("assets_label", assets_label);
                                                     db.collection("users")
                                                             .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                             .set(user)
@@ -305,6 +307,8 @@ public class LoginActivity extends Activity {
                                         final Map<String, Object> admin_list = new HashMap<>();
                                         admin_list.put(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), FirebaseAuth.getInstance().getCurrentUser().getUid());
                                         user.put("admin_users", admin_list);
+                                        final Map<String, Object> assets_label = new HashMap<>();
+                                        user.put("assets_label", assets_label);
                                         Log.e(TAG, "onComplete: isEmpty is true");
                                         db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                 .set(user)
