@@ -33,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static ai.api.android.AIDataService.TAG;
 
+
 public class GenerateQR extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -45,6 +46,7 @@ public class GenerateQR extends AppCompatActivity {
     //    int listSize;
 //    List<String> list = new ArrayList<>();
     ArrayList<String> document_id = new ArrayList<>();
+    ArrayList<String> asset_label_list = new ArrayList<>();
 
     int listSize;
     Button next, gen_qr;
@@ -66,6 +68,7 @@ public class GenerateQR extends AppCompatActivity {
         gen_qr = findViewById(R.id.generate_qr);
         textView = findViewById(R.id.numList);
         document_id = getIntent().getStringArrayListExtra("Document IDs");
+        asset_label_list = getIntent().getStringArrayListExtra("Label List");
 
         gen_qr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,13 +106,13 @@ public class GenerateQR extends AppCompatActivity {
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                         ref.getDownloadUrl()
                                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                            @Override
-                                            public void onSuccess(Uri uri) {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
 //                                                        Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_SHORT).show();
-                                                image_url = uri.toString();
-                                                qrcode_urls.add(image_url);
+                                                        image_url = uri.toString();
+                                                        qrcode_urls.add(image_url);
 //                                                        Log.d(TAG, "onSuccess: url = " + uri.toString());
-                                                Log.e(TAG, "onSuccess: document_id size is " + document_id.size());
+                                                        Log.e(TAG, "onSuccess: document_id size is " + document_id.size());
 //                                                        Toast.makeText(GenerateQR.this, "Images are stored here: " + image_url, Toast.LENGTH_SHORT).show();
 //                                                        if (Integer.parseInt(textView.getText().toString()) == listSize - 2) {
 //                                                            Log.e(TAG, "Final value is " + finalI);
@@ -117,8 +120,8 @@ public class GenerateQR extends AppCompatActivity {
 //                                                            Log.e(TAG, "this is new this is getting executed");
 //                                                        }
 
-                                            }
-                                        });
+                                                    }
+                                                });
                                         counter[0] = counter[0] + 1;
                                         Log.e(TAG, "onSuccess: counter is  " + counter[0]);
                                         Log.e(TAG, "qrcode url is" + qrcode_urls.toString());
@@ -143,11 +146,16 @@ public class GenerateQR extends AppCompatActivity {
             }
         });
 
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(getApplicationContext(), GetPDF.class);
                 intent1.putStringArrayListExtra("qrcode_links", qrcode_urls);
+                intent1.putStringArrayListExtra("label_list", asset_label_list);
+                Log.e(TAG, "onClick: document list is " + document_id);
+                Log.e(TAG, "onClick: qr code list " + qrcode_urls);
+                Log.e(TAG, "onClick: label list " + asset_label_list);
                 startActivity(intent1);
             }
         });

@@ -245,12 +245,11 @@ public class Details extends AppCompatActivity {
                                                                                 public void onSuccess(final DocumentReference documentReference) {
                                                                                     Log.e(TAG, "onSuccess: this is simple too");
                                                                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                                                    String str_label = detectedCategory.getText().toString() + "-" + finalI;
                                                                                     final Map<String, Object> labels = new HashMap<>();
                                                                                     final Map<String, Object> assets_label = new HashMap<>();
                                                                                     labels.put(detectedCategory.getText().toString(), String.valueOf(finalI));
                                                                                     assets_label.put("assets_label", labels);
-                                                                                    documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                    documentReference.update("asset_label", String.valueOf(finalI)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                         @Override
                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                             if (task.isSuccessful()) {
@@ -306,12 +305,12 @@ public class Details extends AppCompatActivity {
                                                                                                     @Override
                                                                                                     public void onSuccess(final DocumentReference documentReference) {
                                                                                                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                                                                        String str_label = detectedCategory.getText().toString() + "-" + finalI;
+//                                                                                                        String str_label = detectedCategory.getText().toString() + "-" + finalI;
                                                                                                         final Map<String, Object> labels = new HashMap<>();
                                                                                                         final Map<String, Object> assets_label = new HashMap<>();
                                                                                                         labels.put(detectedCategory.getText().toString(), String.valueOf(finalI));
                                                                                                         assets_label.put("assets_label", labels);
-                                                                                                        documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                        documentReference.update("asset_label", String.valueOf(finalI)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                             @Override
                                                                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                                                                 if (task.isSuccessful()) {
@@ -373,12 +372,12 @@ public class Details extends AppCompatActivity {
                                                                                                 @Override
                                                                                                 public void onSuccess(final DocumentReference documentReference) {
                                                                                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                                                                    String str_label = detectedCategory.getText().toString() + "-" + finalI;
+//                                                                                                    String str_label = detectedCategory.getText().toString() + "-" + finalI;
                                                                                                     final Map<String, Object> labels = new HashMap<>();
                                                                                                     final Map<String, Object> assets_label = new HashMap<>();
                                                                                                     labels.put(detectedCategory.getText().toString(), String.valueOf(finalI));
                                                                                                     assets_label.put("assets_label", labels);
-                                                                                                    documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                    documentReference.update("asset_label", String.valueOf(finalI)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                         @Override
                                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                                             if (task.isSuccessful()) {
@@ -480,12 +479,12 @@ public class Details extends AppCompatActivity {
                                                                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                                                                     int intLabel = Integer.parseInt(label);
                                                                                     int intSumLabel = intLabel + 1 + finalI;
-                                                                                    String str_label = detectedCategory.getText().toString() + "-" + intSumLabel;
+//                                                                                    String str_label = detectedCategory.getText().toString() + "-" + intSumLabel;
                                                                                     final Map<String, Object> labels = new HashMap<>();
                                                                                     final Map<String, Object> assets_label = new HashMap<>();
                                                                                     labels.put(detectedCategory.getText().toString(), String.valueOf(intSumLabel));
                                                                                     assets_label.put("assets_label", labels);
-                                                                                    documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                    documentReference.update("asset_label", String.valueOf(intSumLabel)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                         @Override
                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                             if (task.isSuccessful()) {
@@ -543,12 +542,12 @@ public class Details extends AppCompatActivity {
                                                                                                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                                                                                         int intLabel = Integer.parseInt(label);
                                                                                                         int intSumLabel = intLabel + 1 + finalI;
-                                                                                                        String str_label = detectedCategory.getText().toString() + "-" + intSumLabel;
+//                                                                                                        String str_label = detectedCategory.getText().toString() + "-" + intSumLabel;
                                                                                                         final Map<String, Object> labels = new HashMap<>();
                                                                                                         final Map<String, Object> assets_label = new HashMap<>();
                                                                                                         labels.put(detectedCategory.getText().toString(), String.valueOf(intSumLabel));
                                                                                                         assets_label.put("assets_label", labels);
-                                                                                                        documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                        documentReference.update("asset_label", String.valueOf(intSumLabel)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                             @Override
                                                                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                                                                 if (task.isSuccessful()) {
@@ -612,12 +611,12 @@ public class Details extends AppCompatActivity {
                                                                                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                                                                                     int intLabel = Integer.parseInt(label);
                                                                                                     int intSumLabel = intLabel + 1 + finalI;
-                                                                                                    String str_label = detectedCategory.getText().toString() + "-" + intSumLabel;
+//                                                                                                    String str_label = detectedCategory.getText().toString() + "-" + intSumLabel;
                                                                                                     final Map<String, Object> labels = new HashMap<>();
                                                                                                     final Map<String, Object> assets_label = new HashMap<>();
                                                                                                     labels.put(detectedCategory.getText().toString(), String.valueOf(intSumLabel));
                                                                                                     assets_label.put("assets_label", labels);
-                                                                                                    documentReference.update("asset_label", str_label).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                    documentReference.update("asset_label", String.valueOf(intSumLabel)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                         @Override
                                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                                             if (task.isSuccessful()) {

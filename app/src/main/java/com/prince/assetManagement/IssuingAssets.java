@@ -26,14 +26,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class IssuingAssets extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    TextView available_quantity_field, remaining_quantity_field;
+    TextView available_quantity_field, remaining_quantity_field, label_list;
     EditText department_name_field, room_field, issue_quantity_field;
     Button next, update_info;
     Spinner spinner;
@@ -44,13 +46,16 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
     String issued_to_id;
     List<String> username = new ArrayList<>();
     List<String> userid = new ArrayList<>();
-//    ArrayList<String> document_list = new ArrayList<>();
+    ArrayList<String> asset_label_list = new ArrayList<>();
+
+    //    ArrayList<String> document_list = new ArrayList<>();
 //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issuing_assets);
         available_quantity_field = findViewById(R.id.total_quantity_available);
+        label_list = findViewById(R.id.label_list);
         department_name_field = findViewById(R.id.department);
         room_field = findViewById(R.id.room_number);
         update_info = findViewById(R.id.update);
@@ -126,14 +131,56 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
         final String detectedObject = getIntent().getStringExtra("detectedObject");
         Log.e(TAG, "Document list is getting ready" + document_list.toString());
 //        Toast.makeText(this, "Document list is " + document_list.toString(), Toast.LENGTH_SHORT).show();
+        final ArrayList<String> modified_document_list = new ArrayList<>();
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(IssuingAssets.this, GenerateQR.class);
-                intent.putExtra("detectedObject", detectedObject);
-                intent.putExtra("admin_id", admin_id);
-                intent.putStringArrayListExtra("Document IDs", document_list);
-                startActivity(intent);
+                Log.e(TAG, "onClick: document list size " + document_list.size());
+                for (int i = 0; i < document_list.size() - 1; i++) {
+                    Log.e(TAG, "onClick: Document Number " + i + " : " + document_list.get(i));
+                    modified_document_list.add(document_list.get(i + 1));
+                }
+                Log.e(TAG, "onClick: document list " + document_list);
+                Log.e(TAG, "onClick: modified list " + modified_document_list);
+
+                for (int i = 0; i < modified_document_list.size(); i++) {
+                    db.collection("users")
+                            .document(admin_id)
+                            .collection(detectedObject)
+                            .document(modified_document_list.get(i))
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot documentSnapshot = task.getResult();
+                                        assert documentSnapshot != null;
+                                        String label = Objects.requireNonNull(documentSnapshot.get("asset_label")).toString();
+                                        Log.e(TAG, "onComplete: asset label " + label);
+                                        asset_label_list.add(String.valueOf(label));
+
+                                        if (asset_label_list.size() == modified_document_list.size()) {
+                                            Log.e(TAG, "onComplete: document list size inside loop is " + modified_document_list.size());
+                                            Log.e(TAG, "onClick: label list is " + asset_label_list);
+                                            Log.e(TAG, "onClick: label list is " + asset_label_list.size());
+                                            Intent intent = new Intent(IssuingAssets.this, GenerateQR.class);
+                                            Log.e(TAG, "onComplete: un sorted list " + asset_label_list);
+                                            Collections.sort(asset_label_list);
+                                            intent.putExtra("detectedObject", detectedObject);
+                                            intent.putExtra("admin_id", admin_id);
+                                            intent.putStringArrayListExtra("Document IDs", document_list);
+                                            intent.putStringArrayListExtra("Label List", asset_label_list);
+                                            Log.e(TAG, "onComplete: the document list is " + document_list);
+                                            Log.e(TAG, "onComplete: sorted label list is " + asset_label_list);
+                                            startActivity(intent);
+                                        }
+                                    } else {
+                                        Log.e(TAG, "onComplete: task is not successful " + task.getException());
+                                    }
+                                }
+                            });
+                }
+
             }
         });
 
@@ -220,6 +267,23 @@ public class IssuingAssets extends AppCompatActivity implements AdapterView.OnIt
                                                                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                                                                         if (task.isSuccessful()) {
                                                                                                                             Log.e(TAG, "onComplete: task is complete and successful");
+                                                                                                                            db.collection("users")
+                                                                                                                                    .document(admin_id)
+                                                                                                                                    .collection(detectedObject)
+                                                                                                                                    .document(document_list.get(finalI3 + 1))
+                                                                                                                                    .get()
+                                                                                                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                                                                                        @Override
+                                                                                                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                                                                            if (task.isSuccessful()) {
+                                                                                                                                                DocumentSnapshot documentSnapshot = task.getResult();
+                                                                                                                                                assert documentSnapshot != null;
+                                                                                                                                                String label = Objects.requireNonNull(documentSnapshot.get("asset_label")).toString();
+                                                                                                                                                label_list.append(detectedObject + "-" + label);
+                                                                                                                                                label_list.append(",");
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    });
                                                                                                                         }
                                                                                                                     }
                                                                                                                 });

@@ -33,6 +33,7 @@ import androidx.core.content.FileProvider;
 public class GetPDF extends AppCompatActivity {
     private static final String TAG = GetPDF.class.getName();
     ArrayList<String> qr_urls = new ArrayList<>();
+    ArrayList<String> label_list = new ArrayList<>();
     TextView textView, editText, back_home;
     ProgressDialog progressDialog;
     Button getPDF;
@@ -85,6 +86,8 @@ public class GetPDF extends AppCompatActivity {
 
             ////Execute the network related option here
             qr_urls = getIntent().getStringArrayListExtra("qrcode_links");
+            label_list = getIntent().getStringArrayListExtra("label_list");
+            String assetType = getIntent().getStringExtra("assetType");
             Log.e(TAG, "onCreate: " + qr_urls.get(0));
 //            textView.setText(qr_urls.toString());
             int size = qr_urls.size();
@@ -102,8 +105,9 @@ public class GetPDF extends AppCompatActivity {
             PdfPTable table = new PdfPTable(3);
             for (int i = 0; i < size; i++) {
                 table.setWidthPercentage(100);
+                String label_id = assetType + "-" + label_list.get(i);
                 try {
-                    table.addCell(createImageCell(qr_urls.get(i), String.valueOf(i)));
+                    table.addCell(createImageCell(qr_urls.get(i), label_id));
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
