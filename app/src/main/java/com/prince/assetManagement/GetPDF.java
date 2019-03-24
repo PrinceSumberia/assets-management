@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -36,10 +37,14 @@ public class GetPDF extends AppCompatActivity {
     ProgressDialog progressDialog;
     Button getPDF;
 
-    public static PdfPCell createImageCell(String path)
+    public static PdfPCell createImageCell(String path, String id)
             throws DocumentException, IOException {
         Image img = Image.getInstance(path);
-        PdfPCell cell = new PdfPCell(img, true);
+        PdfPCell cell = new PdfPCell();
+        cell.addElement(img);
+        Paragraph p = new Paragraph(id);
+        p.setAlignment(Element.ALIGN_CENTER);
+        cell.addElement(p);
         return cell;
     }
 
@@ -98,7 +103,7 @@ public class GetPDF extends AppCompatActivity {
             for (int i = 0; i < size; i++) {
                 table.setWidthPercentage(100);
                 try {
-                    table.addCell(createImageCell(qr_urls.get(i)));
+                    table.addCell(createImageCell(qr_urls.get(i), String.valueOf(i)));
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
