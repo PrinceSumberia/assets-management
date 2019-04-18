@@ -1,5 +1,6 @@
 package com.prince.assetManagement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,7 +32,7 @@ import static android.widget.LinearLayout.VERTICAL;
 
 
 public class FragmentDepartment extends Fragment {
-    Button get_info;
+    Button get_info, view_analytics;
     EditText editText;
     TextView textView;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -37,6 +40,7 @@ public class FragmentDepartment extends Fragment {
     String TAG = "hello";
     ArrayList<String> mAssetType = new ArrayList<>();
     ArrayList<String> mAssetNumber = new ArrayList<>();
+    private Set<String> departmentTreeSet = new TreeSet<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +50,7 @@ public class FragmentDepartment extends Fragment {
         Log.d(TAG, "initRecyclerView: init recycler view");
         get_info = view.findViewById(R.id.get_info);
         editText = view.findViewById(R.id.department);
+        view_analytics = view.findViewById(R.id.view_analytics);
 
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -99,6 +104,16 @@ public class FragmentDepartment extends Fragment {
                                 }
                             }
                         });
+            }
+        });
+
+        view_analytics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Display_Graph.class);
+                intent.putStringArrayListExtra("AssetType", mAssetType);
+                intent.putStringArrayListExtra("AssetNumber", mAssetNumber);
+                startActivity(intent);
             }
         });
 

@@ -6,10 +6,16 @@
     android:orientation="vertical"
     tools:context=".Display_Graph">
 
-    <FrameLayout
-        android:id="@+id/fragment_area"
+    <com.github.mikephil.charting.charts.PieChart
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/pie_chart">
+    </com.github.mikephil.charting.charts.PieChart>
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/fragment_area"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</FrameLayout>-->
 
 </LinearLayout>
