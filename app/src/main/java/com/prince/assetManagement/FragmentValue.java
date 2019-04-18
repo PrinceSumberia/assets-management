@@ -34,7 +34,7 @@ import static android.widget.LinearLayout.VERTICAL;
 
 
 public class FragmentValue extends Fragment {
-    Button get_info, view_graph;
+    Button get_info, view_analytics;
     EditText editText;
     TextView textView;
     final private List<String> assetValue = new ArrayList<>();
@@ -55,7 +55,7 @@ public class FragmentValue extends Fragment {
         get_info = view.findViewById(R.id.get_info);
         editText = view.findViewById(R.id.asset_value);
 //        textView = view.findViewById(R.id.result);
-        view_graph = view.findViewById(R.id.view_graph);
+        view_analytics = view.findViewById(R.id.view_graph);
         spinner = view.findViewById(R.id.spinner_value);
 
 
@@ -246,16 +246,12 @@ public class FragmentValue extends Fragment {
             }
         });
 
-        view_graph.setOnClickListener(new View.OnClickListener() {
+        view_analytics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String[] valueArray = value.toArray(new String[0]);
-//                String[] assetsArray = asset_array.toArray(new String[0]);
-//                Log.e(TAG, "onClick: new list array" + valueArray.toString() );
-                Intent intent = new Intent(getActivity(), Display_Graph.class);
-                intent.putExtra("graph", "value");
-                intent.putStringArrayListExtra("valueData", value);
-                intent.putStringArrayListExtra("assetsData", asset_array);
+                Intent intent = new Intent(getActivity(), AssetValueGraph.class);
+                intent.putStringArrayListExtra("AssetType", mAssetType);
+                intent.putStringArrayListExtra("AssetNumber", mAssetNumber);
                 startActivity(intent);
             }
         });

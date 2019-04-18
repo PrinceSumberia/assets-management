@@ -24,7 +24,8 @@
         android:roundIcon="@mipmap/ic_launcher_custom"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IssuedAssets"></activity>
+        <activity android:name=".AssetValueGraph"></activity>
+        <activity android:name=".IssuedAssets" />
         <activity android:name=".IssueAssets" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
