@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="37dp"
-        android:layout_marginRight="-230dp"
+        android:layout_marginRight="-220dp"
         android:layout_toLeftOf="@id/requested_by"
         android:text="Acceptable:"
         android:textSize="16sp" />

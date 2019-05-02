@@ -240,7 +240,7 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("AI-AMS");
+        actionBar.setTitle("iAsset");
         setSystemBarColor(this, R.color.grey_5);
         setSystemBarLight(this);
     }

@@ -29,7 +29,7 @@
             android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="Welcome To AI-AMS,"
+            android:text="Welcome To iAsset,"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="@color/blue_grey_800"
             android:textStyle="bold" />

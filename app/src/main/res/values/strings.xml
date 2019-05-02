@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Asset Management</string>
+    <string name="app_name">iAsset</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
     <string name="title_activity_welcome">Welcome</string>
     <string name="navigation_drawer_open">Drawer Open</string>

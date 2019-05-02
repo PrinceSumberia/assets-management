@@ -105,7 +105,7 @@ public class GetPDF extends AppCompatActivity {
             PdfPTable table = new PdfPTable(3);
             for (int i = 0; i < size; i++) {
                 table.setWidthPercentage(100);
-                String label_id = assetType + "-" + label_list.get(i);
+                String label_id = label_list.get(i);
                 try {
                     table.addCell(createImageCell(qr_urls.get(i), label_id));
                 } catch (DocumentException e) {

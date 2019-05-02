@@ -161,7 +161,7 @@ public class NormalUser extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("AI-AMS");
+        actionBar.setTitle("iAsset");
         setSystemBarColor(this, R.color.grey_5);
         setSystemBarLight(this);
     }
@@ -281,7 +281,6 @@ public class NormalUser extends AppCompatActivity {
                                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                             .setPhotoUri(uri)
                                             .build();
-
                                     user.updateProfile(profileUpdates)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
