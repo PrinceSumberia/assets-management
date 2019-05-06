@@ -9,6 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,12 +25,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -73,7 +73,7 @@ public class FragmentAssetType extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    int number_assets = task.getResult().size();
+                                    final int number_assets = task.getResult().size();
                                     String str_assets = String.valueOf(number_assets);
                                     String result = "Number of such assets: " + str_assets;
                                     textView.setText(result);
@@ -104,9 +104,12 @@ public class FragmentAssetType extends Fragment {
                                                 if (task.isSuccessful()){
 //                                                    textView.append("\n" + dep.toUpperCase() + " Department: " + task.getResult().size() );
                                                     String number = String.valueOf(task.getResult().size());
-                                                    mAssetType.add(dep.toUpperCase());
-                                                    mAssetNumber.add(number);
-                                                    adapter.notifyDataSetChanged();
+                                                    if (Integer.valueOf(number) != 0) {
+                                                        mAssetType.add(dep.toUpperCase());
+                                                        mAssetNumber.add(number);
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+
                                                     Log.e(TAG, "onComplete: asset in department " + dep +" is " + task.getResult().size());
                                                     Log.e(TAG, "onComplete: asset in department " + dep +" is " + task.getResult().toString());
                                                 }

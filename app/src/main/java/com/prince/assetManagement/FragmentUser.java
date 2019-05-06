@@ -12,6 +12,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,12 +28,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -142,11 +142,14 @@ public class FragmentUser extends Fragment {
 //                                                            textView1.setText(assets.toString().toUpperCase());
                                                             String result = "Quantity: " + task.getResult().size() + "\n";
                                                             String number = String.valueOf(task.getResult().size());
+                                                            if (Integer.valueOf(number) != 0) {
+                                                                mAssetType.add(assets.toString().toUpperCase());
+                                                                mAssetNumber.add(number);
+                                                                adapter.notifyDataSetChanged();
+                                                            }
 //                                                            textView.setText(result);
 //                                                            textView.append("Date Issued: \n");
-                                                            mAssetType.add(assets.toString().toUpperCase());
-                                                            mAssetNumber.add(number);
-                                                            adapter.notifyDataSetChanged();
+
                                                             int count = 0;
 //                                                            for (QueryDocumentSnapshot documentSnapshot1 : task.getResult()) {
 //                                                                list.add(documentSnapshot1.getData().get("issued_date").toString());

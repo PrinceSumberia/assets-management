@@ -13,6 +13,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,12 +29,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -47,7 +47,7 @@ public class FragmentValue extends Fragment {
     private String condition;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_value, container, false);
@@ -127,9 +127,11 @@ public class FragmentValue extends Fragment {
                                                                 if (task.isSuccessful()) {
 //                                                                String text = "Assets with higher asset Value\n";
                                                                     String number = String.valueOf(task.getResult().size());
-                                                                    mAssetType.add(assets.toString());
-                                                                    mAssetNumber.add(number);
-                                                                    adapter.notifyDataSetChanged();
+                                                                    if (Integer.valueOf(number) != 0) {
+                                                                        mAssetType.add(assets.toString());
+                                                                        mAssetNumber.add(number);
+                                                                        adapter.notifyDataSetChanged();
+                                                                    }
 //                                                                textView.append(assets.toString() + ": " + task.getResult().size() + "\n");
                                                                 }
                                                             }
@@ -165,9 +167,11 @@ public class FragmentValue extends Fragment {
                                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                                 if (task.isSuccessful()) {
                                                                     String number = String.valueOf(task.getResult().size());
-                                                                    mAssetType.add(assets.toString());
-                                                                    mAssetNumber.add(number);
-                                                                    adapter.notifyDataSetChanged();
+                                                                    if (Integer.valueOf(number) != 0) {
+                                                                        mAssetType.add(assets.toString());
+                                                                        mAssetNumber.add(number);
+                                                                        adapter.notifyDataSetChanged();
+                                                                    }
                                                                 }
                                                             }
                                                         });
@@ -202,9 +206,12 @@ public class FragmentValue extends Fragment {
                                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                                 if (task.isSuccessful()) {
                                                                     String number = String.valueOf(task.getResult().size());
-                                                                    mAssetType.add(assets.toString());
-                                                                    mAssetNumber.add(number);
-                                                                    adapter.notifyDataSetChanged();
+                                                                    if (Integer.valueOf(number) != 0) {
+                                                                        mAssetType.add(assets.toString());
+                                                                        mAssetNumber.add(number);
+                                                                        adapter.notifyDataSetChanged();
+                                                                    }
+
                                                                 }
                                                             }
                                                         });

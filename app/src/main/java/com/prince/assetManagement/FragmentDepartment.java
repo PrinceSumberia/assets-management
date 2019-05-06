@@ -10,6 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,13 +27,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -93,9 +93,11 @@ public class FragmentDepartment extends Fragment {
                                                         if (task.isSuccessful()) {
                                                             Log.e(TAG, "onComplete: asset type is " + assets + "Number of assets" + task.getResult().size());
                                                             String number = String.valueOf(task.getResult().size());
-                                                            mAssetType.add(assets.toString());
-                                                            mAssetNumber.add(number);
-                                                            adapter.notifyDataSetChanged();
+                                                            if (Integer.valueOf(number) != 0) {
+                                                                mAssetType.add(assets.toString());
+                                                                mAssetNumber.add(number);
+                                                                adapter.notifyDataSetChanged();
+                                                            }
 //                                                            textView.append(result.toUpperCase());
                                                         }
                                                     }

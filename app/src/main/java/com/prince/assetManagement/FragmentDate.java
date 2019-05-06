@@ -10,6 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,12 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static android.widget.LinearLayout.VERTICAL;
 import static java.util.Collections.sort;
@@ -108,11 +108,13 @@ public class FragmentDate extends Fragment {
                                                             Log.e(TAG, "onComplete: edit text is " + Integer.valueOf(editText.getText().toString()));
                                                             String number = String.valueOf(task.getResult().size());
 //                                                            textView.setText(task.getResult().size());
-                                                            mAssetType.add(assets.toString().toUpperCase());
-                                                            mAssetNumber.add(number);
-                                                            Log.e(TAG, "onComplete: Asset list is " + mAssetType.toString());
-                                                            Log.e(TAG, "onComplete: Asset Number is " + mAssetNumber.toString());
-                                                            adapter.notifyDataSetChanged();
+                                                            if (Integer.valueOf(number) != 0) {
+                                                                mAssetType.add(assets.toString().toUpperCase());
+                                                                mAssetNumber.add(number);
+                                                                Log.e(TAG, "onComplete: Asset list is " + mAssetType.toString());
+                                                                Log.e(TAG, "onComplete: Asset Number is " + mAssetNumber.toString());
+                                                                adapter.notifyDataSetChanged();
+                                                            }
 //                                                            textView.append(assets.toString().toUpperCase() + " : " + task.getResult().size() + "\n");
                                                         }
                                                     }
