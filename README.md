@@ -14,7 +14,7 @@ Android Application to manage assets
 ### Required API
 - Google Geocoding API
 
-### Installing
+### Setting Up
 - Clone project by using below command in the terminal and make sure you have git installed on your system:
 $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
 - Now open the project in Android Studio.
@@ -52,6 +52,7 @@ $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
 - Now inside Firebase console. Under Develop options click on "Database" and then click on "Create database" (make sure it is        Firestore). In the next screen select "Start in test mode" and then "Enable". Now your Firestore Database will be ready.
 
 - Now inside Firebase console. Under Develop options click on "Authentication" and then click on "Set up sign-in method". In the next screen click and enable following sign-in options: (make sure to select all three otherwise sign in funcationality will now work properly)
+
       *Email/Password
       *Phone
       *Google
