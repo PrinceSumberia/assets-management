@@ -12,7 +12,7 @@ Android Application to manage assets
 - Android Studio
 
 ### Required API
-- Google Maps API
+- Google Geocoding API
 
 ### Installing
 - Clone project by using below command in the terminal and make sure you have git installed on your system:
@@ -29,12 +29,21 @@ $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
 - Now build project navigating to Build >> Rebuild Project.
   If gradle build is successful the proceed to next step. If not, then try cleaning the project by navigating to Build >> Clean Project.
   
--  Now find and open your google-services.json file and navigate to res >> values >> string.xml. Now replace the following string     variable in string.xml file using valid value from google-services.json file.
+-  Now find and open your google-services.json file and navigate to res >> values >> string.xml. Now replace the following string     variable in string.xml file using valid value from google-services.json file. You can find google-services.json file in the app directory inside your project. Refer to this screenshot: 
+![alt text](https://prnt.sc/nxlpm3)
+
 
 ```
-    <string name="database_url">*place your firebase_url value here*</string>
-    <string name="firebase_api">*place current_key value here*</string>
-    <string name="firebase_application_id">*place mobilesdk_app_id value here*</string>
+    <string name="database_url">place your firebase_url value here</string>
+    <string name="firebase_api">place current_key value here</string>
+    <string name="firebase_application_id">place mobilesdk_app_id value here</string>
  ```
  
+ - Now obtain Geocoding API by visiting https://console.cloud.google.com/google/maps-apis/overview.
+   After obtaining API navigate to res >> values >> string.xml and replace dummy value of google-maps-api with valid API.
+   
+ ```
+     <string name="google_maps_api">your geocoding api here</string>
+```
 
+ 
