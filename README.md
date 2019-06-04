@@ -29,8 +29,7 @@ $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
 - Now build project navigating to Build >> Rebuild Project.
   If gradle build is successful the proceed to next step. If not, then try cleaning the project by navigating to Build >> Clean Project.
   
--  Now find and open your google-services.json file and navigate to res >> values >> string.xml. Now replace the following string     variable in string.xml file using valid value from google-services.json file. You can find google-services.json file in the app directory inside your project. Refer to this screenshot: 
-![alt text](https://prnt.sc/nxlpm3)
+-  Now find and open your google-services.json file and navigate to res >> values >> string.xml. Now replace the following string     variable in string.xml file using valid value from google-services.json file. You can find google-services.json file in the app directory inside your project. Refer to this screenshot here: https://prnt.sc/nxlpm3
 
 
 ```
@@ -46,4 +45,13 @@ $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
      <string name="google_maps_api">your geocoding api here</string>
 ```
 
- 
+- Now visit https://console.firebase.google.com. Login using the same account which you have used earlier and Select CRIE_iAsset project.
+
+- Now inside Firebase console. Under Develop options click on "Storage" and then click on "Get Started" button and then "Got It". This will create a Firebase Storage Bucket for storing bills and qr codes.
+
+- Now inside Firebase console. Under Develop options click on "Database" and then click on "Create database" (make sure it is        Firestore). In the next screen select "Start in test mode" and then "Enable". Now your Firestore Database will be ready.
+
+- Now inside Firebase console. Under Develop options click on "Authentication" and then click on "Set up sign-in method". In the next screen click and enable following sign-in options: (make sure to select all three otherwise sign in funcationality will now work properly)
+      *Email/Password
+      *Phone
+      *Google
