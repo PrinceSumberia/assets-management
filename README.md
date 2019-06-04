@@ -61,3 +61,5 @@ $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
 - Build Apk by navigating to Build >> Build Bundle(s) / Apk(s) >> Build APK(s) or
 - Install apk via USB cable by clicking on Run button >> selecting a target device
 
+### Optional
+- Currently we are using pre-trained model for object detection which is being downloaded automatically using download-models.gradle file but if you want to use your own model or any custom model. Then you need to put your protbuf (.pb) file and labels file in assets folder. 
