@@ -1,5 +1,5 @@
-#iAsset
-Android Application to manage assets
+# iAsset
+Android Application for asset management.
 
 ## Getting Started
 - JDK 1.8.0_191 or Above
