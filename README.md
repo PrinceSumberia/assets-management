@@ -53,6 +53,11 @@ $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
 
 - Now inside Firebase console. Under Develop options click on "Authentication" and then click on "Set up sign-in method". In the next screen click and enable following sign-in options: (make sure to select all three otherwise sign in funcationality will now work properly)
 
-      *Email/Password
-      *Phone
-      *Google
+      Email/Password
+      Phone
+      Google
+
+### Installing
+- Build Apk by navigating to Build >> Build Bundle(s) / Apk(s) >> Build APK(s) or
+- Install apk via USB cable by clicking on Run button >> selecting a target device
+
