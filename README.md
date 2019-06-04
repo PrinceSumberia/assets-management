@@ -51,7 +51,7 @@ $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
 
 - Now inside Firebase console. Under Develop options click on "Database" and then click on "Create database" (make sure it is        Firestore). In the next screen select "Start in test mode" and then "Enable". Now your Firestore Database will be ready.
 
-- Now inside Firebase console. Under Develop options click on "Authentication" and then click on "Set up sign-in method". In the next screen click and enable following sign-in options: (make sure to select all three otherwise sign in funcationality will now work properly)
+- Now inside Firebase console. Under Develop options click on "Authentication" and then click on "Set up sign-in method". In the next screen click and enable following sign-in options: (make sure to select all three otherwise sign in functionality will not work correctly)
 
       Email/Password
       Phone
