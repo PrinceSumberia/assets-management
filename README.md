@@ -30,8 +30,8 @@ $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
   If gradle build is successful the proceed to next step. If not, then try cleaning the project by navigating to Build >> Clean Project.
   
 -  Now find and open your google-services.json file and navigate to res >> values >> string.xml. Now replace the following string variable in string.xml file using valid value from google-services.json file.
-
+```
     <string name="database_url">*place your firebase_url value here*</string>
     <string name="firebase_api">*place current_key value here*</string>
     <string name="firebase_application_id">*place mobilesdk_app_id value here*</string>
-    
+    ```
