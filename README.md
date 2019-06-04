@@ -56,6 +56,7 @@ $ git clone https://github.com/MIETDevelopers/CRIE_iAsset
       Email/Password
       Phone
       Google
+- Now inside Firebase console. Go to project settings by clicking on Settings Icon on the left hand side of "Project Overview" and then selecting "Project Settings". Under Public heading make sure to select an email address for "Support email" field. This is important for proper functioning of Firebase features.
 
 ### Installing
 - Build Apk by navigating to Build >> Build Bundle(s) / Apk(s) >> Build APK(s) or
