@@ -50,7 +50,7 @@ public class FragmentAssetType extends Fragment {
 
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        final GetInfoList adapter = new GetInfoList(mAssetType, mAssetNumber, getActivity());
+        final GetInfoDepList adapter = new GetInfoDepList(mAssetType, mAssetNumber, getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), VERTICAL);
@@ -76,7 +76,7 @@ public class FragmentAssetType extends Fragment {
                                     final int number_assets = task.getResult().size();
                                     String str_assets = String.valueOf(number_assets);
                                     String result = "Number of such assets: " + str_assets;
-                                    textView.setText(result);
+                                    //textView.setText(result);
                                     Log.e(TAG, "onComplete: total assets is " + result );
                                     for (QueryDocumentSnapshot querySnapshot : task.getResult()) {
                                         Log.e(TAG, "onComplete: querysnapshot is " + task.getResult().size() );

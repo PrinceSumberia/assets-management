@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -26,9 +29,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
 public class GetPDF extends AppCompatActivity {
     private static final String TAG = GetPDF.class.getName();
@@ -87,7 +87,7 @@ public class GetPDF extends AppCompatActivity {
             ////Execute the network related option here
             qr_urls = getIntent().getStringArrayListExtra("qrcode_links");
             label_list = getIntent().getStringArrayListExtra("label_list");
-            String assetType = getIntent().getStringExtra("assetType");
+            String assetType = getIntent().getStringExtra("department");
             Log.e(TAG, "onCreate: " + qr_urls.get(0));
 //            textView.setText(qr_urls.toString());
             int size = qr_urls.size();
