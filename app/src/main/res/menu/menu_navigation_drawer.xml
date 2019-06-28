@@ -11,15 +11,7 @@
         <item
             android:id="@+id/nav_trending"
             android:icon="@drawable/ic_menu"
-            android:title="Trending" />
-        <item
-            android:id="@+id/nav_latest"
-            android:icon="@drawable/ic_menu"
-            android:title="Latest" />
-        <item
-            android:id="@+id/nav_highlight"
-            android:icon="@drawable/ic_menu"
-            android:title="Highlight" />
+            android:title="About" />
     </group>
     <group
         android:id="@+id/grp_2"
@@ -27,11 +19,7 @@
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu"
-            android:title="Settings" />
-        <item
-            android:id="@+id/nav_help"
-            android:icon="@drawable/ic_menu"
-            android:title="Help" />
+            android:title="Logout" />
     </group>
 
 </menu>

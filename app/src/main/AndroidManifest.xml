@@ -24,7 +24,8 @@
         android:roundIcon="@mipmap/ic_launcher_custom"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AssetValueGraph"></activity>
+        <activity android:name=".AboutUs"></activity>
+        <activity android:name=".AssetValueGraph" />
         <activity android:name=".IssuedAssets" />
         <activity android:name=".IssueAssets" />
         <!--

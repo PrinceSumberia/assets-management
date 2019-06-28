@@ -23,6 +23,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,15 +51,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.UUID;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 
 public class WelcomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -80,12 +80,12 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
             R.drawable.ic_wrench,
             R.drawable.ic_notification,
             R.drawable.ic_delete,
-            R.drawable.ic_help,
+            R.drawable.ic_info,
             R.drawable.ic_sent,
     };
 
     String[] txt = {"Add Asset", "Scan Asset", "Search Asset", "Issue Assets", "Add Users", "Reported Assets", "Asset Requests",
-            "Delete Assets", "Help", "Sign Out"};
+            "Delete Assets", "About", "Sign Out"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,9 +201,9 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
                         }
                         break;
                     case 8:
-                        Toast.makeText(WelcomeActivity.this, "Ready to help", Toast.LENGTH_SHORT).show();
-//                        Intent intent2 = new Intent(getApplicationContext(), MapActivity.class);
-//                        startActivity(intent2);
+//                        Toast.makeText(WelcomeActivity.this, "About", Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(getApplicationContext(), AboutUs.class);
+                        startActivity(intent2);
                         break;
                     case 9:
                         FirebaseAuth.getInstance().signOut();
@@ -330,6 +330,19 @@ public class WelcomeActivity extends AppCompatActivity implements AdapterView.On
             public boolean onNavigationItemSelected(final MenuItem item) {
                 Toast.makeText(getApplicationContext(), item.getTitle() + " Selected", Toast.LENGTH_SHORT).show();
 //                actionBar.setTitle(item.getTitle());
+                if (item.getTitle().equals("About")) {
+                    Intent intent = new Intent(getApplicationContext(), AboutUs.class);
+                    startActivity(intent);
+                } else if (item.getTitle().equals("Logout")) {
+                    FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(WelcomeActivity.this, "Successfully Logged You Out", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
                 drawer.closeDrawers();
                 return true;
             }

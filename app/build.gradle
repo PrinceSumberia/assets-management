@@ -76,17 +76,13 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 
-
-
-
-
-
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation files('src/main/libs/activation.jar')
     implementation files('src/main/libs/additionnal.jar')
     implementation files('src/main/libs/mail.jar')
+    androidTestImplementation 'androidx.test:rules:1.2.0-alpha05'
 
 }
 apply plugin: 'com.google.gms.google-services'
