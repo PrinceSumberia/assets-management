@@ -1,4 +1,4 @@
-# iAsset
+# Asset Management
 Android Application for asset management.
 
 ## Getting Started
@@ -16,7 +16,7 @@ Android Application for asset management.
 
 ### Setting Up
 - Clone project by using below command in the terminal and make sure you have git installed on your system:
-$ git clone https://github.com/MIETDevelopers/CRIE_iAsset
+$ git clone https://github.com/PrinceSumberia/assets-management
 - Now open the project in Android Studio.
 - Gradle build will not be successful because of missing google-services.json file.
   For google-services.json, you need to connect Firebase. (make sure you are using same account for firebase console and Android Studio)
