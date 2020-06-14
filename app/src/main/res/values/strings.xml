@@ -37,4 +37,11 @@
         functionality.</string>
     <string name="settings">Settings</string>
     <string name="title_activity_maps">Map</string>
+
+    <!-- API KEYS AND IDS -->
+    <string name="database_url">place your firebase_url value here</string>
+    <string name="firebase_api">place current_key value here</string>
+    <string name="firebase_application_id">place mobilesdk_app_id value here</string>
+    <string name="google_maps_api">place google maps api key here</string>
+     
 </resources>

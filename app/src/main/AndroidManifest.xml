@@ -77,7 +77,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="API VALUE HERE" />
+            android:value= "@string/google_maps_api"/> <!--Enter Google API Here-->
 
         <activity android:name=".StartActivity">
             <intent-filter>
