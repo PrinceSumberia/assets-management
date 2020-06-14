@@ -16,20 +16,24 @@ Android Application for asset management.
 
 ### Setting Up
 - Clone project by using below command in the terminal and make sure you have git installed on your system:
+```
 $ git clone https://github.com/PrinceSumberia/assets-management
+```
 - Now open the project in Android Studio.
 - Gradle build will not be successful because of missing google-services.json file.
   For google-services.json, you need to connect Firebase. (make sure you are using same account for firebase console and Android Studio)
   For setting up Firebase Go to:
-
+```
   Tools >> Firebase >> Firestore >>  Read and Write Document with Firestore >> Connect to Firebase
-
+  ```
+```
   Tools >> Firebase >> Firebase Storage >> Upload and Download a File With Cloud Storage >> Connect To Firebase
+  ```
  
 - Now build project navigating to Build >> Rebuild Project.
   If gradle build is successful the proceed to next step. If not, then try cleaning the project by navigating to Build >> Clean Project.
   
--  Now find and open your google-services.json file and navigate to res >> values >> string.xml. Now replace the following string     variable in string.xml file using valid value from google-services.json file. You can find google-services.json file in the app directory inside your project. Refer to this screenshot here: https://prnt.sc/nxlpm3
+-  Now find and open your google-services.json file and navigate to res >> values >> string.xml. Now replace the following string     variable in string.xml file using valid value from google-services.json file. You can find google-services.json file in the app directory inside your project.
 
 
 ```
@@ -45,7 +49,7 @@ $ git clone https://github.com/PrinceSumberia/assets-management
      <string name="google_maps_api">your geocoding api here</string>
 ```
 
-- Now visit https://console.firebase.google.com. Login using the same account which you have used earlier and Select CRIE_iAsset project.
+- Now visit https://console.firebase.google.com. Login using the same account which you have used earlier and Select asset-management project.
 
 - Now inside Firebase console. Under Develop options click on "Storage" and then click on "Get Started" button and then "Got It". This will create a Firebase Storage Bucket for storing bills and qr codes.
 
