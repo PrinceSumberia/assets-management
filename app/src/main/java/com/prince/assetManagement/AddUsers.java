@@ -76,8 +76,8 @@ public class AddUsers extends AppCompatActivity implements AdapterView.OnItemSel
 
         FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
                 .setDatabaseUrl("https://asset-management-7.firebaseio.com/")
-                .setApiKey("AIzaSyAJHud_0w896SMJNGTs93qRbWTZ6CEMnuw")
-                .setApplicationId("1:1024636946567:android:3fe23dc0bbeda053")
+                .setApiKey("API KEY HERE")
+                .setApplicationId("APPLICATION ID HERE")
                 .build();
 
         try {
