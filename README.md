@@ -70,11 +70,11 @@ $ git clone https://github.com/PrinceSumberia/assets-management
 - Currently we are using pre-trained model by Google for object detection. But if you want to use your own model or any custom model. Then you need to put your protbuf (.pb) file and labels file in assets folder. 
 
 ## Note
-The project using Firestore Database. At the time of creating this project, the Firestore was still in beta and niether support nor advanced queries was available for performing complex operations. So, there were many workarounds to make it work. 
+The project using Firestore Database. At the time of creating this project, the Firestore was still in beta and neither support nor advanced queries was available for performing complex operations. So, there were many workarounds to make it work.
 
-Now, Firestore api provides much more advanced queries which has not been implemented in the project yet. 
+Now, Firestore API provides much more advanced queries that have not been implemented in the project yet.
 
-So feel free to make contribution and submit a pull request.
+So feel free to make a contribution and submit a pull request.
 
 ## Support
 <a href="https://www.buymeacoffee.com/princesumberia"><img src='./bmc-button.png'></a>
