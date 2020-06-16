@@ -2,10 +2,6 @@
 
 Android Application for asset management.
 
-<video>
-  <source src="./asset-management.mp4" type="video/mp4" width='75%'>
-</video>
-
 ## Getting Started
 
 - JDK 1.8.0_191 or Above
