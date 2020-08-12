@@ -2,6 +2,10 @@
 
 Android Application for asset management.
 
+<p align="center">
+<img src="./iasset.png" width="100%">
+</p>
+
 ## Getting Started
 
 - JDK 1.8.0_191 or Above

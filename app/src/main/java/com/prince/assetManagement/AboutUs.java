@@ -41,13 +41,8 @@ public class AboutUs extends AppCompatActivity {
             public void onClick(View view) {
                 new AlertDialog.Builder(AboutUs.this)
                         .setTitle("Credits")
-                        .setMessage("•\tProf. Ankur Gupta, Director MIET\n" +
-                                "•\tDr. Sahil Sawhney\n" +
-                                "•\tAsst. Prof. Rishi Gupta\n" +
-                                "•\tAsst. Prof. Purnendu Parbhat\n" +
-                                "•\tPrince Sumberia, Developer\n" +
-                                "•\tRayees Ahmed, Developer\n" +
-                                "•\tAvinash Sharma, Developer\n")
+                        .setMessage(
+                                "•\tOpen Source Community\n")
                         .setNegativeButton("Close", null)
                         .show();
 
