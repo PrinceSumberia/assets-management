@@ -38,10 +38,10 @@ $ git clone https://github.com/PrinceSumberia/assets-management
 ```
   Tools >> Firebase >> Firebase Storage >> Upload and Download a File With Cloud Storage >> Connect To Firebase
 ```
-Note: If you get the following error then just change the package name and you should be good to go.
+**Note**: If you get the following error then just change the package name and you should be good to go.
 ```
 No clients were able to be added to your Firebase project for the following reasons:
-				An app with this package name and SHA1 is already connected to a Google project. If you have used a Google API previously, please select that project in the Connect to an existing project list. 
+An app with this package name and SHA1 is already connected to a Google project. If you have used a Google API previously, please select that project in the Connect to an existing project list. 
 ```
 
 - Now build project navigating to Build >> Rebuild Project.
